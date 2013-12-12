@@ -14,4 +14,8 @@
 
 - (NSString*) companyLongName:(NSString*)shortName;
 
+- (NSNumber*) increasedStockPrice:(NSNumber*)current;
+
+- (NSNumber*) decreasedStockPrice:(NSNumber*)current;
+
 @end

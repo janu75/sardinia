@@ -16,8 +16,7 @@
         NSString *errorDesc = nil;
         NSPropertyListFormat format;
         NSString *plistPath;
-        plistPath = [[NSBundle mainBundle] pathForResource:@"1865-Settings" ofType:@"plist"];
-//        plistPath = [[NSBundle mainBundle] pathForResource:@"Property List" ofType:@"plist"];
+        plistPath = [[NSBundle mainBundle] pathForResource:@"1865-settings" ofType:@"plist"];
         NSData *plistXML = [[NSFileManager defaultManager] contentsAtPath:plistPath];
         self.pref = (NSDictionary*) [NSPropertyListSerialization propertyListFromData:plistXML
                                                                      mutabilityOption:NSPropertyListMutableContainersAndLeaves
@@ -33,6 +32,19 @@
 - (NSString*) companyLongName:(NSString *)shortName {
 	NSDictionary *names = [self.pref objectForKey:@"Company Names"];
     return [names objectForKey:shortName];
+}
+
+- (NSNumber*) increasedStockPrice:(NSNumber *)current {
+    NSArray *table = [self.pref objectForKey:@"Stock Price Table"];
+    NSUInteger index = [table indexOfObject:current];
+    if (index+1 < [table count]) {
+        index++;
+    }
+    return [table objectAtIndex:index];
+}
+
+- (NSNumber*) decreasedStockPrice:(NSNumber *)current {
+    return nil;
 }
 
 @end

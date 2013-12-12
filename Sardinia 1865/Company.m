@@ -8,6 +8,12 @@
 
 #import "Company.h"
 
+@interface Company ()
+
+@property GameSettings *settings;
+
+@end
+
 @implementation Company
 
 // For Shareholder Protocol
@@ -25,8 +31,8 @@
         self.certificates = [[NSMutableArray alloc] initWithCapacity:10];
         self.trains = [[NSMutableArray alloc] initWithCapacity:4];
 
-        GameSettings *settings = [[GameSettings alloc] init];
-        self.name = [settings companyLongName:aName];
+        self.settings = [[GameSettings alloc] init];
+        self.name = [self.settings companyLongName:aName];
     }
     return self;
 }
@@ -50,12 +56,13 @@
     self.traffic += value;
 }
 
+// Tested
 - (void) increaseStockPrice {
-    
+    self.stockPrice = [[self.settings increasedStockPrice:[NSNumber numberWithInt:self.stockPrice]] intValue];
 }
 
 - (void) decreaseStockPrice {
-    
+    self.stockPrice = [[self.settings decreasedStockPrice:[NSNumber numberWithInt:self.stockPrice]] intValue];
 }
 
 - (void) operateMines {

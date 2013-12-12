@@ -41,6 +41,9 @@
 		632087DE1857A147007A1704 /* CompanyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087DD1857A147007A1704 /* CompanyTest.m */; };
 		632087E11857BC25007A1704 /* GameSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087E01857BC25007A1704 /* GameSettings.m */; };
 		632087E21857BC25007A1704 /* GameSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087E01857BC25007A1704 /* GameSettings.m */; };
+		638FD2921859FD5800DA445A /* GameSettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 638FD2911859FD5800DA445A /* GameSettingsTest.m */; };
+		638FD299185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
+		638FD29A185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -97,7 +100,8 @@
 		632087DD1857A147007A1704 /* CompanyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyTest.m; sourceTree = "<group>"; };
 		632087DF1857BC25007A1704 /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSettings.h; sourceTree = "<group>"; };
 		632087E01857BC25007A1704 /* GameSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSettings.m; sourceTree = "<group>"; };
-		632087ED1857C392007A1704 /* 1865-settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "1865-settings.plist"; sourceTree = "<group>"; };
+		638FD2911859FD5800DA445A /* GameSettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameSettingsTest.m; path = "../Sardinia 1865/GameSettingsTest.m"; sourceTree = "<group>"; };
+		638FD298185A00A800DA445A /* 1865-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "1865-settings.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -207,6 +211,7 @@
 		632087A418578C11007A1704 /* Sardinia 1865Tests */ = {
 			isa = PBXGroup;
 			children = (
+				638FD2911859FD5800DA445A /* GameSettingsTest.m */,
 				632087DD1857A147007A1704 /* CompanyTest.m */,
 				632087DA185794CD007A1704 /* BankTest.m */,
 				632087D81857932E007A1704 /* TrainTest.m */,
@@ -230,7 +235,7 @@
 		632087E91857C0DA007A1704 /* Resources */ = {
 			isa = PBXGroup;
 			children = (
-				632087ED1857C392007A1704 /* 1865-settings.plist */,
+				638FD298185A00A800DA445A /* 1865-settings.plist */,
 			);
 			name = Resources;
 			sourceTree = "<group>";
@@ -315,6 +320,7 @@
 				6320878B18578C11007A1704 /* InfoPlist.strings in Resources */,
 				6320879918578C11007A1704 /* Images.xcassets in Resources */,
 				6320879118578C11007A1704 /* Credits.rtf in Resources */,
+				638FD299185A00A800DA445A /* 1865-settings.plist in Resources */,
 				6320879718578C11007A1704 /* MainMenu.xib in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -323,6 +329,7 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				638FD29A185A00A800DA445A /* 1865-settings.plist in Resources */,
 				632087A918578C11007A1704 /* InfoPlist.strings in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -360,6 +367,7 @@
 				632087DB185794CD007A1704 /* BankTest.m in Sources */,
 				632087D91857932E007A1704 /* TrainTest.m in Sources */,
 				632087D718578FBD007A1704 /* CertificateTest.m in Sources */,
+				638FD2921859FD5800DA445A /* GameSettingsTest.m in Sources */,
 				632087C318578C82007A1704 /* Company.m in Sources */,
 				632087BB18578C61007A1704 /* Player.m in Sources */,
 				632087DE1857A147007A1704 /* CompanyTest.m in Sources */,
@@ -492,6 +500,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sardinia 1865/Sardinia 1865-Prefix.pch";
 				INFOPLIST_FILE = "Sardinia 1865/Sardinia 1865-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -505,6 +514,7 @@
 				GCC_PRECOMPILE_PREFIX_HEADER = YES;
 				GCC_PREFIX_HEADER = "Sardinia 1865/Sardinia 1865-Prefix.pch";
 				INFOPLIST_FILE = "Sardinia 1865/Sardinia 1865-Info.plist";
+				MACOSX_DEPLOYMENT_TARGET = 10.8;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				WRAPPER_EXTENSION = app;
 			};
@@ -569,6 +579,7 @@
 				632087B018578C11007A1704 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		632087B118578C11007A1704 /* Build configuration list for PBXNativeTarget "Sardinia 1865Tests" */ = {
 			isa = XCConfigurationList;
@@ -577,6 +588,7 @@
 				632087B318578C11007A1704 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

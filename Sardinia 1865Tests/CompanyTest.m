@@ -223,4 +223,18 @@ Company *compC;
     XCTAssertEqual(compC.traffic, 12, @"Traffic upgrade test");
 }
 
+- (void) testIncreaseStockPrice {
+    XCTAssertEqual(compA.stockPrice,  80, @"increase stock price test");
+    XCTAssertEqual(compB.stockPrice,  90, @"increase stock price test");
+    XCTAssertEqual(compC.stockPrice, 100, @"increase stock price test");
+    
+    [compA increaseStockPrice];
+    [compB increaseStockPrice];
+    [compC increaseStockPrice];
+
+    XCTAssertEqual(compA.stockPrice,  90, @"increase stock price test");
+    XCTAssertEqual(compB.stockPrice, 100, @"increase stock price test");
+    XCTAssertEqual(compC.stockPrice, 110, @"increase stock price test");
+}
+
 @end
