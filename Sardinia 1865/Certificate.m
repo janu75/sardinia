@@ -29,4 +29,13 @@
     return self;
 }
 
+- (void) convertToMajor {
+    self.share = self.share / 2;
+    if ([self.type isEqualToString:@"President Minor"]) {
+        self.type = @"President Major";
+    } else {
+        self.type = @"Major";
+    }
+}
+
 @end

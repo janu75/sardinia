@@ -10,6 +10,7 @@
 
 @implementation GameSettings
 
+// Tested
 - (id) init {
     self = [super init];
     if (self) {
@@ -44,7 +45,12 @@
 }
 
 - (NSNumber*) decreasedStockPrice:(NSNumber *)current {
-    return nil;
+    NSArray *table = [self.pref objectForKey:@"Stock Price Table"];
+    NSInteger index = [table indexOfObject:current];
+    if (index > 0) {
+        index--;
+    }
+    return [table objectAtIndex:index];
 }
 
 @end

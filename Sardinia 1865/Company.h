@@ -29,9 +29,11 @@
 @property (strong, nonatomic) NSMutableArray *trains; // of Train
 @property (strong, nonatomic) NSMutableArray *maritimeCompanies; // of MaritimeCompany
 
-- (id) initWithName:(NSString*)aName AndPrice:(int)price;
+- (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor;
 
 - (int) rank;
+
+- (void) setInitialStockPrice:(int)price;
 
 - (void) decreaseStockPrice;
 
@@ -53,7 +55,7 @@
 
 - (void) placeStationMarkerForCost:(int)cost;
 
-- (void) operateTrainsWithIncome:(int)income AndDividend:(BOOL)payout;
+- (void) operateTrainsAndPayDividend:(BOOL)payout;
 
 - (void) absorbCompany:(Company*) aCompany;
 
@@ -61,5 +63,6 @@
 
 - (void) equipCertificate:(Certificate*)aCertificate;
 
+- (void) convertToMajorInPhase:(int)phase;
 
 @end

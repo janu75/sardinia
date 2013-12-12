@@ -47,4 +47,24 @@
     XCTAssertNil(certE, @"Init with unknown string");
 }
 
+- (void) testConvertToMajor {
+    Certificate *certA = [[Certificate alloc] initWithType:@"President Minor"];
+    Certificate *certC = [[Certificate alloc] initWithType:@"Minor"];
+
+    XCTAssertEqual(certA.share, 40, @"President certificate of minor company has 40%% share");
+    XCTAssertEqual(certC.share, 20, @"Standard certificate of minor company has 20%% share");
+    
+    XCTAssertEqualObjects(certA.type, @"President Minor", @"Expected type from init");
+    XCTAssertEqualObjects(certC.type, @"Minor", @"Expected type from init");
+    
+    [certA convertToMajor];
+    [certC convertToMajor];
+
+    XCTAssertEqual(certA.share, 20, @"President certificate of major company has 20%% share");
+    XCTAssertEqual(certC.share, 10, @"Standard certificate of major company has 10%% share");
+    
+    XCTAssertEqualObjects(certA.type, @"President Major", @"Expected type from init");
+    XCTAssertEqualObjects(certC.type, @"Major", @"Expected type from init");
+}
+
 @end

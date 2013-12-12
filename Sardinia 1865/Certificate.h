@@ -15,4 +15,6 @@
 
 - (id) initWithType:(NSString*)type;
 
+- (void) convertToMajor;
+
 @end
