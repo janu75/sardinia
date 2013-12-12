@@ -22,7 +22,6 @@
 @property int traffic;
 @property int trainCapacity;
 @property int stockPrice;
-@property int phase;
 
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *shortName;

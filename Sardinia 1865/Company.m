@@ -24,7 +24,11 @@
     self = [super init];
     if (self) {
         self.shortName = aName;
-        self.numStationMarkers = 3;
+        if (isMajor) {
+            self.numStationMarkers = 7;
+        } else {
+            self.numStationMarkers = 3;
+        }
         self.builtStations = 1;
         self.isMajor = isMajor;
         self.certificates = [[NSMutableArray alloc] initWithCapacity:10];
@@ -119,6 +123,7 @@
 - (void) operateTrainsAndPayDividend:(BOOL)payout {
     int income = MIN(self.traffic, self.trainCapacity) * 10;
     if (income > 0) {
+        self.isOperating = YES;
         if (payout) {
             [self increaseStockPrice];
             for (Certificate *cert in self.certificates) {
@@ -150,6 +155,13 @@
     if (range.location != NSNotFound ) {
         self.money += self.stockPrice;
     }
+    int unsold_shares=0;
+    for (Certificate *cert in self.certificates) {
+        unsold_shares += cert.share;
+    }
+    if (unsold_shares < 50) {
+        self.isFloating = YES;
+    }
 }
 
 - (void) convertToMajorInPhase:(int)phase {
@@ -159,6 +171,8 @@
     for (int i=0; i<5; i++) {
         [self.certificates addObject:[[Certificate alloc] initWithType:@"Major"]];
     }
+    self.isMajor = YES;
+    self.numStationMarkers = MIN(self.numStationMarkers + phase-1, 7);
 }
 
 @end

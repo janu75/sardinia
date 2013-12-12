@@ -420,4 +420,82 @@ Company *compC;
     XCTAssertEqual(countMinor, 0, @"Certificate test");
 }
 
+- (void) testFlags {
+    XCTAssertEqual(compA.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compB.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compC.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compA.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compB.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compC.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compA.isMajor, NO, @"Flags test");
+    XCTAssertEqual(compB.isMajor, NO, @"Flags test");
+    XCTAssertEqual(compC.isMajor, YES, @"Flags test");
+    
+    [compA operateTrainsAndPayDividend:YES];
+    [compB operateTrainsAndPayDividend:YES];
+    [compC operateTrainsAndPayDividend:YES];
+
+    XCTAssertEqual(compA.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compB.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compC.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compA.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compB.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compC.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compA.isMajor, NO, @"Flags test");
+    XCTAssertEqual(compB.isMajor, NO, @"Flags test");
+    XCTAssertEqual(compC.isMajor, YES, @"Flags test");
+    
+    Train *aTrain = [[Train alloc] initWithTech:3 AndDiscount:NO];
+    [compA buyTrain:aTrain];
+    [compA trafficUpgrade:5];
+
+    [compA operateTrainsAndPayDividend:NO];
+    [compB operateTrainsAndPayDividend:NO];
+    [compC operateTrainsAndPayDividend:NO];
+    
+    XCTAssertEqual(compA.isOperating, YES, @"Flags test");
+    XCTAssertEqual(compB.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compC.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compA.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compB.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compC.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compA.isMajor, NO, @"Flags test");
+    XCTAssertEqual(compB.isMajor, NO, @"Flags test");
+    XCTAssertEqual(compC.isMajor, YES, @"Flags test");
+
+    [compB sellCertificate:compB.certificates[0]];
+    [compB sellCertificate:compB.certificates[0]];
+    [compC sellCertificate:compB.certificates[0]];
+    [compC sellCertificate:compB.certificates[0]];
+
+    XCTAssertEqual(compA.isOperating, YES, @"Flags test");
+    XCTAssertEqual(compB.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compC.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compA.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compB.isFloating, YES, @"Flags test");
+    XCTAssertEqual(compC.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compA.isMajor, NO, @"Flags test");
+    XCTAssertEqual(compB.isMajor, NO, @"Flags test");
+    XCTAssertEqual(compC.isMajor, YES, @"Flags test");
+    XCTAssertEqual(compA.numStationMarkers, 3, @"Flags test");
+    XCTAssertEqual(compB.numStationMarkers, 3, @"Flags test");
+    XCTAssertEqual(compC.numStationMarkers, 7, @"Flags test");
+    
+    [compA convertToMajorInPhase:3];
+    [compB convertToMajorInPhase:4];
+    
+    XCTAssertEqual(compA.isOperating, YES, @"Flags test");
+    XCTAssertEqual(compB.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compC.isOperating, NO, @"Flags test");
+    XCTAssertEqual(compA.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compB.isFloating, YES, @"Flags test");
+    XCTAssertEqual(compC.isFloating, NO, @"Flags test");
+    XCTAssertEqual(compA.isMajor, YES, @"Flags test");
+    XCTAssertEqual(compB.isMajor, YES, @"Flags test");
+    XCTAssertEqual(compC.isMajor, YES, @"Flags test");
+    XCTAssertEqual(compA.numStationMarkers, 5, @"Flags test");
+    XCTAssertEqual(compB.numStationMarkers, 6, @"Flags test");
+    XCTAssertEqual(compC.numStationMarkers, 7, @"Flags test");
+}
+
 @end

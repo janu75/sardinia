@@ -128,9 +128,9 @@
 		6320877418578C11007A1704 = {
 			isa = PBXGroup;
 			children = (
-				632087E91857C0DA007A1704 /* Resources */,
 				6320878618578C11007A1704 /* Sardinia 1865 */,
 				632087A418578C11007A1704 /* Sardinia 1865Tests */,
+				632087E91857C0DA007A1704 /* Resources */,
 				6320877F18578C11007A1704 /* Frameworks */,
 				6320877E18578C11007A1704 /* Products */,
 			);
