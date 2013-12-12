@@ -1,0 +1,584 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 46;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		6320878118578C11007A1704 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320878018578C11007A1704 /* Cocoa.framework */; };
+		6320878B18578C11007A1704 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6320878918578C11007A1704 /* InfoPlist.strings */; };
+		6320878D18578C11007A1704 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6320878C18578C11007A1704 /* main.m */; };
+		6320879118578C11007A1704 /* Credits.rtf in Resources */ = {isa = PBXBuildFile; fileRef = 6320878F18578C11007A1704 /* Credits.rtf */; };
+		6320879418578C11007A1704 /* SarAppDelegate.m in Sources */ = {isa = PBXBuildFile; fileRef = 6320879318578C11007A1704 /* SarAppDelegate.m */; };
+		6320879718578C11007A1704 /* MainMenu.xib in Resources */ = {isa = PBXBuildFile; fileRef = 6320879518578C11007A1704 /* MainMenu.xib */; };
+		6320879918578C11007A1704 /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 6320879818578C11007A1704 /* Images.xcassets */; };
+		632087A018578C11007A1704 /* XCTest.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320879F18578C11007A1704 /* XCTest.framework */; };
+		632087A118578C11007A1704 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320878018578C11007A1704 /* Cocoa.framework */; };
+		632087A918578C11007A1704 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 632087A718578C11007A1704 /* InfoPlist.strings */; };
+		632087AB18578C11007A1704 /* Sardinia_1865Tests.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087AA18578C11007A1704 /* Sardinia_1865Tests.m */; };
+		632087B618578C53007A1704 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087B518578C53007A1704 /* Game.m */; };
+		632087B718578C53007A1704 /* Game.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087B518578C53007A1704 /* Game.m */; };
+		632087BA18578C61007A1704 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087B918578C61007A1704 /* Player.m */; };
+		632087BB18578C61007A1704 /* Player.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087B918578C61007A1704 /* Player.m */; };
+		632087BE18578C76007A1704 /* Dragon.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087BD18578C76007A1704 /* Dragon.m */; };
+		632087BF18578C76007A1704 /* Dragon.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087BD18578C76007A1704 /* Dragon.m */; };
+		632087C218578C82007A1704 /* Company.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087C118578C82007A1704 /* Company.m */; };
+		632087C318578C82007A1704 /* Company.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087C118578C82007A1704 /* Company.m */; };
+		632087C618578C8B007A1704 /* Train.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087C518578C8B007A1704 /* Train.m */; };
+		632087C718578C8B007A1704 /* Train.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087C518578C8B007A1704 /* Train.m */; };
+		632087CA18578C95007A1704 /* Bank.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087C918578C95007A1704 /* Bank.m */; };
+		632087CB18578C95007A1704 /* Bank.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087C918578C95007A1704 /* Bank.m */; };
+		632087CE18578CA9007A1704 /* Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087CD18578CA9007A1704 /* Certificate.m */; };
+		632087CF18578CA9007A1704 /* Certificate.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087CD18578CA9007A1704 /* Certificate.m */; };
+		632087D218578CC4007A1704 /* MaritimeCompany.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087D118578CC4007A1704 /* MaritimeCompany.m */; };
+		632087D318578CC4007A1704 /* MaritimeCompany.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087D118578CC4007A1704 /* MaritimeCompany.m */; };
+		632087D518578CF0007A1704 /* MaritimeCompanyTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087D418578CF0007A1704 /* MaritimeCompanyTests.m */; };
+		632087D718578FBD007A1704 /* CertificateTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087D618578FBD007A1704 /* CertificateTest.m */; };
+		632087D91857932E007A1704 /* TrainTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087D81857932E007A1704 /* TrainTest.m */; };
+		632087DB185794CD007A1704 /* BankTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087DA185794CD007A1704 /* BankTest.m */; };
+		632087DE1857A147007A1704 /* CompanyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087DD1857A147007A1704 /* CompanyTest.m */; };
+		632087E11857BC25007A1704 /* GameSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087E01857BC25007A1704 /* GameSettings.m */; };
+		632087E21857BC25007A1704 /* GameSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087E01857BC25007A1704 /* GameSettings.m */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		632087A218578C11007A1704 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 6320877518578C11007A1704 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 6320877C18578C11007A1704;
+			remoteInfo = "Sardinia 1865";
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		6320877D18578C11007A1704 /* Sardinia 1865.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sardinia 1865.app"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6320878018578C11007A1704 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
+		6320878318578C11007A1704 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
+		6320878418578C11007A1704 /* CoreData.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreData.framework; path = System/Library/Frameworks/CoreData.framework; sourceTree = SDKROOT; };
+		6320878518578C11007A1704 /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
+		6320878818578C11007A1704 /* Sardinia 1865-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sardinia 1865-Info.plist"; sourceTree = "<group>"; };
+		6320878A18578C11007A1704 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		6320878C18578C11007A1704 /* main.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = main.m; sourceTree = "<group>"; };
+		6320878E18578C11007A1704 /* Sardinia 1865-Prefix.pch */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "Sardinia 1865-Prefix.pch"; sourceTree = "<group>"; };
+		6320879018578C11007A1704 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.rtf; name = en; path = en.lproj/Credits.rtf; sourceTree = "<group>"; };
+		6320879218578C11007A1704 /* SarAppDelegate.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = SarAppDelegate.h; sourceTree = "<group>"; };
+		6320879318578C11007A1704 /* SarAppDelegate.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = SarAppDelegate.m; sourceTree = "<group>"; };
+		6320879618578C11007A1704 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.xib; name = Base; path = Base.lproj/MainMenu.xib; sourceTree = "<group>"; };
+		6320879818578C11007A1704 /* Images.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Images.xcassets; sourceTree = "<group>"; };
+		6320879E18578C11007A1704 /* Sardinia 1865Tests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = "Sardinia 1865Tests.xctest"; sourceTree = BUILT_PRODUCTS_DIR; };
+		6320879F18578C11007A1704 /* XCTest.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = XCTest.framework; path = Library/Frameworks/XCTest.framework; sourceTree = DEVELOPER_DIR; };
+		632087A618578C11007A1704 /* Sardinia 1865Tests-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "Sardinia 1865Tests-Info.plist"; sourceTree = "<group>"; };
+		632087A818578C11007A1704 /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		632087AA18578C11007A1704 /* Sardinia_1865Tests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Sardinia_1865Tests.m; sourceTree = "<group>"; };
+		632087B418578C53007A1704 /* Game.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Game.h; sourceTree = "<group>"; };
+		632087B518578C53007A1704 /* Game.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Game.m; sourceTree = "<group>"; };
+		632087B818578C61007A1704 /* Player.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Player.h; sourceTree = "<group>"; };
+		632087B918578C61007A1704 /* Player.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Player.m; sourceTree = "<group>"; };
+		632087BC18578C76007A1704 /* Dragon.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Dragon.h; sourceTree = "<group>"; };
+		632087BD18578C76007A1704 /* Dragon.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Dragon.m; sourceTree = "<group>"; };
+		632087C018578C82007A1704 /* Company.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Company.h; sourceTree = "<group>"; };
+		632087C118578C82007A1704 /* Company.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Company.m; sourceTree = "<group>"; };
+		632087C418578C8B007A1704 /* Train.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Train.h; sourceTree = "<group>"; };
+		632087C518578C8B007A1704 /* Train.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Train.m; sourceTree = "<group>"; };
+		632087C818578C95007A1704 /* Bank.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Bank.h; sourceTree = "<group>"; };
+		632087C918578C95007A1704 /* Bank.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Bank.m; sourceTree = "<group>"; };
+		632087CC18578CA9007A1704 /* Certificate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Certificate.h; sourceTree = "<group>"; };
+		632087CD18578CA9007A1704 /* Certificate.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Certificate.m; sourceTree = "<group>"; };
+		632087D018578CC4007A1704 /* MaritimeCompany.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = MaritimeCompany.h; sourceTree = "<group>"; };
+		632087D118578CC4007A1704 /* MaritimeCompany.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaritimeCompany.m; sourceTree = "<group>"; };
+		632087D418578CF0007A1704 /* MaritimeCompanyTests.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = MaritimeCompanyTests.m; sourceTree = "<group>"; };
+		632087D618578FBD007A1704 /* CertificateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertificateTest.m; path = "../Sardinia 1865/CertificateTest.m"; sourceTree = "<group>"; };
+		632087D81857932E007A1704 /* TrainTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainTest.m; path = "../Sardinia 1865/TrainTest.m"; sourceTree = "<group>"; };
+		632087DA185794CD007A1704 /* BankTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BankTest.m; path = "../Sardinia 1865/BankTest.m"; sourceTree = "<group>"; };
+		632087DC185799D1007A1704 /* Shareholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shareholder.h; sourceTree = "<group>"; };
+		632087DD1857A147007A1704 /* CompanyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyTest.m; sourceTree = "<group>"; };
+		632087DF1857BC25007A1704 /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSettings.h; sourceTree = "<group>"; };
+		632087E01857BC25007A1704 /* GameSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSettings.m; sourceTree = "<group>"; };
+		632087ED1857C392007A1704 /* 1865-settings.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = "1865-settings.plist"; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		6320877A18578C11007A1704 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6320878118578C11007A1704 /* Cocoa.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6320879B18578C11007A1704 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				632087A118578C11007A1704 /* Cocoa.framework in Frameworks */,
+				632087A018578C11007A1704 /* XCTest.framework in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		6320877418578C11007A1704 = {
+			isa = PBXGroup;
+			children = (
+				632087E91857C0DA007A1704 /* Resources */,
+				6320878618578C11007A1704 /* Sardinia 1865 */,
+				632087A418578C11007A1704 /* Sardinia 1865Tests */,
+				6320877F18578C11007A1704 /* Frameworks */,
+				6320877E18578C11007A1704 /* Products */,
+			);
+			sourceTree = "<group>";
+		};
+		6320877E18578C11007A1704 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				6320877D18578C11007A1704 /* Sardinia 1865.app */,
+				6320879E18578C11007A1704 /* Sardinia 1865Tests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		6320877F18578C11007A1704 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6320878018578C11007A1704 /* Cocoa.framework */,
+				6320879F18578C11007A1704 /* XCTest.framework */,
+				6320878218578C11007A1704 /* Other Frameworks */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		6320878218578C11007A1704 /* Other Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				6320878318578C11007A1704 /* AppKit.framework */,
+				6320878418578C11007A1704 /* CoreData.framework */,
+				6320878518578C11007A1704 /* Foundation.framework */,
+			);
+			name = "Other Frameworks";
+			sourceTree = "<group>";
+		};
+		6320878618578C11007A1704 /* Sardinia 1865 */ = {
+			isa = PBXGroup;
+			children = (
+				6320879218578C11007A1704 /* SarAppDelegate.h */,
+				6320879318578C11007A1704 /* SarAppDelegate.m */,
+				632087DC185799D1007A1704 /* Shareholder.h */,
+				632087B418578C53007A1704 /* Game.h */,
+				632087B518578C53007A1704 /* Game.m */,
+				632087B818578C61007A1704 /* Player.h */,
+				632087B918578C61007A1704 /* Player.m */,
+				632087BC18578C76007A1704 /* Dragon.h */,
+				632087BD18578C76007A1704 /* Dragon.m */,
+				632087C018578C82007A1704 /* Company.h */,
+				632087C118578C82007A1704 /* Company.m */,
+				632087C418578C8B007A1704 /* Train.h */,
+				632087C518578C8B007A1704 /* Train.m */,
+				632087DF1857BC25007A1704 /* GameSettings.h */,
+				632087E01857BC25007A1704 /* GameSettings.m */,
+				632087C818578C95007A1704 /* Bank.h */,
+				632087C918578C95007A1704 /* Bank.m */,
+				632087CC18578CA9007A1704 /* Certificate.h */,
+				632087CD18578CA9007A1704 /* Certificate.m */,
+				632087D018578CC4007A1704 /* MaritimeCompany.h */,
+				632087D118578CC4007A1704 /* MaritimeCompany.m */,
+				6320879518578C11007A1704 /* MainMenu.xib */,
+				6320879818578C11007A1704 /* Images.xcassets */,
+				6320878718578C11007A1704 /* Supporting Files */,
+			);
+			path = "Sardinia 1865";
+			sourceTree = "<group>";
+		};
+		6320878718578C11007A1704 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				6320878818578C11007A1704 /* Sardinia 1865-Info.plist */,
+				6320878918578C11007A1704 /* InfoPlist.strings */,
+				6320878C18578C11007A1704 /* main.m */,
+				6320878E18578C11007A1704 /* Sardinia 1865-Prefix.pch */,
+				6320878F18578C11007A1704 /* Credits.rtf */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		632087A418578C11007A1704 /* Sardinia 1865Tests */ = {
+			isa = PBXGroup;
+			children = (
+				632087DD1857A147007A1704 /* CompanyTest.m */,
+				632087DA185794CD007A1704 /* BankTest.m */,
+				632087D81857932E007A1704 /* TrainTest.m */,
+				632087D618578FBD007A1704 /* CertificateTest.m */,
+				632087AA18578C11007A1704 /* Sardinia_1865Tests.m */,
+				632087D418578CF0007A1704 /* MaritimeCompanyTests.m */,
+				632087A518578C11007A1704 /* Supporting Files */,
+			);
+			path = "Sardinia 1865Tests";
+			sourceTree = "<group>";
+		};
+		632087A518578C11007A1704 /* Supporting Files */ = {
+			isa = PBXGroup;
+			children = (
+				632087A618578C11007A1704 /* Sardinia 1865Tests-Info.plist */,
+				632087A718578C11007A1704 /* InfoPlist.strings */,
+			);
+			name = "Supporting Files";
+			sourceTree = "<group>";
+		};
+		632087E91857C0DA007A1704 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+				632087ED1857C392007A1704 /* 1865-settings.plist */,
+			);
+			name = Resources;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		6320877C18578C11007A1704 /* Sardinia 1865 */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 632087AE18578C11007A1704 /* Build configuration list for PBXNativeTarget "Sardinia 1865" */;
+			buildPhases = (
+				6320877918578C11007A1704 /* Sources */,
+				6320877A18578C11007A1704 /* Frameworks */,
+				6320877B18578C11007A1704 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			name = "Sardinia 1865";
+			productName = "Sardinia 1865";
+			productReference = 6320877D18578C11007A1704 /* Sardinia 1865.app */;
+			productType = "com.apple.product-type.application";
+		};
+		6320879D18578C11007A1704 /* Sardinia 1865Tests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 632087B118578C11007A1704 /* Build configuration list for PBXNativeTarget "Sardinia 1865Tests" */;
+			buildPhases = (
+				6320879A18578C11007A1704 /* Sources */,
+				6320879B18578C11007A1704 /* Frameworks */,
+				6320879C18578C11007A1704 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				632087A318578C11007A1704 /* PBXTargetDependency */,
+			);
+			name = "Sardinia 1865Tests";
+			productName = "Sardinia 1865Tests";
+			productReference = 6320879E18578C11007A1704 /* Sardinia 1865Tests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		6320877518578C11007A1704 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				CLASSPREFIX = Sar;
+				LastUpgradeCheck = 0500;
+				ORGANIZATIONNAME = "Jan Uerpmann";
+				TargetAttributes = {
+					6320879D18578C11007A1704 = {
+						TestTargetID = 6320877C18578C11007A1704;
+					};
+				};
+			};
+			buildConfigurationList = 6320877818578C11007A1704 /* Build configuration list for PBXProject "Sardinia 1865" */;
+			compatibilityVersion = "Xcode 3.2";
+			developmentRegion = English;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 6320877418578C11007A1704;
+			productRefGroup = 6320877E18578C11007A1704 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				6320877C18578C11007A1704 /* Sardinia 1865 */,
+				6320879D18578C11007A1704 /* Sardinia 1865Tests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		6320877B18578C11007A1704 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				6320878B18578C11007A1704 /* InfoPlist.strings in Resources */,
+				6320879918578C11007A1704 /* Images.xcassets in Resources */,
+				6320879118578C11007A1704 /* Credits.rtf in Resources */,
+				6320879718578C11007A1704 /* MainMenu.xib in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6320879C18578C11007A1704 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				632087A918578C11007A1704 /* InfoPlist.strings in Resources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		6320877918578C11007A1704 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				632087BA18578C61007A1704 /* Player.m in Sources */,
+				632087C218578C82007A1704 /* Company.m in Sources */,
+				632087B618578C53007A1704 /* Game.m in Sources */,
+				632087BE18578C76007A1704 /* Dragon.m in Sources */,
+				632087CE18578CA9007A1704 /* Certificate.m in Sources */,
+				632087C618578C8B007A1704 /* Train.m in Sources */,
+				632087CA18578C95007A1704 /* Bank.m in Sources */,
+				6320878D18578C11007A1704 /* main.m in Sources */,
+				6320879418578C11007A1704 /* SarAppDelegate.m in Sources */,
+				632087E11857BC25007A1704 /* GameSettings.m in Sources */,
+				632087D218578CC4007A1704 /* MaritimeCompany.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		6320879A18578C11007A1704 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				632087CB18578C95007A1704 /* Bank.m in Sources */,
+				632087C718578C8B007A1704 /* Train.m in Sources */,
+				632087AB18578C11007A1704 /* Sardinia_1865Tests.m in Sources */,
+				632087E21857BC25007A1704 /* GameSettings.m in Sources */,
+				632087CF18578CA9007A1704 /* Certificate.m in Sources */,
+				632087DB185794CD007A1704 /* BankTest.m in Sources */,
+				632087D91857932E007A1704 /* TrainTest.m in Sources */,
+				632087D718578FBD007A1704 /* CertificateTest.m in Sources */,
+				632087C318578C82007A1704 /* Company.m in Sources */,
+				632087BB18578C61007A1704 /* Player.m in Sources */,
+				632087DE1857A147007A1704 /* CompanyTest.m in Sources */,
+				632087BF18578C76007A1704 /* Dragon.m in Sources */,
+				632087D518578CF0007A1704 /* MaritimeCompanyTests.m in Sources */,
+				632087B718578C53007A1704 /* Game.m in Sources */,
+				632087D318578CC4007A1704 /* MaritimeCompany.m in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		632087A318578C11007A1704 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 6320877C18578C11007A1704 /* Sardinia 1865 */;
+			targetProxy = 632087A218578C11007A1704 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin PBXVariantGroup section */
+		6320878918578C11007A1704 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6320878A18578C11007A1704 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+		6320878F18578C11007A1704 /* Credits.rtf */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6320879018578C11007A1704 /* en */,
+			);
+			name = Credits.rtf;
+			sourceTree = "<group>";
+		};
+		6320879518578C11007A1704 /* MainMenu.xib */ = {
+			isa = PBXVariantGroup;
+			children = (
+				6320879618578C11007A1704 /* Base */,
+			);
+			name = MainMenu.xib;
+			sourceTree = "<group>";
+		};
+		632087A718578C11007A1704 /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				632087A818578C11007A1704 /* en */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
+/* Begin XCBuildConfiguration section */
+		632087AC18578C11007A1704 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_SYMBOLS_PRIVATE_EXTERN = NO;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = macosx;
+			};
+			name = Debug;
+		};
+		632087AD18578C11007A1704 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++0x";
+				CLANG_CXX_LIBRARY = "libc++";
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = YES;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				ENABLE_NS_ASSERTIONS = NO;
+				GCC_C_LANGUAGE_STANDARD = gnu99;
+				GCC_ENABLE_OBJC_EXCEPTIONS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				MACOSX_DEPLOYMENT_TARGET = 10.9;
+				SDKROOT = macosx;
+			};
+			name = Release;
+		};
+		632087AF18578C11007A1704 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Sardinia 1865/Sardinia 1865-Prefix.pch";
+				INFOPLIST_FILE = "Sardinia 1865/Sardinia 1865-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Debug;
+		};
+		632087B018578C11007A1704 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				COMBINE_HIDPI_IMAGES = YES;
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Sardinia 1865/Sardinia 1865-Prefix.pch";
+				INFOPLIST_FILE = "Sardinia 1865/Sardinia 1865-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				WRAPPER_EXTENSION = app;
+			};
+			name = Release;
+		};
+		632087B218578C11007A1704 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Sardinia 1865.app/Contents/MacOS/Sardinia 1865";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Sardinia 1865/Sardinia 1865-Prefix.pch";
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				INFOPLIST_FILE = "Sardinia 1865Tests/Sardinia 1865Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Debug;
+		};
+		632087B318578C11007A1704 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(BUILT_PRODUCTS_DIR)/Sardinia 1865.app/Contents/MacOS/Sardinia 1865";
+				COMBINE_HIDPI_IMAGES = YES;
+				FRAMEWORK_SEARCH_PATHS = (
+					"$(DEVELOPER_FRAMEWORKS_DIR)",
+					"$(inherited)",
+				);
+				GCC_PRECOMPILE_PREFIX_HEADER = YES;
+				GCC_PREFIX_HEADER = "Sardinia 1865/Sardinia 1865-Prefix.pch";
+				INFOPLIST_FILE = "Sardinia 1865Tests/Sardinia 1865Tests-Info.plist";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				TEST_HOST = "$(BUNDLE_LOADER)";
+				WRAPPER_EXTENSION = xctest;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		6320877818578C11007A1704 /* Build configuration list for PBXProject "Sardinia 1865" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				632087AC18578C11007A1704 /* Debug */,
+				632087AD18578C11007A1704 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		632087AE18578C11007A1704 /* Build configuration list for PBXNativeTarget "Sardinia 1865" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				632087AF18578C11007A1704 /* Debug */,
+				632087B018578C11007A1704 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+		632087B118578C11007A1704 /* Build configuration list for PBXNativeTarget "Sardinia 1865Tests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				632087B218578C11007A1704 /* Debug */,
+				632087B318578C11007A1704 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 6320877518578C11007A1704 /* Project object */;
+}

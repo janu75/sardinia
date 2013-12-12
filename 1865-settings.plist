@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>Company Names</key>
+	<dict>
+		<key>FMS</key>
+		<string>Ferrovie Meridionali Sarde</string>
+		<key>RCSF</key>
+		<string>Regia Compagnia delle Ferrovie della Sardegna</string>
+		<key>SFSS</key>
+		<string>Strade Ferrate Settentrionali Sarde</string>
+		<key>FCS</key>
+		<string>Ferrovie Complementari di Sardegna</string>
+		<key>SFS</key>
+		<string>Societá Italiana Strade Ferrate Secondarie della Sardegna</string>
+		<key>FA</key>
+		<string>Ferrovia degli Aranci</string>
+		<key>CFC</key>
+		<string>Chemin de fer Corse</string>
+		<key>CFD</key>
+		<string>Chemins de Fer Départementaux</string>
+	</dict>
+</dict>
+</plist>
