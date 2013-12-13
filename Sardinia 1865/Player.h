@@ -11,4 +11,8 @@
 
 @interface Player : Shareholder
 
+@property NSString* name;
+
+- (id) initWithName:(NSString*)aName;
+
 @end

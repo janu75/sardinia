@@ -35,6 +35,11 @@
     return [names objectForKey:shortName];
 }
 
+- (NSArray*) companyShortNames {
+	NSDictionary *names = [self.pref objectForKey:@"Company Names"];
+    return [names allKeys];
+}
+
 - (NSNumber*) increasedStockPrice:(NSNumber *)current {
     NSArray *table = [self.pref objectForKey:@"Stock Price Table"];
     NSUInteger index = [table indexOfObject:current];

@@ -24,11 +24,12 @@
 @property int stockPrice;
 @property int money;
 
-@property (strong, nonatomic) NSString *name;
-@property (strong, nonatomic) NSString *shortName;
-@property (strong, nonatomic) NSMutableArray *trains; // of Train
-@property (strong, nonatomic) NSMutableArray *maritimeCompanies; // of MaritimeCompany
-@property (strong, nonatomic) NSMutableArray *certificates;// of Certificate
+//@property (strong) NSString *name;
+@property (strong) NSString *shortName;
+@property (strong) NSMutableArray *trains; // of Train
+@property (strong) NSMutableArray *maritimeCompanies; // of MaritimeCompany
+//@property (strong) NSMutableArray *certificates;// of Certificate
+@property (strong) Shareholder* president;
 
 - (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor;
 
@@ -65,5 +66,9 @@
 - (void) equipCertificate:(Certificate*)aCertificate;
 
 - (void) convertToMajorInPhase:(int)phase;
+
+- (int) getShareByOwner:(Shareholder*)anOwner;
+
+- (Shareholder*) updatePresident;
 
 @end

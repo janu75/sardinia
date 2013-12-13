@@ -10,11 +10,13 @@
 
 @implementation Shareholder
 
-- (id) init {
+- (id) initWithName:(NSString *)aName {
     self = [super init];
     if (self) {
         self.money = 0;
         self.certificates = [[NSMutableArray alloc] initWithCapacity:10];
+        self.name = aName;
+        self.isPlayer = NO;
     }
     return self;
 }

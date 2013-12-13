@@ -12,7 +12,11 @@
 @interface Shareholder : NSObject
 
 @property int money;
-@property (strong, nonatomic) NSMutableArray *certificates; // of Certificate
+@property BOOL isPlayer;
+@property (strong) NSMutableArray *certificates; // of Certificate
+@property (strong) NSString* name;
+
+- (id) initWithName:(NSString*) aName;
 
 - (void) buyCertificate:(Certificate*)aCertificate atPrice:(int)price;
 

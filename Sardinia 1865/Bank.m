@@ -11,7 +11,7 @@
 @implementation Bank
 
 - (id) initWithMoney:(int)money {
-    self = [super init];
+    self = [super initWithName:@"Bank"];
     if (self) {
         self.money = money;
         self.trains = [[NSMutableArray alloc] init];

@@ -10,4 +10,13 @@
 
 @implementation Player
 
+- (id) initWithName:(NSString *)aName {
+    self = [super initWithName:aName];
+    if (self) {
+        self.money = 300;
+        self.isPlayer = YES;
+    }
+    return self;
+}
+
 @end

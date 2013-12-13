@@ -17,7 +17,7 @@
 @implementation Company
 
 - (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor {
-    self = [super init];
+    self = [super initWithName:aName];
     if (self) {
         self.shortName = aName;
         if (isMajor) {
@@ -160,8 +160,10 @@
     if (unsold_shares < 50) {
         self.isFloating = YES;
     }
+    [self updatePresident];
 }
 
+// Tested
 - (void) convertToMajorInPhase:(int)phase {
     for (Certificate *cert in self.certificates) {
         [cert convertToMajor];
@@ -171,6 +173,41 @@
     }
     self.isMajor = YES;
     self.numStationMarkers = MIN(self.numStationMarkers + phase-1, 7);
+}
+
+- (int) getShareByOwner:(Shareholder *)anOwner {
+    int share = 0;
+    for (Certificate* cert in self.certificates) {
+        if (cert.owner == anOwner) {
+            share += cert.share;
+        }
+    }
+    return share;
+}
+
+- (Shareholder*) updatePresident {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:7];
+    NSMutableDictionary *ownerByName = [[NSMutableDictionary alloc] initWithCapacity:4];
+    int presidentShare = [self getShareByOwner:self.president];
+    for (Certificate* cert in self.certificates) {
+        Shareholder *owner = cert.owner;
+        if (owner.isPlayer) {
+            ownerByName[owner.name] = owner;
+            NSNumber *num = [dict objectForKey:owner.name];
+            num = [NSNumber numberWithInt:[dict[owner.name] intValue] + cert.share];
+            dict[owner.name] = num;
+        }
+    }
+    int maxShare = 0;
+    Shareholder* maxOwner;
+    for (Shareholder *name in [dict allKeys]) {
+        if ([dict[name] intValue] > maxShare) {
+            maxShare = [dict[name] intValue];
+            maxOwner = ownerByName[name];
+        }
+    }
+    if (presidentShare < maxShare) self.president = maxOwner;
+    return self.president;
 }
 
 @end
