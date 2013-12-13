@@ -41,6 +41,8 @@
 		632087DE1857A147007A1704 /* CompanyTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087DD1857A147007A1704 /* CompanyTest.m */; };
 		632087E11857BC25007A1704 /* GameSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087E01857BC25007A1704 /* GameSettings.m */; };
 		632087E21857BC25007A1704 /* GameSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087E01857BC25007A1704 /* GameSettings.m */; };
+		632087F9185AFA3F007A1704 /* DragonTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087F8185AFA3F007A1704 /* DragonTable.m */; };
+		632087FA185AFA3F007A1704 /* DragonTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087F8185AFA3F007A1704 /* DragonTable.m */; };
 		638FD2921859FD5800DA445A /* GameSettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 638FD2911859FD5800DA445A /* GameSettingsTest.m */; };
 		638FD299185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
 		638FD29A185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
@@ -100,6 +102,8 @@
 		632087DD1857A147007A1704 /* CompanyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyTest.m; sourceTree = "<group>"; };
 		632087DF1857BC25007A1704 /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSettings.h; sourceTree = "<group>"; };
 		632087E01857BC25007A1704 /* GameSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSettings.m; sourceTree = "<group>"; };
+		632087F7185AFA3F007A1704 /* DragonTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragonTable.h; sourceTree = "<group>"; };
+		632087F8185AFA3F007A1704 /* DragonTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragonTable.m; sourceTree = "<group>"; };
 		638FD2911859FD5800DA445A /* GameSettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameSettingsTest.m; path = "../Sardinia 1865/GameSettingsTest.m"; sourceTree = "<group>"; };
 		638FD298185A00A800DA445A /* 1865-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "1865-settings.plist"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -179,6 +183,8 @@
 				632087BD18578C76007A1704 /* Dragon.m */,
 				632087C018578C82007A1704 /* Company.h */,
 				632087C118578C82007A1704 /* Company.m */,
+				632087F7185AFA3F007A1704 /* DragonTable.h */,
+				632087F8185AFA3F007A1704 /* DragonTable.m */,
 				632087C418578C8B007A1704 /* Train.h */,
 				632087C518578C8B007A1704 /* Train.m */,
 				632087DF1857BC25007A1704 /* GameSettings.h */,
@@ -344,6 +350,7 @@
 				632087BA18578C61007A1704 /* Player.m in Sources */,
 				632087C218578C82007A1704 /* Company.m in Sources */,
 				632087B618578C53007A1704 /* Game.m in Sources */,
+				632087F9185AFA3F007A1704 /* DragonTable.m in Sources */,
 				632087BE18578C76007A1704 /* Dragon.m in Sources */,
 				632087CE18578CA9007A1704 /* Certificate.m in Sources */,
 				632087C618578C8B007A1704 /* Train.m in Sources */,
@@ -366,6 +373,7 @@
 				632087CF18578CA9007A1704 /* Certificate.m in Sources */,
 				632087DB185794CD007A1704 /* BankTest.m in Sources */,
 				632087D91857932E007A1704 /* TrainTest.m in Sources */,
+				632087FA185AFA3F007A1704 /* DragonTable.m in Sources */,
 				632087D718578FBD007A1704 /* CertificateTest.m in Sources */,
 				638FD2921859FD5800DA445A /* GameSettingsTest.m in Sources */,
 				632087C318578C82007A1704 /* Company.m in Sources */,
