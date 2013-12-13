@@ -46,6 +46,8 @@
 		638FD2921859FD5800DA445A /* GameSettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 638FD2911859FD5800DA445A /* GameSettingsTest.m */; };
 		638FD299185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
 		638FD29A185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
+		638FD29D185B0AD400DA445A /* Shareholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 638FD29C185B0AD400DA445A /* Shareholder.m */; };
+		638FD29E185B0AD400DA445A /* Shareholder.m in Sources */ = {isa = PBXBuildFile; fileRef = 638FD29C185B0AD400DA445A /* Shareholder.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -98,7 +100,6 @@
 		632087D618578FBD007A1704 /* CertificateTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CertificateTest.m; path = "../Sardinia 1865/CertificateTest.m"; sourceTree = "<group>"; };
 		632087D81857932E007A1704 /* TrainTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TrainTest.m; path = "../Sardinia 1865/TrainTest.m"; sourceTree = "<group>"; };
 		632087DA185794CD007A1704 /* BankTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = BankTest.m; path = "../Sardinia 1865/BankTest.m"; sourceTree = "<group>"; };
-		632087DC185799D1007A1704 /* Shareholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Shareholder.h; sourceTree = "<group>"; };
 		632087DD1857A147007A1704 /* CompanyTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyTest.m; sourceTree = "<group>"; };
 		632087DF1857BC25007A1704 /* GameSettings.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSettings.h; sourceTree = "<group>"; };
 		632087E01857BC25007A1704 /* GameSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSettings.m; sourceTree = "<group>"; };
@@ -106,6 +107,8 @@
 		632087F8185AFA3F007A1704 /* DragonTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragonTable.m; sourceTree = "<group>"; };
 		638FD2911859FD5800DA445A /* GameSettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameSettingsTest.m; path = "../Sardinia 1865/GameSettingsTest.m"; sourceTree = "<group>"; };
 		638FD298185A00A800DA445A /* 1865-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "1865-settings.plist"; sourceTree = "<group>"; };
+		638FD29B185B0AD400DA445A /* Shareholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shareholder.h; path = ../Shareholder.h; sourceTree = "<group>"; };
+		638FD29C185B0AD400DA445A /* Shareholder.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = Shareholder.m; path = ../Shareholder.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -174,7 +177,8 @@
 			children = (
 				6320879218578C11007A1704 /* SarAppDelegate.h */,
 				6320879318578C11007A1704 /* SarAppDelegate.m */,
-				632087DC185799D1007A1704 /* Shareholder.h */,
+				638FD29B185B0AD400DA445A /* Shareholder.h */,
+				638FD29C185B0AD400DA445A /* Shareholder.m */,
 				632087B418578C53007A1704 /* Game.h */,
 				632087B518578C53007A1704 /* Game.m */,
 				632087B818578C61007A1704 /* Player.h */,
@@ -358,6 +362,7 @@
 				6320878D18578C11007A1704 /* main.m in Sources */,
 				6320879418578C11007A1704 /* SarAppDelegate.m in Sources */,
 				632087E11857BC25007A1704 /* GameSettings.m in Sources */,
+				638FD29D185B0AD400DA445A /* Shareholder.m in Sources */,
 				632087D218578CC4007A1704 /* MaritimeCompany.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -377,6 +382,7 @@
 				632087D718578FBD007A1704 /* CertificateTest.m in Sources */,
 				638FD2921859FD5800DA445A /* GameSettingsTest.m in Sources */,
 				632087C318578C82007A1704 /* Company.m in Sources */,
+				638FD29E185B0AD400DA445A /* Shareholder.m in Sources */,
 				632087BB18578C61007A1704 /* Player.m in Sources */,
 				632087DE1857A147007A1704 /* CompanyTest.m in Sources */,
 				632087BF18578C76007A1704 /* Dragon.m in Sources */,

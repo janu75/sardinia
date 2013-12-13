@@ -9,15 +9,11 @@
 #import <Foundation/Foundation.h>
 #import "Shareholder.h"
 
-@interface Bank : NSObject <Shareholder>
+@interface Bank : Shareholder
 
 @property (strong, nonatomic) NSMutableArray* trains; // of Train
 @property BOOL ranOutOfMoney;
 
 - (id) initWithMoney:(int) money;
-
-- (void) buyCertificate:(Certificate *)aCertificate atPrice:(int)price;
-
-- (void) sellCertificate:(Certificate *)aCertificate atPrice:(int)price;
 
 @end

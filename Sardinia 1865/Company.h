@@ -11,7 +11,7 @@
 #import "Train.h"
 #import "GameSettings.h"
 
-@interface Company : NSObject <Shareholder>
+@interface Company : Shareholder
 
 @property BOOL isOperating;
 @property BOOL isFloating;
@@ -22,11 +22,13 @@
 @property int traffic;
 @property int trainCapacity;
 @property int stockPrice;
+@property int money;
 
 @property (strong, nonatomic) NSString *name;
 @property (strong, nonatomic) NSString *shortName;
 @property (strong, nonatomic) NSMutableArray *trains; // of Train
 @property (strong, nonatomic) NSMutableArray *maritimeCompanies; // of MaritimeCompany
+@property (strong, nonatomic) NSMutableArray *certificates;// of Certificate
 
 - (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor;
 
@@ -58,7 +60,7 @@
 
 - (void) absorbCompany:(Company*) aCompany;
 
-- (void) sellCertificate:(Certificate*)aCertificate;
+- (void) sellCertificate:(Certificate*)aCertificate To:(Shareholder*)newOwner;
 
 - (void) equipCertificate:(Certificate*)aCertificate;
 

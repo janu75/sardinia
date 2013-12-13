@@ -16,10 +16,6 @@
 
 @implementation Company
 
-// For Shareholder Protocol
-@synthesize money;
-@synthesize certificates;
-
 - (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor {
     self = [super init];
     if (self) {
@@ -38,14 +34,14 @@
         self.name = [self.settings companyLongName:aName];
         
         if (isMajor) {
-            [self.certificates addObject:[[Certificate alloc] initWithType:@"President Major"]];
+            [self equipCertificate:[[Certificate alloc] initWithType:@"President Major"]];
             for (int i=0; i<8; i++) {
-                [self.certificates addObject:[[Certificate alloc] initWithType:@"Major"]];
+                [self equipCertificate:[[Certificate alloc] initWithType:@"Major"]];
             }
         } else {
-            [self.certificates addObject:[[Certificate alloc] initWithType:@"President Minor"]];
+            [self equipCertificate:[[Certificate alloc] initWithType:@"President Minor"]];
             for (int i=0; i<3; i++) {
-                [self.certificates addObject:[[Certificate alloc] initWithType:@"Minor"]];
+                [self equipCertificate:[[Certificate alloc] initWithType:@"Minor"]];
             }
         }
     }
@@ -127,7 +123,8 @@
         if (payout) {
             [self increaseStockPrice];
             for (Certificate *cert in self.certificates) {
-                self.money += (cert.share * income) / 100;
+                Shareholder *owner = (Shareholder*) cert.owner;
+                owner.money += (cert.share * income) / 100;
             }
         } else {
             self.money += income;
@@ -144,12 +141,13 @@
 // Tested
 - (void) equipCertificate:(Certificate *)aCertificate {
     [self.certificates addObject:aCertificate];
+    aCertificate.owner = self;
     // A company does not really buy certificates, it gets new certificates when started or being switched to major
 }
 
 // Tested
-- (void) sellCertificate:(Certificate *)aCertificate {
-    [self.certificates removeObject:aCertificate];
+- (void) sellCertificate:(Certificate *)aCertificate To:(Shareholder*)newOwner {
+    aCertificate.owner = newOwner;
     self.money += self.stockPrice;
     NSRange range = [aCertificate.type rangeOfString:@"President"];
     if (range.location != NSNotFound ) {
@@ -157,7 +155,7 @@
     }
     int unsold_shares=0;
     for (Certificate *cert in self.certificates) {
-        unsold_shares += cert.share;
+        if (cert.owner == self) unsold_shares += cert.share;
     }
     if (unsold_shares < 50) {
         self.isFloating = YES;
@@ -169,7 +167,7 @@
         [cert convertToMajor];
     }
     for (int i=0; i<5; i++) {
-        [self.certificates addObject:[[Certificate alloc] initWithType:@"Major"]];
+        [self equipCertificate:[[Certificate alloc] initWithType:@"Major"]];
     }
     self.isMajor = YES;
     self.numStationMarkers = MIN(self.numStationMarkers + phase-1, 7);

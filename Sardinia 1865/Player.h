@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Shareholder.h"
 
-@interface Player : NSObject
+@interface Player : Shareholder
 
 @end

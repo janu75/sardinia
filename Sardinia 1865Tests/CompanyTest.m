@@ -105,18 +105,20 @@ Company *compC;
     XCTAssertEqual([compB.certificates count], (NSUInteger)  5, @"Shareholder Protocol test");
     XCTAssertEqual([compC.certificates count], (NSUInteger) 10, @"Shareholder Protocol test");
 
-    [compA sellCertificate:certA];
-    [compB sellCertificate:certB];
-    [compC sellCertificate:certC];
-    [compA sellCertificate:certD];
+    Player *aPlayer = [[Player alloc] init];
+    
+    [compA sellCertificate:certA To:aPlayer];
+    [compB sellCertificate:certB To:aPlayer];
+    [compC sellCertificate:certC To:aPlayer];
+    [compA sellCertificate:certD To:aPlayer];
 
     XCTAssertEqual(compA.money,  3 *  80, @"Shareholder Protocol test");
     XCTAssertEqual(compB.money,  1 *  90, @"Shareholder Protocol test");
     XCTAssertEqual(compC.money,  2 * 100, @"Shareholder Protocol test");
     
-    XCTAssertEqual([compA.certificates count], (NSUInteger) 4, @"Shareholder Protocol test");
-    XCTAssertEqual([compB.certificates count], (NSUInteger) 4, @"Shareholder Protocol test");
-    XCTAssertEqual([compC.certificates count], (NSUInteger) 9, @"Shareholder Protocol test");
+    XCTAssertEqual([compA.certificates count], (NSUInteger)  6, @"Shareholder Protocol test");
+    XCTAssertEqual([compB.certificates count], (NSUInteger)  5, @"Shareholder Protocol test");
+    XCTAssertEqual([compC.certificates count], (NSUInteger) 10, @"Shareholder Protocol test");
 }
 
 - (void) testRank {
@@ -141,10 +143,12 @@ Company *compC;
     [compB setInitialStockPrice:90];
     [compC setInitialStockPrice:100];
 
+    Player *aPlayer = [[Player alloc] init];
+    
     Certificate *cert = [[Certificate alloc] initWithType:@"President Minor"];
-    [compA sellCertificate:cert];
-    [compB sellCertificate:cert];
-    [compC sellCertificate:cert];
+    [compA sellCertificate:cert To:aPlayer];
+    [compB sellCertificate:cert To:aPlayer];
+    [compC sellCertificate:cert To:aPlayer];
     
     XCTAssertEqual(compA.builtStations, 1, @"Place station marker test");
     XCTAssertEqual(compB.builtStations, 1, @"Place station marker test");
@@ -170,10 +174,12 @@ Company *compC;
     [compB setInitialStockPrice:90];
     [compC setInitialStockPrice:100];
 
+    Player *aPlayer = [[Player alloc] init];
+    
     Certificate *cert = [[Certificate alloc] initWithType:@"President Minor"];
-    [compA sellCertificate:cert];
-    [compB sellCertificate:cert];
-    [compC sellCertificate:cert];
+    [compA sellCertificate:cert To:aPlayer];
+    [compB sellCertificate:cert To:aPlayer];
+    [compC sellCertificate:cert To:aPlayer];
     
     XCTAssertEqual([compA.trains count], (NSUInteger) 0, @"Buy train test");
     XCTAssertEqual([compB.trains count], (NSUInteger) 0, @"Buy train test");
@@ -343,32 +349,37 @@ Company *compC;
     XCTAssertEqual(compB.stockPrice, 100, @"operate trains test");
     XCTAssertEqual(compC.stockPrice, 100, @"operate trains test");
 
-    [compA sellCertificate:compA.certificates[0]];  moneyA += 2*70;
-    [compA sellCertificate:compA.certificates[0]];  moneyA += 70;
-    [compA operateTrainsAndPayDividend:YES];        moneyA += 80/5 * 2;
+    Player *aPlayer = [[Player alloc] init];
+    int moneyPlayer = 0;
+    
+    [compA sellCertificate:compA.certificates[0] To:aPlayer];  moneyA += 2*70;
+    [compA sellCertificate:compA.certificates[1] To:aPlayer];  moneyA += 70;
+    [compA operateTrainsAndPayDividend:YES];        moneyA += 80/5 * 2;   moneyPlayer += 80/5 * 3;
     [compB operateTrainsAndPayDividend:YES];        moneyB += 60;
     [compC operateTrainsAndPayDividend:NO];         moneyC += 70;
     
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
     XCTAssertEqual(compB.money, moneyB, @"operate trains test");
     XCTAssertEqual(compC.money, moneyC, @"operate trains test");
+    XCTAssertEqual(aPlayer.money, moneyPlayer, @"operate trains test");
     XCTAssertEqual(compA.stockPrice,  80, @"operate trains test");
     XCTAssertEqual(compB.stockPrice, 110, @"operate trains test");
     XCTAssertEqual(compC.stockPrice, 100, @"operate trains test");
 
-    [compA sellCertificate:compA.certificates[0]];  moneyA += 80;
-    [compA sellCertificate:compA.certificates[0]];  moneyA += 80;
-    [compB sellCertificate:compB.certificates[0]];  moneyB += 2*110;
-    [compB sellCertificate:compB.certificates[0]];  moneyB += 110;
-    [compC sellCertificate:compC.certificates[0]];  moneyC += 2*100;
-    [compC sellCertificate:compC.certificates[0]];  moneyC += 100;
-    [compA operateTrainsAndPayDividend:YES];
+    [compA sellCertificate:compA.certificates[2] To:aPlayer];  moneyA += 80;
+    [compA sellCertificate:compA.certificates[3] To:aPlayer];  moneyA += 80;
+    [compB sellCertificate:compB.certificates[0] To:aPlayer];  moneyB += 2*110;
+    [compB sellCertificate:compB.certificates[1] To:aPlayer];  moneyB += 110;
+    [compC sellCertificate:compC.certificates[0] To:aPlayer];  moneyC += 2*100;
+    [compC sellCertificate:compC.certificates[1] To:aPlayer];  moneyC += 100;
+    [compA operateTrainsAndPayDividend:YES];                                moneyPlayer += 80;
     [compB operateTrainsAndPayDividend:NO];         moneyB += 60;
-    [compC operateTrainsAndPayDividend:YES];        moneyC += 70/10 * 7;
+    [compC operateTrainsAndPayDividend:YES];        moneyC += 70/10 * 7;    moneyPlayer += 70/10 * 3;
     
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
     XCTAssertEqual(compB.money, moneyB, @"operate trains test");
     XCTAssertEqual(compC.money, moneyC, @"operate trains test");
+    XCTAssertEqual(aPlayer.money, moneyPlayer, @"operate trains test");
     XCTAssertEqual(compA.stockPrice,  90, @"operate trains test");
     XCTAssertEqual(compB.stockPrice, 110, @"operate trains test");
     XCTAssertEqual(compC.stockPrice, 110, @"operate trains test");
@@ -463,10 +474,12 @@ Company *compC;
     XCTAssertEqual(compB.isMajor, NO, @"Flags test");
     XCTAssertEqual(compC.isMajor, YES, @"Flags test");
 
-    [compB sellCertificate:compB.certificates[0]];
-    [compB sellCertificate:compB.certificates[0]];
-    [compC sellCertificate:compB.certificates[0]];
-    [compC sellCertificate:compB.certificates[0]];
+    Player *aPlayer = [[Player alloc] init];
+
+    [compB sellCertificate:compB.certificates[0] To:aPlayer];
+    [compB sellCertificate:compB.certificates[1] To:aPlayer];
+    [compC sellCertificate:compB.certificates[0] To:aPlayer];
+    [compC sellCertificate:compB.certificates[1] To:aPlayer];
 
     XCTAssertEqual(compA.isOperating, YES, @"Flags test");
     XCTAssertEqual(compB.isOperating, NO, @"Flags test");

@@ -7,7 +7,8 @@
 //
 
 #import <Foundation/Foundation.h>
+#import "Shareholder.h"
 
-@interface Dragon : NSObject
+@interface Dragon : Shareholder
 
 @end

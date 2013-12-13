@@ -10,29 +10,14 @@
 
 @implementation Bank
 
-// For Shareholder Protocol
-@synthesize money = _money;
-@synthesize certificates = _certificates;
-
 - (id) initWithMoney:(int)money {
     self = [super init];
     if (self) {
         self.money = money;
         self.trains = [[NSMutableArray alloc] init];
-        self.certificates = [[NSMutableArray alloc] init];
         self.ranOutOfMoney = NO;
     }
     return self;
-}
-
-- (void) buyCertificate:(Certificate *)aCertificate atPrice:(int)price {
-    self.money -= price;
-    [self.certificates addObject:aCertificate];
-}
-
-- (void) sellCertificate:(Certificate *)aCertificate atPrice:(int)price{
-    self.money += price;
-    [self.certificates removeObject:aCertificate];
 }
 
 @end
