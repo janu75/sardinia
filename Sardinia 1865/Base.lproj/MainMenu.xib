@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
-<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="12F45" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
+<document type="com.apple.InterfaceBuilder3.Cocoa.XIB" version="3.0" toolsVersion="4514" systemVersion="13A603" targetRuntime="MacOSX.Cocoa" propertyAccessControl="none" useAutolayout="YES">
     <dependencies>
         <deployment defaultVersion="1080" identifier="macosx"/>
         <plugIn identifier="com.apple.InterfaceBuilder.CocoaPlugin" version="4514"/>
@@ -650,28 +650,28 @@
         <window title="Sardinia 1865" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" releasedWhenClosed="NO" animationBehavior="default" id="371">
             <windowStyleMask key="styleMask" titled="YES" closable="YES" miniaturizable="YES" resizable="YES"/>
             <windowPositionMask key="initialPositionMask" leftStrut="YES" rightStrut="YES" topStrut="YES" bottomStrut="YES"/>
-            <rect key="contentRect" x="335" y="390" width="821" height="755"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="1680" height="1028"/>
+            <rect key="contentRect" x="335" y="390" width="1107" height="736"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1578"/>
             <view key="contentView" id="372">
-                <rect key="frame" x="0.0" y="0.0" width="821" height="755"/>
+                <rect key="frame" x="0.0" y="0.0" width="1107" height="736"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <scrollView horizontalLineScroll="10" horizontalPageScroll="10" verticalLineScroll="10" verticalPageScroll="10" hasHorizontalScroller="NO" usesPredominantAxisScrolling="NO" translatesAutoresizingMaskIntoConstraints="NO" id="trT-2h-3Aa">
-                        <rect key="frame" x="20" y="20" width="781" height="110"/>
+                        <rect key="frame" x="20" y="20" width="1067" height="91"/>
                         <autoresizingMask key="autoresizingMask"/>
                         <clipView key="contentView" id="2ix-4o-mqJ">
-                            <rect key="frame" x="1" y="1" width="779" height="108"/>
+                            <rect key="frame" x="1" y="1" width="1050" height="89"/>
                             <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                             <subviews>
                                 <textView importsGraphics="NO" findStyle="panel" continuousSpellChecking="YES" allowsUndo="YES" usesRuler="YES" usesFontPanel="YES" verticallyResizable="YES" allowsNonContiguousLayout="YES" quoteSubstitution="YES" dashSubstitution="YES" spellingCorrection="YES" smartInsertDelete="YES" id="c9c-aa-5Xt">
-                                    <rect key="frame" x="0.0" y="0.0" width="779" height="108"/>
+                                    <rect key="frame" x="0.0" y="0.0" width="1050" height="89"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="779" height="108"/>
-                                    <size key="maxSize" width="779" height="10000000"/>
+                                    <size key="minSize" width="1050" height="89"/>
+                                    <size key="maxSize" width="1067" height="10000000"/>
                                     <color key="insertionPointColor" white="0.0" alpha="1" colorSpace="calibratedWhite"/>
-                                    <size key="minSize" width="779" height="108"/>
-                                    <size key="maxSize" width="779" height="10000000"/>
+                                    <size key="minSize" width="1050" height="89"/>
+                                    <size key="maxSize" width="1067" height="10000000"/>
                                 </textView>
                             </subviews>
                             <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
@@ -681,26 +681,26 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                         <scroller key="verticalScroller" verticalHuggingPriority="750" horizontal="NO" id="Kur-xD-Slj">
-                            <rect key="frame" x="764" y="1" width="16" height="108"/>
+                            <rect key="frame" x="1051" y="1" width="15" height="89"/>
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
                     <splitView dividerStyle="paneSplitter" translatesAutoresizingMaskIntoConstraints="NO" id="ogV-Tf-LFL">
-                        <rect key="frame" x="20" y="138" width="781" height="597"/>
+                        <rect key="frame" x="20" y="119" width="1067" height="597"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <subviews>
                             <customView id="S8R-BV-g13">
-                                <rect key="frame" x="0.0" y="0.0" width="781" height="287"/>
+                                <rect key="frame" x="0.0" y="0.0" width="1067" height="287"/>
                                 <autoresizingMask key="autoresizingMask"/>
                                 <subviews>
                                     <tabView translatesAutoresizingMaskIntoConstraints="NO" id="gjs-7f-a4D">
-                                        <rect key="frame" x="13" y="10" width="755" height="263"/>
+                                        <rect key="frame" x="13" y="10" width="1041" height="263"/>
                                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                                         <font key="font" metaFont="system"/>
                                         <tabViewItems>
                                             <tabViewItem label="Stock Round" identifier="1" id="K0S-K2-jeJ">
                                                 <view key="view" id="vS0-ob-o58">
-                                                    <rect key="frame" x="10" y="33" width="735" height="217"/>
+                                                    <rect key="frame" x="10" y="33" width="1021" height="217"/>
                                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                     <subviews>
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="STD-la-jE0">
@@ -1105,7 +1105,7 @@
                                 </constraints>
                             </customView>
                             <customView fixedFrame="YES" id="COE-VA-NXf">
-                                <rect key="frame" x="0.0" y="297" width="781" height="300"/>
+                                <rect key="frame" x="0.0" y="297" width="1067" height="300"/>
                                 <autoresizingMask key="autoresizingMask"/>
                             </customView>
                         </subviews>
@@ -1145,7 +1145,6 @@
                 <outlet property="buttonDragon6" destination="P33-6V-WJU" id="gTX-zR-vVl"/>
                 <outlet property="buttonDragon7" destination="hEM-Ey-2uk" id="I37-F4-gts"/>
                 <outlet property="buttonDragon8" destination="sbd-qJ-5RQ" id="h4S-LI-DHk"/>
-                <outlet property="buttonIPO" destination="v2b-3G-8eY" id="TBu-ad-vZF"/>
                 <outlet property="buttonIPO1" destination="wk8-bw-QQu" id="JIL-c2-cQY"/>
                 <outlet property="buttonIPO2" destination="S6g-mN-wMr" id="Eco-bO-T46"/>
                 <outlet property="buttonIPO3" destination="QW2-Pa-Qnj" id="1aN-hy-lA3"/>
@@ -1162,10 +1161,7 @@
                 <outlet property="buttonSell6" destination="XYK-uO-kQW" id="OlS-sf-F3V"/>
                 <outlet property="buttonSell7" destination="AZp-a9-hTD" id="PGS-Dt-jfJ"/>
                 <outlet property="buttonSell8" destination="nUe-Kc-o1N" id="UXG-hn-bMD"/>
-                <outlet property="buttons" destination="S6g-mN-wMr" id="iW1-cP-7zz"/>
                 <outlet property="roundView" destination="gjs-7f-a4D" id="WKm-D7-NGf"/>
-                <outlet property="stockMarketButtons" destination="v2b-3G-8eY" id="SOI-Hl-VLG"/>
-                <outlet property="stockMarketView" destination="vS0-ob-o58" id="h6H-KP-l7r"/>
                 <outlet property="stockRoundMoneyLabel" destination="3Yx-de-bBt" id="vau-Bw-9oR"/>
                 <outlet property="stockRoundPlayerLabel" destination="STD-la-jE0" id="e5s-qu-FN3"/>
                 <outlet property="textLog" destination="c9c-aa-5Xt" id="Ghw-mN-KJ0"/>

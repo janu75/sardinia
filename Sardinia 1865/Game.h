@@ -21,7 +21,7 @@
 @property (strong) Bank* bank;
 @property (strong) Dragon* dragon;
 
-- (id) initWithNumberOfPlayers:(int)numPlayer AndShortMode:(BOOL)isShort;
+- (id) initWithPlayers:(NSArray*)playerNames AndShortMode:(BOOL)isShort;
 
 - (BOOL) player:(Player*)aPlayer CanBuyFromIpo:(int)nComp;
 

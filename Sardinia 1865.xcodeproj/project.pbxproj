@@ -43,6 +43,8 @@
 		632087E21857BC25007A1704 /* GameSettings.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087E01857BC25007A1704 /* GameSettings.m */; };
 		632087F9185AFA3F007A1704 /* DragonTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087F8185AFA3F007A1704 /* DragonTable.m */; };
 		632087FA185AFA3F007A1704 /* DragonTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087F8185AFA3F007A1704 /* DragonTable.m */; };
+		632087FD185B85E5007A1704 /* GameSetupWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087FC185B85E5007A1704 /* GameSetupWindowController.m */; };
+		632087FF185B8617007A1704 /* GameSetupWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632087FE185B8617007A1704 /* GameSetupWindow.xib */; };
 		638FD2921859FD5800DA445A /* GameSettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 638FD2911859FD5800DA445A /* GameSettingsTest.m */; };
 		638FD299185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
 		638FD29A185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
@@ -105,6 +107,9 @@
 		632087E01857BC25007A1704 /* GameSettings.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSettings.m; sourceTree = "<group>"; };
 		632087F7185AFA3F007A1704 /* DragonTable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = DragonTable.h; sourceTree = "<group>"; };
 		632087F8185AFA3F007A1704 /* DragonTable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = DragonTable.m; sourceTree = "<group>"; };
+		632087FB185B85E5007A1704 /* GameSetupWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSetupWindowController.h; sourceTree = "<group>"; };
+		632087FC185B85E5007A1704 /* GameSetupWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSetupWindowController.m; sourceTree = "<group>"; };
+		632087FE185B8617007A1704 /* GameSetupWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameSetupWindow.xib; sourceTree = "<group>"; };
 		638FD2911859FD5800DA445A /* GameSettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameSettingsTest.m; path = "../Sardinia 1865/GameSettingsTest.m"; sourceTree = "<group>"; };
 		638FD298185A00A800DA445A /* 1865-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "1865-settings.plist"; sourceTree = "<group>"; };
 		638FD29B185B0AD400DA445A /* Shareholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shareholder.h; path = ../Shareholder.h; sourceTree = "<group>"; };
@@ -177,6 +182,9 @@
 			children = (
 				6320879218578C11007A1704 /* SarAppDelegate.h */,
 				6320879318578C11007A1704 /* SarAppDelegate.m */,
+				632087FB185B85E5007A1704 /* GameSetupWindowController.h */,
+				632087FC185B85E5007A1704 /* GameSetupWindowController.m */,
+				632087FE185B8617007A1704 /* GameSetupWindow.xib */,
 				638FD29B185B0AD400DA445A /* Shareholder.h */,
 				638FD29C185B0AD400DA445A /* Shareholder.m */,
 				632087B418578C53007A1704 /* Game.h */,
@@ -330,6 +338,7 @@
 				6320878B18578C11007A1704 /* InfoPlist.strings in Resources */,
 				6320879918578C11007A1704 /* Images.xcassets in Resources */,
 				6320879118578C11007A1704 /* Credits.rtf in Resources */,
+				632087FF185B8617007A1704 /* GameSetupWindow.xib in Resources */,
 				638FD299185A00A800DA445A /* 1865-settings.plist in Resources */,
 				6320879718578C11007A1704 /* MainMenu.xib in Resources */,
 			);
@@ -358,6 +367,7 @@
 				632087BE18578C76007A1704 /* Dragon.m in Sources */,
 				632087CE18578CA9007A1704 /* Certificate.m in Sources */,
 				632087C618578C8B007A1704 /* Train.m in Sources */,
+				632087FD185B85E5007A1704 /* GameSetupWindowController.m in Sources */,
 				632087CA18578C95007A1704 /* Bank.m in Sources */,
 				6320878D18578C11007A1704 /* main.m in Sources */,
 				6320879418578C11007A1704 /* SarAppDelegate.m in Sources */,

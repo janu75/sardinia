@@ -18,6 +18,7 @@
 @property (strong) NSArray* bankBuyButton;
 @property (strong) NSArray* dragonBuyButton;
 @property (strong) NSArray* sellButton;
+@property (strong) NSArray* stockCompanyLabel;
 @property (strong) Game* game;
 @property (weak) IBOutlet NSTextField *stockRoundPlayerLabel;
 @property (weak) IBOutlet NSTextField *stockRoundMoneyLabel;
@@ -59,5 +60,19 @@
 @property (weak) IBOutlet NSButton *buttonDragon7;
 @property (weak) IBOutlet NSButton *buttonDragon8;
 
+// Stock market labels
+@property (weak) IBOutlet NSTextField *stockLabelComp1;
+@property (weak) IBOutlet NSTextField *stockLabelComp2;
+@property (weak) IBOutlet NSTextField *stockLabelComp3;
+@property (weak) IBOutlet NSTextField *stockLabelComp4;
+@property (weak) IBOutlet NSTextField *stockLabelComp5;
+@property (weak) IBOutlet NSTextField *stockLabelComp6;
+@property (weak) IBOutlet NSTextField *stockLabelComp7;
+@property (weak) IBOutlet NSTextField *stockLabelComp8;
+
+
+@property (strong) NSArray *playerNames;
+@property BOOL isShortGame;
+- (void) setPlayers:(NSArray*)players AndGameMode:(BOOL)isShort;
 
 @end

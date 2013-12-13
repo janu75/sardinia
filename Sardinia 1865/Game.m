@@ -12,7 +12,7 @@
 
 @implementation Game
 
-- (id) initWithNumberOfPlayers:(int)numPlayer AndShortMode:(BOOL)isShort {
+- (id) initWithPlayers:(NSArray *)playerNames AndShortMode:(BOOL)isShort {
     self = [super init];
     if (self) {
         self.settings = [[GameSettings alloc] init];
@@ -22,12 +22,11 @@
             [companies addObject:[[Company alloc] initWithName:name IsMajor:NO]];
         }
         self.companies = companies;
-        self.player = [NSArray arrayWithObjects:
-                        [[Player alloc] initWithName:@"Hein"],
-                        [[Player alloc] initWithName:@"Paul"],
-                        [[Player alloc] initWithName:@"Klaus"],
-                        [[Player alloc] initWithName:@"Günther"],
-                        nil];
+        NSMutableArray *players = [[NSMutableArray alloc] initWithCapacity:4];
+        for (NSString* name in playerNames) {
+            [players addObject:[[Player alloc] initWithName:name]];
+        }
+        self.player = players;
     }
     return self;
 }

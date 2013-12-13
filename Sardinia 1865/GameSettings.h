@@ -10,7 +10,7 @@
 
 @interface GameSettings : NSObject
 
-@property (strong, nonatomic) NSDictionary *pref;
+@property (strong) NSDictionary *pref;
 
 - (NSString*) companyLongName:(NSString*)shortName;
 
@@ -19,5 +19,7 @@
 - (NSNumber*) increasedStockPrice:(NSNumber*)current;
 
 - (NSNumber*) decreasedStockPrice:(NSNumber*)current;
+
+
 
 @end

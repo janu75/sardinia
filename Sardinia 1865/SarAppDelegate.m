@@ -8,18 +8,25 @@
 
 #import "SarAppDelegate.h"
 #import "Company.h"
+#import "GameSetupWindowController.h"
 
 @implementation SarAppDelegate
 
+GameSetupWindowController *setupWindow;
 
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
-    self.game = [[Game alloc] initWithNumberOfPlayers:4 AndShortMode:NO];
-    self.textLog.string = @"Game started";
-    [self setupStockMarketButtons];
-//    [self testButtons];
-    [self updateButtonsForPlayer:self.game.player[0]];
+    setupWindow = [[GameSetupWindowController alloc] initWithWindowNibName:@"GameSetupWindow"];
+    [setupWindow showWindow:self];
+    [setupWindow.window setLevel:NSFloatingWindowLevel];
+    [setupWindow useSettings:self];
+    [self printLog:@"Settings window opened"];
+    
+}
+
+- (void) printLog:(NSString*)message {
+    self.textLog.string = [NSString stringWithFormat:@"%@\n%@", self.textLog.string, message];
 }
 
 - (void) setupStockMarketButtons {
@@ -40,8 +47,7 @@
                           self.buttonBank5,
                           self.buttonBank6,
                           self.buttonBank7,
-                          self.buttonBank8,
-                          nil];
+                          self.buttonBank8, nil];
     self.dragonBuyButton = [[NSArray alloc] initWithObjects:
                             self.buttonDragon1,
                             self.buttonDragon2,
@@ -50,8 +56,7 @@
                             self.buttonDragon5,
                             self.buttonDragon6,
                             self.buttonDragon7,
-                            self.buttonDragon8,
-                            nil];
+                            self.buttonDragon8, nil];
     self.sellButton = [[NSArray alloc] initWithObjects:
                        self.buttonSell1,
                        self.buttonSell2,
@@ -60,8 +65,16 @@
                        self.buttonSell5,
                        self.buttonSell6,
                        self.buttonSell7,
-                       self.buttonSell8,
-                       nil];
+                       self.buttonSell8, nil];
+    self.stockCompanyLabel = [[NSArray alloc] initWithObjects:
+                              self.stockLabelComp1,
+                              self.stockLabelComp2,
+                              self.stockLabelComp3,
+                              self.stockLabelComp4,
+                              self.stockLabelComp5,
+                              self.stockLabelComp6,
+                              self.stockLabelComp7,
+                              self.stockLabelComp8, nil];
 }
 
 - (NSString*) formatStockPrice:(Company*)comp {
@@ -98,6 +111,10 @@
         [button setTitle:[self formatStockPrice:comp]];
         [button setEnabled:[self.game player:aPlayer CanSell:i++]];
     }
+    i=0;
+    for (NSTextField* label in self.stockCompanyLabel) {
+        label.stringValue = self.game.compNames[i];
+    }
 }
 
 - (void) testButtons {
@@ -118,5 +135,19 @@
         [button setTitle:[NSString stringWithFormat:@"Sell %d", i++]];
     }
 }
+
+- (void) setPlayers:(NSArray *)players AndGameMode:(BOOL)isShort {
+    self.playerNames = players;
+    self.isShortGame = isShort;
+    [setupWindow close];
+    setupWindow = nil;
+    NSLog(@"Got Players %@", self.playerNames);
+    self.game = [[Game alloc] initWithPlayers:players AndShortMode:isShort];
+    [self printLog:@"Game started"];
+    [self setupStockMarketButtons];
+    [self updateButtonsForPlayer:self.game.player[0]];
+
+}
+
 
 @end
