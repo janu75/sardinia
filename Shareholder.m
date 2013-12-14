@@ -22,16 +22,16 @@
 }
 
 
-- (void) buyCertificate:(Certificate *)aCertificate atPrice:(int)price {
-    self.money -= price;
-    aCertificate.owner = self;
-    [self.certificates addObject:aCertificate];
-}
-
-- (void) sellCertificate:(Certificate *)aCertificate atPrice:(int)price {
-    self.money += price;
-    aCertificate.owner = nil;
-    [self.certificates removeObject:aCertificate];
-}
+//- (void) buyCertificate:(Certificate *)aCertificate atPrice:(int)price {
+//    self.money -= price;
+//    aCertificate.owner = self;
+//    [self.certificates addObject:aCertificate];
+//}
+//
+//- (void) sellCertificate:(Certificate *)aCertificate atPrice:(int)price {
+//    self.money += price;
+//    aCertificate.owner = nil;
+//    [self.certificates removeObject:aCertificate];
+//}
 
 @end

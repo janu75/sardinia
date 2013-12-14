@@ -11,6 +11,7 @@
 #import "Player.h"
 #import "Bank.h"
 #import "Dragon.h"
+#import "Train.h"
 
 @interface Game : NSObject
 
@@ -20,16 +21,35 @@
 @property (strong) NSArray *compNames; // of NSString
 @property (strong) Bank* bank;
 @property (strong) Dragon* dragon;
+@property (weak) Player* currentPlayer;
+@property (weak) Player* startPlayer;
+@property (strong) NSMutableArray *companyStack;
+@property (strong) NSMutableArray *companyTurnOrder;
+@property (strong) NSMutableArray *trains;
+@property (strong) NSString* round;
+@property int phase;
+@property int passCount;
 
 - (id) initWithPlayers:(NSArray*)playerNames AndShortMode:(BOOL)isShort;
 
-- (BOOL) player:(Player*)aPlayer CanBuyFromIpo:(int)nComp;
+- (BOOL) player:(Shareholder*)aPlayer CanBuyFromIpo:(NSUInteger)nComp;
 
-- (BOOL) player:(Player*)aPlayer CanBuyFromBank:(int)nComp;
+- (BOOL) player:(Shareholder*)aPlayer CanBuyFromBank:(NSUInteger)nComp;
 
-- (BOOL) player:(Player*)aPlayer CanBuyFromDragon:(int)nComp;
+- (BOOL) player:(Shareholder*)aPlayer CanBuyFromDragon:(NSUInteger)nComp;
 
-- (BOOL) player:(Player*)aPlayer CanSell:(int)nComp;
+- (BOOL) player:(Shareholder*)aPlayer CanSell:(NSUInteger)nComp;
 
+- (void) shufflePlayers;
+
+- (NSString*) advancePlayersDidPass:(BOOL)didPass;
+
+- (BOOL) isStockRound;
+
+- (NSString*) dragonTurn;
+
+- (void) sellTrain:(Train*)aTrain From:(id)oldOwner To:(id)newOwner;
+
+- (void) sellTrain:(Train*)aTrain From:(id)oldOwner To:(id)newOwner AtCost:(int)price;
 
 @end

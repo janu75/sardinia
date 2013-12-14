@@ -8,11 +8,13 @@
 
 #import <Foundation/Foundation.h>
 #import "Shareholder.h"
+#import "MaritimeCompany.h"
 
 @interface Player : Shareholder
 
-@property NSString* name;
+@property (strong) NSString* name;
+@property (strong) NSMutableArray* maritimeCompany;
 
-- (id) initWithName:(NSString*)aName;
+- (id) initWithName:(NSString*)aName AndMoney:(int)money;
 
 @end

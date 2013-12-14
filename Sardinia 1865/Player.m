@@ -10,11 +10,12 @@
 
 @implementation Player
 
-- (id) initWithName:(NSString *)aName {
+- (id) initWithName:(NSString *)aName AndMoney:(int)money {
     self = [super initWithName:aName];
     if (self) {
-        self.money = 300;
+        self.money = money;
         self.isPlayer = YES;
+        self.maritimeCompany = [[NSMutableArray alloc] initWithCapacity:2];
     }
     return self;
 }

@@ -724,7 +724,7 @@
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="4bW-Jm-JZo">
                                                             <rect key="frame" x="121" y="172" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Company" id="uRw-FL-TL2">
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Company" id="uRw-FL-TL2">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -733,7 +733,7 @@
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="mKJ-vw-GQ7">
                                                             <rect key="frame" x="517" y="172" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Company" id="pOv-nz-G5h">
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Company" id="pOv-nz-G5h">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -742,7 +742,7 @@
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="vCs-xh-MmT">
                                                             <rect key="frame" x="583" y="172" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Company" id="yhi-Ma-z5J">
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Company" id="yhi-Ma-z5J">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -751,7 +751,7 @@
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="bPM-xG-KVp">
                                                             <rect key="frame" x="451" y="172" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Company" id="Ta6-xH-IQo">
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Company" id="Ta6-xH-IQo">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -760,7 +760,7 @@
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="stQ-z0-9aB">
                                                             <rect key="frame" x="385" y="172" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Company" id="Zqy-dN-MCV">
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Company" id="Zqy-dN-MCV">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -769,7 +769,7 @@
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uSU-3h-Z5J">
                                                             <rect key="frame" x="319" y="172" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Company" id="bMb-sf-TO6">
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Company" id="bMb-sf-TO6">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -778,7 +778,7 @@
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Tbc-CA-HXj">
                                                             <rect key="frame" x="253" y="172" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Company" id="Ser-WJ-tfU">
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Company" id="Ser-WJ-tfU">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -787,7 +787,7 @@
                                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="q83-jH-ep4">
                                                             <rect key="frame" x="187" y="172" width="64" height="17"/>
                                                             <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Company" id="LVj-VH-OU5">
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" alignment="center" title="Company" id="LVj-VH-OU5">
                                                                 <font key="font" metaFont="system"/>
                                                                 <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
                                                                 <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
@@ -1085,6 +1085,35 @@
                                                                 <font key="font" metaFont="system"/>
                                                             </buttonCell>
                                                         </button>
+                                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Qpp-Sq-Vct">
+                                                            <rect key="frame" x="387" y="12" width="125" height="25"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <buttonCell key="cell" type="squareTextured" title="PASS" bezelStyle="texturedSquare" imagePosition="overlaps" alignment="center" state="on" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="cAu-4v-OPR">
+                                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                                <font key="font" metaFont="system"/>
+                                                            </buttonCell>
+                                                            <connections>
+                                                                <action selector="stockPassButton:" target="494" id="LFO-FO-JPj"/>
+                                                            </connections>
+                                                        </button>
+                                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="5VZ-Hb-F9f">
+                                                            <rect key="frame" x="16" y="17" width="95" height="17"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Starting Price" id="46f-iD-lrJ">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
+                                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Zvq-Mz-Awv">
+                                                            <rect key="frame" x="124" y="14" width="96" height="22"/>
+                                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="eEW-MM-jeF">
+                                                                <font key="font" metaFont="system"/>
+                                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                                            </textFieldCell>
+                                                        </textField>
                                                     </subviews>
                                                 </view>
                                             </tabViewItem>
@@ -1129,6 +1158,7 @@
         </window>
         <customObject id="494" customClass="SarAppDelegate">
             <connections>
+                <outlet property="actionTabView" destination="gjs-7f-a4D" id="OCU-7X-uVu"/>
                 <outlet property="buttonBank1" destination="SCx-Uj-eP7" id="4tT-ae-707"/>
                 <outlet property="buttonBank2" destination="mu1-Xt-wht" id="d4J-nz-Iku"/>
                 <outlet property="buttonBank3" destination="XNP-Fb-SNU" id="Ipm-da-dMK"/>
@@ -1162,8 +1192,17 @@
                 <outlet property="buttonSell7" destination="AZp-a9-hTD" id="PGS-Dt-jfJ"/>
                 <outlet property="buttonSell8" destination="nUe-Kc-o1N" id="UXG-hn-bMD"/>
                 <outlet property="roundView" destination="gjs-7f-a4D" id="WKm-D7-NGf"/>
+                <outlet property="stockLabelComp1" destination="4bW-Jm-JZo" id="9vV-13-kBM"/>
+                <outlet property="stockLabelComp2" destination="q83-jH-ep4" id="CfB-Bf-BJK"/>
+                <outlet property="stockLabelComp3" destination="Tbc-CA-HXj" id="f6J-Cg-BY5"/>
+                <outlet property="stockLabelComp4" destination="uSU-3h-Z5J" id="qPO-Ef-kDO"/>
+                <outlet property="stockLabelComp5" destination="stQ-z0-9aB" id="YmS-2n-xXm"/>
+                <outlet property="stockLabelComp6" destination="bPM-xG-KVp" id="lOC-vu-lwy"/>
+                <outlet property="stockLabelComp7" destination="mKJ-vw-GQ7" id="krE-93-fAp"/>
+                <outlet property="stockLabelComp8" destination="vCs-xh-MmT" id="NuN-sg-KMV"/>
                 <outlet property="stockRoundMoneyLabel" destination="3Yx-de-bBt" id="vau-Bw-9oR"/>
                 <outlet property="stockRoundPlayerLabel" destination="STD-la-jE0" id="e5s-qu-FN3"/>
+                <outlet property="stockStartingPrice" destination="Zvq-Mz-Awv" id="aED-E7-7OJ"/>
                 <outlet property="textLog" destination="c9c-aa-5Xt" id="Ghw-mN-KJ0"/>
                 <outlet property="window" destination="371" id="532"/>
             </connections>

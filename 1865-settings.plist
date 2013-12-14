@@ -55,5 +55,174 @@
 		<key>CFD</key>
 		<string>Chemins de Fer Départementaux</string>
 	</dict>
+	<key>Dragon Chart</key>
+	<dict>
+		<key>1</key>
+		<integer>4</integer>
+		<key>2</key>
+		<integer>6</integer>
+		<key>3</key>
+		<integer>8</integer>
+		<key>4</key>
+		<integer>10</integer>
+		<key>5</key>
+		<integer>12</integer>
+		<key>6</key>
+		<integer>14</integer>
+	</dict>
+	<key>Player Certificate Limit</key>
+	<dict>
+		<key>2</key>
+		<integer>36</integer>
+		<key>3</key>
+		<integer>24</integer>
+		<key>4</key>
+		<integer>18</integer>
+	</dict>
+	<key>Player Certificate Limit Short Game</key>
+	<dict>
+		<key>2</key>
+		<integer>27</integer>
+		<key>3</key>
+		<integer>18</integer>
+	</dict>
+	<key>Dragon Certificate Limit</key>
+	<dict>
+		<key>2</key>
+		<integer>6</integer>
+		<key>3</key>
+		<integer>10</integer>
+		<key>4</key>
+		<integer>10</integer>
+		<key>5</key>
+		<integer>16</integer>
+		<key>6</key>
+		<integer>16</integer>
+		<key>7</key>
+		<integer>16</integer>
+	</dict>
+	<key>Trains</key>
+	<dict>
+		<key>Tech 2</key>
+		<integer>5</integer>
+		<key>Tech 2 Discount</key>
+		<integer>1</integer>
+		<key>Tech 3</key>
+		<integer>4</integer>
+		<key>Tech 3 Discount</key>
+		<integer>1</integer>
+		<key>Tech 4</key>
+		<integer>3</integer>
+		<key>Tech 4 Discount</key>
+		<integer>1</integer>
+		<key>Tech 5</key>
+		<integer>2</integer>
+		<key>Tech 5 Discount</key>
+		<integer>0</integer>
+		<key>Tech 6</key>
+		<integer>3</integer>
+		<key>Tech 6 Discount</key>
+		<integer>0</integer>
+		<key>Tech 7</key>
+		<integer>14</integer>
+		<key>Tech 7 Discount</key>
+		<integer>0</integer>
+	</dict>
+	<key>Trains Short Game</key>
+	<dict>
+		<key>Tech 2</key>
+		<integer>4</integer>
+		<key>Tech 2 Discount</key>
+		<integer>1</integer>
+		<key>Tech 3</key>
+		<integer>3</integer>
+		<key>Tech 3 Discount</key>
+		<integer>1</integer>
+		<key>Tech 4</key>
+		<integer>2</integer>
+		<key>Tech 4 Discount</key>
+		<integer>1</integer>
+		<key>Tech 5</key>
+		<integer>2</integer>
+		<key>Tech 5 Discount</key>
+		<integer>0</integer>
+		<key>Tech 6</key>
+		<integer>2</integer>
+		<key>Tech 6 Discount</key>
+		<integer>0</integer>
+		<key>Tech 7</key>
+		<integer>14</integer>
+		<key>Tech 7 Discount</key>
+		<integer>0</integer>
+	</dict>
+	<key>Train Spec</key>
+	<dict>
+		<key>2</key>
+		<dict>
+			<key>Cost</key>
+			<integer>100</integer>
+			<key>Capacity</key>
+			<integer>8</integer>
+			<key>Rusts At</key>
+			<integer>4</integer>
+			<key>Discount</key>
+			<integer>30</integer>
+		</dict>
+		<key>3</key>
+		<dict>
+			<key>Cost</key>
+			<integer>200</integer>
+			<key>Capacity</key>
+			<integer>14</integer>
+			<key>Rusts At</key>
+			<integer>6</integer>
+			<key>Discount</key>
+			<integer>40</integer>
+		</dict>
+		<key>4</key>
+		<dict>
+			<key>Cost</key>
+			<integer>350</integer>
+			<key>Capacity</key>
+			<integer>20</integer>
+			<key>Rusts At</key>
+			<integer>7</integer>
+			<key>Discount</key>
+			<integer>50</integer>
+		</dict>
+		<key>5</key>
+		<dict>
+			<key>Cost</key>
+			<integer>500</integer>
+			<key>Capacity</key>
+			<integer>25</integer>
+			<key>Rusts At</key>
+			<integer>100</integer>
+			<key>Discount</key>
+			<integer>0</integer>
+		</dict>
+		<key>6</key>
+		<dict>
+			<key>Cost</key>
+			<integer>650</integer>
+			<key>Capacity</key>
+			<integer>30</integer>
+			<key>Rusts At</key>
+			<integer>100</integer>
+			<key>Discount</key>
+			<integer>0</integer>
+		</dict>
+		<key>7</key>
+		<dict>
+			<key>Cost</key>
+			<integer>800</integer>
+			<key>Capacity</key>
+			<integer>35</integer>
+			<key>Rusts At</key>
+			<integer>100</integer>
+			<key>Discount</key>
+			<integer>0</integer>
+		</dict>
+	</dict>
 </dict>
 </plist>

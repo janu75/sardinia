@@ -16,7 +16,7 @@
 
 @implementation Company
 
-- (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor {
+- (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor AndSettings:(GameSettings *)settings {
     self = [super initWithName:aName];
     if (self) {
         self.shortName = aName;
@@ -30,7 +30,7 @@
         self.certificates = [[NSMutableArray alloc] initWithCapacity:10];
         self.trains = [[NSMutableArray alloc] initWithCapacity:4];
         
-        self.settings = [[GameSettings alloc] init];
+        self.settings = settings;
         self.name = [self.settings companyLongName:aName];
         
         if (isMajor) {
@@ -147,11 +147,14 @@
 
 // Tested
 - (void) sellCertificate:(Certificate *)aCertificate To:(Shareholder*)newOwner {
+    Shareholder *oldOwner = aCertificate.owner;
     aCertificate.owner = newOwner;
-    self.money += self.stockPrice;
+    oldOwner.money += self.stockPrice;
+    newOwner.money -= self.stockPrice;
     NSRange range = [aCertificate.type rangeOfString:@"President"];
     if (range.location != NSNotFound ) {
-        self.money += self.stockPrice;
+        oldOwner.money += self.stockPrice;
+        newOwner.money -= self.stockPrice;
     }
     int unsold_shares=0;
     for (Certificate *cert in self.certificates) {
@@ -185,6 +188,16 @@
     return share;
 }
 
+- (int) getCertificatesByOwner:(Shareholder *)anOwner {
+    int num = 0;
+    for (Certificate* cert in self.certificates) {
+        if (cert.owner == anOwner) {
+            num++;
+        }
+    }
+    return num;
+}
+
 - (Shareholder*) updatePresident {
     NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:7];
     NSMutableDictionary *ownerByName = [[NSMutableDictionary alloc] initWithCapacity:4];
@@ -208,6 +221,44 @@
     }
     if (presidentShare < maxShare) self.president = maxOwner;
     return self.president;
+}
+
+- (BOOL) isDragonBuy {
+    if (!self.isFloating) {
+        return NO;
+    }
+    int minRank = [[self.settings getDragonBuyLimit:self.dragonRow] intValue];
+    int myRank  = [self rank];
+    if (minRank < myRank) {
+        return YES;
+    }
+    return NO;
+}
+
+- (BOOL) isDragonSell {
+    if ([[self.settings getDragonBuyLimit:self.dragonRow] intValue]-1 > [self rank]) {
+        return YES;
+    }
+    return NO;
+}
+
+- (Certificate*) certificateFromOwner:(Shareholder *)anOwner {
+    Certificate *myCert;
+    // Return last possible certificate in list to make sure we don't sell president shares easily
+    for (Certificate* cert in self.certificates) {
+        if (cert.owner == anOwner) {
+            myCert = cert;
+        }
+    }
+    return myCert;
+}
+
+- (void) setDragonRowWithPhase:(int)phase {
+    if (phase > 4) {
+        self.dragonRow = @2;
+    } else {
+        self.dragonRow = @1;
+    }
 }
 
 @end

@@ -45,6 +45,7 @@
 		632087FA185AFA3F007A1704 /* DragonTable.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087F8185AFA3F007A1704 /* DragonTable.m */; };
 		632087FD185B85E5007A1704 /* GameSetupWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087FC185B85E5007A1704 /* GameSetupWindowController.m */; };
 		632087FF185B8617007A1704 /* GameSetupWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632087FE185B8617007A1704 /* GameSetupWindow.xib */; };
+		63208801185CC0B7007A1704 /* GameTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63208800185CC0B7007A1704 /* GameTest.m */; };
 		638FD2921859FD5800DA445A /* GameSettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 638FD2911859FD5800DA445A /* GameSettingsTest.m */; };
 		638FD299185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
 		638FD29A185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
@@ -110,6 +111,7 @@
 		632087FB185B85E5007A1704 /* GameSetupWindowController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = GameSetupWindowController.h; sourceTree = "<group>"; };
 		632087FC185B85E5007A1704 /* GameSetupWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSetupWindowController.m; sourceTree = "<group>"; };
 		632087FE185B8617007A1704 /* GameSetupWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameSetupWindow.xib; sourceTree = "<group>"; };
+		63208800185CC0B7007A1704 /* GameTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameTest.m; path = "../Sardinia 1865/GameTest.m"; sourceTree = "<group>"; };
 		638FD2911859FD5800DA445A /* GameSettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameSettingsTest.m; path = "../Sardinia 1865/GameSettingsTest.m"; sourceTree = "<group>"; };
 		638FD298185A00A800DA445A /* 1865-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "1865-settings.plist"; sourceTree = "<group>"; };
 		638FD29B185B0AD400DA445A /* Shareholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shareholder.h; path = ../Shareholder.h; sourceTree = "<group>"; };
@@ -229,6 +231,7 @@
 		632087A418578C11007A1704 /* Sardinia 1865Tests */ = {
 			isa = PBXGroup;
 			children = (
+				63208800185CC0B7007A1704 /* GameTest.m */,
 				638FD2911859FD5800DA445A /* GameSettingsTest.m */,
 				632087DD1857A147007A1704 /* CompanyTest.m */,
 				632087DA185794CD007A1704 /* BankTest.m */,
@@ -393,6 +396,7 @@
 				638FD2921859FD5800DA445A /* GameSettingsTest.m in Sources */,
 				632087C318578C82007A1704 /* Company.m in Sources */,
 				638FD29E185B0AD400DA445A /* Shareholder.m in Sources */,
+				63208801185CC0B7007A1704 /* GameTest.m in Sources */,
 				632087BB18578C61007A1704 /* Player.m in Sources */,
 				632087DE1857A147007A1704 /* CompanyTest.m in Sources */,
 				632087BF18578C76007A1704 /* Dragon.m in Sources */,

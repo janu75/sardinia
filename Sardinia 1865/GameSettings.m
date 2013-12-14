@@ -7,6 +7,7 @@
 //
 
 #import "GameSettings.h"
+#import "Train.h"
 
 @implementation GameSettings
 
@@ -26,6 +27,7 @@
         if (!self.pref) {
             NSLog(@"Error reading plist: %@, format: %ld", errorDesc, format);
         }
+        self.trainSpec = [self.pref objectForKey:@"Train Spec"];
     }
     return self;
 }
@@ -56,6 +58,55 @@
         index--;
     }
     return [table objectAtIndex:index];
+}
+
+- (int) certificateLimit:(NSString *)playerName InPhase:(int)phase {
+    if ([playerName isEqualToString:@"Dragon"]) {
+        NSDictionary *dict = [self.pref objectForKey:@"Dragon Certificate Limit"];
+        return [[dict objectForKey:[NSString stringWithFormat:@"%d", phase]] intValue];
+    }
+    if ([playerName isEqualToString:@"Bank"]) {
+        return 1000;
+    }
+    if (self.isShortGame) {
+        NSDictionary *dict = [self.pref objectForKey:@"Player Certificate Limit Short Game"];
+        return [[dict objectForKey:[NSString stringWithFormat:@"%d", self.numPlayers]] intValue];
+    }
+    NSDictionary *dict = [self.pref objectForKey:@"Player Certificate Limit"];
+    return [[dict objectForKey:[NSString stringWithFormat:@"%d", self.numPlayers]] intValue];
+}
+
+- (int) certificateLimit:(NSString *)playerName {
+    if ([playerName isEqualToString:@"Dragon"]) {
+        NSLog(@"certificateLimit called for Dragon!");
+    }
+    return [self certificateLimit:playerName InPhase:0];
+}
+
+- (NSNumber*) getDragonBuyLimit:(NSNumber *)aRow {
+    NSDictionary *dict = [self.pref objectForKey:@"Dragon Chart"];
+    return dict[[NSString stringWithFormat:@"%@", aRow]];
+}
+
+- (NSMutableArray*) generateTrains {
+    NSMutableArray *trains = [[NSMutableArray alloc] initWithCapacity:34];
+    NSDictionary *dict;
+    if (self.isShortGame) {
+        dict = [self.pref objectForKey:@"Trains Short Game"];
+    } else {
+        dict = [self.pref objectForKey:@"Trains"];
+    }
+    for (int i=2; i<8; i++) {
+        int N = [dict[[NSString stringWithFormat:@"Tech %d", i]]intValue];
+        for (int j=0; j<N; j++) {
+            [trains addObject:[[Train alloc] initWithTech:i AndDiscount:NO]];
+        }
+        N = [dict[[NSString stringWithFormat:@"Tech %d Discount", i]]intValue];
+        for (int j=0; j<N; j++) {
+            [trains addObject:[[Train alloc] initWithTech:i AndDiscount:YES]];
+        }
+    }
+    return trains;
 }
 
 @end

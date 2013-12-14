@@ -17,6 +17,14 @@ SarAppDelegate *myController;
     myController = mainController;
 }
 
+- (IBAction)playerNumButton:(NSMatrix *)sender {
+    if (sender.selectedRow == 2) {
+        [self.shortGameButton setEnabled:NO];
+    } else {
+        [self.shortGameButton setEnabled:YES];
+    }
+}
+
 - (IBAction)doneButtonPressed:(NSButton *)sender {
     NSArray *players = @[self.playerAName.stringValue, self.playerBName.stringValue,
                          self.playerCName.stringValue, self.playerDName.stringValue];

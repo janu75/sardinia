@@ -11,7 +11,6 @@
 
 @interface Bank : Shareholder
 
-@property (strong, nonatomic) NSMutableArray* trains; // of Train
 @property BOOL ranOutOfMoney;
 
 - (id) initWithMoney:(int) money;

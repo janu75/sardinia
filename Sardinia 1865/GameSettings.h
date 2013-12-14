@@ -12,6 +12,10 @@
 
 @property (strong) NSDictionary *pref;
 
+@property int numPlayers;
+@property BOOL isShortGame;
+@property (strong) NSDictionary *trainSpec;
+
 - (NSString*) companyLongName:(NSString*)shortName;
 
 - (NSArray*) companyShortNames;
@@ -20,6 +24,12 @@
 
 - (NSNumber*) decreasedStockPrice:(NSNumber*)current;
 
+- (int) certificateLimit:(NSString*)playerName;
 
+- (int) certificateLimit:(NSString*)playerName InPhase:(int)phase;
+
+- (NSNumber*) getDragonBuyLimit:(NSNumber*)aRow;
+
+- (NSMutableArray*) generateTrains;
 
 @end

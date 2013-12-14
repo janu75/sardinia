@@ -14,12 +14,13 @@
 @property int money;
 @property BOOL isPlayer;
 @property (strong) NSMutableArray *certificates; // of Certificate
+@property (strong) NSMutableArray *trains;       // of Train
 @property (strong) NSString* name;
 
 - (id) initWithName:(NSString*) aName;
 
-- (void) buyCertificate:(Certificate*)aCertificate atPrice:(int)price;
-
-- (void) sellCertificate:(Certificate*)aCertificate atPrice:(int)price;
+//- (void) buyCertificate:(Certificate*)aCertificate atPrice:(int)price;
+//
+//- (void) sellCertificate:(Certificate*)aCertificate atPrice:(int)price;
 
 @end

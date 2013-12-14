@@ -16,6 +16,7 @@
 @property BOOL isOperating;
 @property BOOL isFloating;
 @property BOOL isMajor;
+@property BOOL boughtBrandNewTrain;
 
 @property int numStationMarkers;
 @property int builtStations;
@@ -23,6 +24,7 @@
 @property int trainCapacity;
 @property int stockPrice;
 @property int money;
+@property (strong) NSNumber *dragonRow;
 
 //@property (strong) NSString *name;
 @property (strong) NSString *shortName;
@@ -31,7 +33,7 @@
 //@property (strong) NSMutableArray *certificates;// of Certificate
 @property (strong) Shareholder* president;
 
-- (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor;
+- (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor AndSettings:(GameSettings*)settings;
 
 - (int) rank;
 
@@ -69,6 +71,16 @@
 
 - (int) getShareByOwner:(Shareholder*)anOwner;
 
+- (int) getCertificatesByOwner:(Shareholder*)anOwner;
+
 - (Shareholder*) updatePresident;
+
+- (BOOL) isDragonBuy;
+
+- (BOOL) isDragonSell;
+
+- (Certificate*) certificateFromOwner:(Shareholder*)anOwner;
+
+- (void) setDragonRowWithPhase:(int)phase;
 
 @end

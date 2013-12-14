@@ -11,6 +11,7 @@
 #import "Certificate.h"
 #import "Player.h"
 #import "Bank.h"
+#import "GameSettings.h"
 
 @interface CompanyTest : XCTestCase
 
@@ -26,9 +27,10 @@ Company *compC;
 {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    compA = [[Company alloc] initWithName:@"FMS" IsMajor:NO];
-    compB = [[Company alloc] initWithName:@"FCS" IsMajor:NO];
-    compC = [[Company alloc] initWithName:@"SFS" IsMajor:YES];
+    GameSettings *settings = [[GameSettings alloc] init];
+    compA = [[Company alloc] initWithName:@"FMS" IsMajor:NO AndSettings:settings];
+    compB = [[Company alloc] initWithName:@"FCS" IsMajor:NO AndSettings:settings];
+    compC = [[Company alloc] initWithName:@"SFS" IsMajor:YES AndSettings:settings];
 }
 
 - (void)tearDown
@@ -40,8 +42,9 @@ Company *compC;
 - (void) testInit {
     NSArray *names = [NSArray arrayWithObjects:@"FMS", @"RCSF", @"SFSS", @"FCS", @"SFS", @"FA", @"CFC", @"CFD", nil];
     NSMutableArray *companies = [[NSMutableArray alloc] initWithCapacity:8];
+    GameSettings *settings = [[GameSettings alloc] init];
     for (NSString *name in names) {
-        [companies addObject:[[Company alloc] initWithName:name IsMajor:NO]];
+        [companies addObject:[[Company alloc] initWithName:name IsMajor:NO AndSettings:settings]];
     }
     
     NSDictionary *longNames = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -71,6 +74,11 @@ Company *compC;
         
         XCTAssertEqual([comp.trains count], (NSUInteger) 0, @"Init test");
         XCTAssertEqual([comp.maritimeCompanies count], (NSUInteger) 0, @"Init test");
+        
+        XCTAssertEqual([comp.certificates count], (NSUInteger) 4, @"Init test");
+        for (Certificate *cert in comp.certificates) {
+            XCTAssertEqual(cert.owner, comp, @"Init test");
+        }
         i++;
     }
 }
@@ -146,10 +154,15 @@ Company *compC;
 
     Player *aPlayer = [[Player alloc] init];
     
-    Certificate *cert = [[Certificate alloc] initWithType:@"President Minor"];
-    [compA sellCertificate:cert To:aPlayer];
-    [compB sellCertificate:cert To:aPlayer];
-    [compC sellCertificate:cert To:aPlayer];
+    Certificate *certA = [[Certificate alloc] initWithType:@"President Minor"];
+    Certificate *certB = [[Certificate alloc] initWithType:@"President Minor"];
+    Certificate *certC = [[Certificate alloc] initWithType:@"President Minor"];
+    [compA equipCertificate:certA];
+    [compB equipCertificate:certB];
+    [compC equipCertificate:certC];
+    [compA sellCertificate:certA To:aPlayer];
+    [compB sellCertificate:certB To:aPlayer];
+    [compC sellCertificate:certC To:aPlayer];
     
     XCTAssertEqual(compA.builtStations, 1, @"Place station marker test");
     XCTAssertEqual(compB.builtStations, 1, @"Place station marker test");
@@ -177,10 +190,15 @@ Company *compC;
 
     Player *aPlayer = [[Player alloc] init];
     
-    Certificate *cert = [[Certificate alloc] initWithType:@"President Minor"];
-    [compA sellCertificate:cert To:aPlayer];
-    [compB sellCertificate:cert To:aPlayer];
-    [compC sellCertificate:cert To:aPlayer];
+    Certificate *certA = [[Certificate alloc] initWithType:@"President Minor"];
+    Certificate *certB = [[Certificate alloc] initWithType:@"President Minor"];
+    Certificate *certC = [[Certificate alloc] initWithType:@"President Minor"];
+    [compA equipCertificate:certA];
+    [compB equipCertificate:certB];
+    [compC equipCertificate:certC];
+    [compA sellCertificate:certA To:aPlayer];
+    [compB sellCertificate:certB To:aPlayer];
+    [compC sellCertificate:certC To:aPlayer];
     
     XCTAssertEqual([compA.trains count], (NSUInteger) 0, @"Buy train test");
     XCTAssertEqual([compB.trains count], (NSUInteger) 0, @"Buy train test");
@@ -350,12 +368,12 @@ Company *compC;
     XCTAssertEqual(compB.stockPrice, 100, @"operate trains test");
     XCTAssertEqual(compC.stockPrice, 100, @"operate trains test");
 
-    Player *aPlayer = [[Player alloc] init];
+    Player *aPlayer = [[Player alloc] initWithName:@"Paul" AndMoney:0];
     int moneyPlayer = 0;
     
-    [compA sellCertificate:compA.certificates[0] To:aPlayer];  moneyA += 2*70;
-    [compA sellCertificate:compA.certificates[1] To:aPlayer];  moneyA += 70;
-    [compA operateTrainsAndPayDividend:YES];        moneyA += 80/5 * 2;   moneyPlayer += 80/5 * 3;
+    [compA sellCertificate:compA.certificates[0] To:aPlayer];  moneyA += 2*70;  moneyPlayer -= 2*70;
+    [compA sellCertificate:compA.certificates[1] To:aPlayer];  moneyA += 70;    moneyPlayer -= 70;
+    [compA operateTrainsAndPayDividend:YES];        moneyA += 80/5 * 2;         moneyPlayer += 80/5 * 3;
     [compB operateTrainsAndPayDividend:YES];        moneyB += 60;
     [compC operateTrainsAndPayDividend:NO];         moneyC += 70;
     
@@ -367,15 +385,15 @@ Company *compC;
     XCTAssertEqual(compB.stockPrice, 110, @"operate trains test");
     XCTAssertEqual(compC.stockPrice, 100, @"operate trains test");
 
-    [compA sellCertificate:compA.certificates[2] To:aPlayer];  moneyA += 80;
-    [compA sellCertificate:compA.certificates[3] To:aPlayer];  moneyA += 80;
-    [compB sellCertificate:compB.certificates[0] To:aPlayer];  moneyB += 2*110;
-    [compB sellCertificate:compB.certificates[1] To:aPlayer];  moneyB += 110;
-    [compC sellCertificate:compC.certificates[0] To:aPlayer];  moneyC += 2*100;
-    [compC sellCertificate:compC.certificates[1] To:aPlayer];  moneyC += 100;
-    [compA operateTrainsAndPayDividend:YES];                                moneyPlayer += 80;
+    [compA sellCertificate:compA.certificates[2] To:aPlayer];  moneyA += 80;    moneyPlayer -= 80;
+    [compA sellCertificate:compA.certificates[3] To:aPlayer];  moneyA += 80;    moneyPlayer -= 80;
+    [compB sellCertificate:compB.certificates[0] To:aPlayer];  moneyB += 2*110; moneyPlayer -= 2*110;
+    [compB sellCertificate:compB.certificates[1] To:aPlayer];  moneyB += 110;   moneyPlayer -= 110;
+    [compC sellCertificate:compC.certificates[0] To:aPlayer];  moneyC += 2*100; moneyPlayer -= 200;
+    [compC sellCertificate:compC.certificates[1] To:aPlayer];  moneyC += 100;   moneyPlayer -= 100;
+    [compA operateTrainsAndPayDividend:YES];                                    moneyPlayer += 80;
     [compB operateTrainsAndPayDividend:NO];         moneyB += 60;
-    [compC operateTrainsAndPayDividend:YES];        moneyC += 70/10 * 7;    moneyPlayer += 70/10 * 3;
+    [compC operateTrainsAndPayDividend:YES];        moneyC += 70/10 * 7;        moneyPlayer += 70/10 * 3;
     
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
     XCTAssertEqual(compB.money, moneyB, @"operate trains test");
@@ -513,10 +531,10 @@ Company *compC;
 }
 
 - (void) testUpdatePresident {
-    Player *playerA = [[Player alloc] initWithName:@"Peter"];
-    Player *playerB = [[Player alloc] initWithName:@"Paul"];
-    Player *playerC = [[Player alloc] initWithName:@"Günther"];
-    Player *playerD = [[Player alloc] initWithName:@"Rudi"];
+    Player *playerA = [[Player alloc] initWithName:@"Peter" AndMoney:300];
+    Player *playerB = [[Player alloc] initWithName:@"Paul" AndMoney:300];
+    Player *playerC = [[Player alloc] initWithName:@"Günther" AndMoney:300];
+    Player *playerD = [[Player alloc] initWithName:@"Rudi" AndMoney:300];
     
     XCTAssertNil(compA.president, @"update president test");
     XCTAssertNil(compB.president, @"update president test");
@@ -526,10 +544,10 @@ Company *compC;
     [compA sellCertificate:compA.certificates[1] To:playerB];
     [compA sellCertificate:compA.certificates[2] To:playerC];
     [compA sellCertificate:compA.certificates[3] To:playerD];
-    [playerA buyCertificate:compA.certificates[0] atPrice:compA.stockPrice];
-    [playerB buyCertificate:compA.certificates[1] atPrice:compA.stockPrice];
-    [playerC buyCertificate:compA.certificates[2] atPrice:compA.stockPrice];
-    [playerD buyCertificate:compA.certificates[3] atPrice:compA.stockPrice];
+//    [playerA buyCertificate:compA.certificates[0] atPrice:compA.stockPrice];
+//    [playerB buyCertificate:compA.certificates[1] atPrice:compA.stockPrice];
+//    [playerC buyCertificate:compA.certificates[2] atPrice:compA.stockPrice];
+//    [playerD buyCertificate:compA.certificates[3] atPrice:compA.stockPrice];
 
     XCTAssertEqualObjects(compA.president, playerA, @"update president test");
     XCTAssertNil(compB.president, @"update president test");
@@ -539,23 +557,26 @@ Company *compC;
     [compB sellCertificate:compB.certificates[1] To:playerA];
     [compB sellCertificate:compB.certificates[2] To:playerB];
     [compB sellCertificate:compB.certificates[3] To:playerC];
-    [playerD buyCertificate:compB.certificates[0] atPrice:compB.stockPrice];
-    [playerA buyCertificate:compB.certificates[1] atPrice:compB.stockPrice];
-    [playerB buyCertificate:compB.certificates[2] atPrice:compB.stockPrice];
-    [playerC buyCertificate:compB.certificates[3] atPrice:compB.stockPrice];
+//    [playerD buyCertificate:compB.certificates[0] atPrice:compB.stockPrice];
+//    [playerA buyCertificate:compB.certificates[1] atPrice:compB.stockPrice];
+//    [playerB buyCertificate:compB.certificates[2] atPrice:compB.stockPrice];
+//    [playerC buyCertificate:compB.certificates[3] atPrice:compB.stockPrice];
     
     XCTAssertEqualObjects(compA.president, playerA, @"update president test");
     XCTAssertEqualObjects(compB.president, playerD, @"update president test");
     XCTAssertNil(compC.president, @"update president test");
 
     Bank *bank = [[Bank alloc] initWithName:@"Bank"];
-    [playerA sellCertificate:compB.certificates[1] atPrice:200];
-    [bank buyCertificate:compB.certificates[1] atPrice:200];
-    [playerB sellCertificate:compB.certificates[2] atPrice:200];
-    [bank buyCertificate:compB.certificates[2] atPrice:200];
-    [playerC buyCertificate:compB.certificates[1] atPrice:200];
+    [compB sellCertificate:compB.certificates[1] To:bank];
+//    [playerA sellCertificate:compB.certificates[1] atPrice:200];
+//    [bank buyCertificate:compB.certificates[1] atPrice:200];
+    [compB sellCertificate:compB.certificates[2] To:bank];
+//    [playerB sellCertificate:compB.certificates[2] atPrice:200];
+//    [bank buyCertificate:compB.certificates[2] atPrice:200];
+
+    //    [playerC buyCertificate:compB.certificates[1] atPrice:200];
     [compB sellCertificate:compB.certificates[1] To:playerC];
-    [playerC buyCertificate:compB.certificates[2] atPrice:200];
+//    [playerC buyCertificate:compB.certificates[2] atPrice:200];
     [compB sellCertificate:compB.certificates[2] To:playerC];
 
     XCTAssertEqualObjects(compA.president, playerA, @"update president test");

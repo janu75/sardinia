@@ -53,54 +53,55 @@ Bank *bank;
     XCTAssertNil(certC.owner, @"Shareholder protocol test");
     XCTAssertNil(certD.owner, @"Shareholder protocol test");
     
-    [bank buyCertificate:certA atPrice:100];
-    XCTAssertEqual(bank.money,  7900, @"Shareholder Protocol test");
-    XCTAssertEqual([bank.certificates count], (NSUInteger) 1, @"Shareholder Protocol test");
-    
-    XCTAssertEqualObjects(certA.owner, bank, @"Shareholder protocol test");
-    XCTAssertNil(certB.owner, @"Shareholder protocol test");
-    XCTAssertNil(certC.owner, @"Shareholder protocol test");
-    XCTAssertNil(certD.owner, @"Shareholder protocol test");
-    
-    [bank buyCertificate:certB atPrice:120];
-    XCTAssertEqual(bank.money,  7780, @"Shareholder Protocol test");
-    XCTAssertEqual([bank.certificates count], (NSUInteger) 2, @"Shareholder Protocol test");
-    
-    XCTAssertEqualObjects(certA.owner, bank, @"Shareholder protocol test");
-    XCTAssertEqualObjects(certB.owner, bank, @"Shareholder protocol test");
-    XCTAssertNil(certC.owner, @"Shareholder protocol test");
-    XCTAssertNil(certD.owner, @"Shareholder protocol test");
-    
-    [bank buyCertificate:certC atPrice:195];
-    XCTAssertEqual(bank.money,  7585, @"Shareholder Protocol test");
-    XCTAssertEqual([bank.certificates count], (NSUInteger) 3, @"Shareholder Protocol test");
-    
-    XCTAssertEqualObjects(certA.owner, bank, @"Shareholder protocol test");
-    XCTAssertEqualObjects(certB.owner, bank, @"Shareholder protocol test");
-    XCTAssertEqualObjects(certC.owner, bank, @"Shareholder protocol test");
-    XCTAssertNil(certD.owner, @"Shareholder protocol test");
-    
-    [bank buyCertificate:certD atPrice:290];
-    XCTAssertEqual(bank.money,  7295, @"Shareholder Protocol test");
-    XCTAssertEqual([bank.certificates count], (NSUInteger) 4, @"Shareholder Protocol test");
-    
-    XCTAssertEqualObjects(certA.owner, bank, @"Shareholder protocol test");
-    XCTAssertEqualObjects(certB.owner, bank, @"Shareholder protocol test");
-    XCTAssertEqualObjects(certC.owner, bank, @"Shareholder protocol test");
-    XCTAssertEqualObjects(certD.owner, bank, @"Shareholder protocol test");
-    
-    [bank sellCertificate:certA atPrice:120];
-    XCTAssertEqual(bank.money,  7415, @"Shareholder Protocol test");
-    XCTAssertEqual([bank.certificates count], (NSUInteger) 3, @"Shareholder Protocol test");
-    [bank sellCertificate:certB atPrice:90];
-    XCTAssertEqual(bank.money,  7505, @"Shareholder Protocol test");
-    XCTAssertEqual([bank.certificates count], (NSUInteger) 2, @"Shareholder Protocol test");
-    [bank sellCertificate:certC atPrice:100];
-    XCTAssertEqual(bank.money,  7605, @"Shareholder Protocol test");
-    XCTAssertEqual([bank.certificates count], (NSUInteger) 1, @"Shareholder Protocol test");
-    [bank sellCertificate:certD atPrice:180];
-    XCTAssertEqual(bank.money,  7785, @"Shareholder Protocol test");
-    XCTAssertEqual([bank.certificates count], (NSUInteger) 0, @"Shareholder Protocol test");
+    // Removed buy & sell methods from Shareholder class
+//    [bank buyCertificate:certA atPrice:100];
+//    XCTAssertEqual(bank.money,  7900, @"Shareholder Protocol test");
+//    XCTAssertEqual([bank.certificates count], (NSUInteger) 1, @"Shareholder Protocol test");
+//    
+//    XCTAssertEqualObjects(certA.owner, bank, @"Shareholder protocol test");
+//    XCTAssertNil(certB.owner, @"Shareholder protocol test");
+//    XCTAssertNil(certC.owner, @"Shareholder protocol test");
+//    XCTAssertNil(certD.owner, @"Shareholder protocol test");
+//    
+//    [bank buyCertificate:certB atPrice:120];
+//    XCTAssertEqual(bank.money,  7780, @"Shareholder Protocol test");
+//    XCTAssertEqual([bank.certificates count], (NSUInteger) 2, @"Shareholder Protocol test");
+//    
+//    XCTAssertEqualObjects(certA.owner, bank, @"Shareholder protocol test");
+//    XCTAssertEqualObjects(certB.owner, bank, @"Shareholder protocol test");
+//    XCTAssertNil(certC.owner, @"Shareholder protocol test");
+//    XCTAssertNil(certD.owner, @"Shareholder protocol test");
+//    
+//    [bank buyCertificate:certC atPrice:195];
+//    XCTAssertEqual(bank.money,  7585, @"Shareholder Protocol test");
+//    XCTAssertEqual([bank.certificates count], (NSUInteger) 3, @"Shareholder Protocol test");
+//    
+//    XCTAssertEqualObjects(certA.owner, bank, @"Shareholder protocol test");
+//    XCTAssertEqualObjects(certB.owner, bank, @"Shareholder protocol test");
+//    XCTAssertEqualObjects(certC.owner, bank, @"Shareholder protocol test");
+//    XCTAssertNil(certD.owner, @"Shareholder protocol test");
+//    
+//    [bank buyCertificate:certD atPrice:290];
+//    XCTAssertEqual(bank.money,  7295, @"Shareholder Protocol test");
+//    XCTAssertEqual([bank.certificates count], (NSUInteger) 4, @"Shareholder Protocol test");
+//    
+//    XCTAssertEqualObjects(certA.owner, bank, @"Shareholder protocol test");
+//    XCTAssertEqualObjects(certB.owner, bank, @"Shareholder protocol test");
+//    XCTAssertEqualObjects(certC.owner, bank, @"Shareholder protocol test");
+//    XCTAssertEqualObjects(certD.owner, bank, @"Shareholder protocol test");
+//    
+//    [bank sellCertificate:certA atPrice:120];
+//    XCTAssertEqual(bank.money,  7415, @"Shareholder Protocol test");
+//    XCTAssertEqual([bank.certificates count], (NSUInteger) 3, @"Shareholder Protocol test");
+//    [bank sellCertificate:certB atPrice:90];
+//    XCTAssertEqual(bank.money,  7505, @"Shareholder Protocol test");
+//    XCTAssertEqual([bank.certificates count], (NSUInteger) 2, @"Shareholder Protocol test");
+//    [bank sellCertificate:certC atPrice:100];
+//    XCTAssertEqual(bank.money,  7605, @"Shareholder Protocol test");
+//    XCTAssertEqual([bank.certificates count], (NSUInteger) 1, @"Shareholder Protocol test");
+//    [bank sellCertificate:certD atPrice:180];
+//    XCTAssertEqual(bank.money,  7785, @"Shareholder Protocol test");
+//    XCTAssertEqual([bank.certificates count], (NSUInteger) 0, @"Shareholder Protocol test");
 }
 
 @end

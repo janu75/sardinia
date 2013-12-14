@@ -8,7 +8,10 @@
 
 #import <Foundation/Foundation.h>
 #import "Shareholder.h"
+#import "Certificate.h"
 
 @interface Dragon : Shareholder
+
+//- (Certificate*) getCertificate:(id)aCompany;
 
 @end

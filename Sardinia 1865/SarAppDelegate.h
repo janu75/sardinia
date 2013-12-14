@@ -22,6 +22,8 @@
 @property (strong) Game* game;
 @property (weak) IBOutlet NSTextField *stockRoundPlayerLabel;
 @property (weak) IBOutlet NSTextField *stockRoundMoneyLabel;
+@property (weak) IBOutlet NSTabView *actionTabView;
+@property (weak) IBOutlet NSTextField *stockStartingPrice;
 
 // Stock market buttons
 @property (weak) IBOutlet NSButton *buttonIPO1;

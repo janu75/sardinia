@@ -19,7 +19,8 @@ GameSetupWindowController *setupWindow;
     // Insert code here to initialize your application
     setupWindow = [[GameSetupWindowController alloc] initWithWindowNibName:@"GameSetupWindow"];
     [setupWindow showWindow:self];
-    [setupWindow.window setLevel:NSFloatingWindowLevel];
+//    [setupWindow.window setLevel:NSFloatingWindowLevel];
+    [setupWindow.window makeKeyAndOrderFront:setupWindow];
     [setupWindow useSettings:self];
     [self printLog:@"Settings window opened"];
     
@@ -30,51 +31,54 @@ GameSetupWindowController *setupWindow;
 }
 
 - (void) setupStockMarketButtons {
-    self.ipoBuyButton = [[NSArray alloc] initWithObjects:
-                         self.buttonIPO1,
-                         self.buttonIPO2,
-                         self.buttonIPO3,
-                         self.buttonIPO4,
-                         self.buttonIPO5,
-                         self.buttonIPO6,
-                         self.buttonIPO7,
-                         self.buttonIPO8, nil];
-    self.bankBuyButton = [[NSArray alloc] initWithObjects:
-                          self.buttonBank1,
-                          self.buttonBank2,
-                          self.buttonBank3,
-                          self.buttonBank4,
-                          self.buttonBank5,
-                          self.buttonBank6,
-                          self.buttonBank7,
-                          self.buttonBank8, nil];
-    self.dragonBuyButton = [[NSArray alloc] initWithObjects:
-                            self.buttonDragon1,
-                            self.buttonDragon2,
-                            self.buttonDragon3,
-                            self.buttonDragon4,
-                            self.buttonDragon5,
-                            self.buttonDragon6,
-                            self.buttonDragon7,
-                            self.buttonDragon8, nil];
-    self.sellButton = [[NSArray alloc] initWithObjects:
-                       self.buttonSell1,
-                       self.buttonSell2,
-                       self.buttonSell3,
-                       self.buttonSell4,
-                       self.buttonSell5,
-                       self.buttonSell6,
-                       self.buttonSell7,
-                       self.buttonSell8, nil];
-    self.stockCompanyLabel = [[NSArray alloc] initWithObjects:
-                              self.stockLabelComp1,
-                              self.stockLabelComp2,
-                              self.stockLabelComp3,
-                              self.stockLabelComp4,
-                              self.stockLabelComp5,
-                              self.stockLabelComp6,
-                              self.stockLabelComp7,
-                              self.stockLabelComp8, nil];
+    self.ipoBuyButton = @[self.buttonIPO1,
+                          self.buttonIPO2,
+                          self.buttonIPO3,
+                          self.buttonIPO4,
+                          self.buttonIPO5,
+                          self.buttonIPO6];
+    self.bankBuyButton = @[self.buttonBank1,
+                           self.buttonBank2,
+                           self.buttonBank3,
+                           self.buttonBank4,
+                           self.buttonBank5,
+                           self.buttonBank6];
+    self.dragonBuyButton = @[self.buttonDragon1,
+                             self.buttonDragon2,
+                             self.buttonDragon3,
+                             self.buttonDragon4,
+                             self.buttonDragon5,
+                             self.buttonDragon6];
+    self.sellButton = @[self.buttonSell1,
+                        self.buttonSell2,
+                        self.buttonSell3,
+                        self.buttonSell4,
+                        self.buttonSell5,
+                        self.buttonSell6];
+    self.stockCompanyLabel = @[self.stockLabelComp1,
+                               self.stockLabelComp2,
+                               self.stockLabelComp3,
+                               self.stockLabelComp4,
+                               self.stockLabelComp5,
+                               self.stockLabelComp6];
+    if (!self.game.settings.isShortGame) {
+        self.ipoBuyButton = [self.ipoBuyButton arrayByAddingObjectsFromArray:@[self.buttonIPO7, self.buttonIPO8]];
+        self.bankBuyButton = [self.bankBuyButton arrayByAddingObjectsFromArray:@[self.buttonBank7,self.buttonBank8]];
+        self.dragonBuyButton = [self.dragonBuyButton arrayByAddingObjectsFromArray:@[self.buttonDragon7, self.buttonDragon8]];
+        self.sellButton = [self.sellButton arrayByAddingObjectsFromArray:@[self.buttonSell7, self.buttonSell8]];
+        self.stockCompanyLabel = [self.stockCompanyLabel arrayByAddingObjectsFromArray:@[self.stockLabelComp7, self.stockLabelComp8]];
+    } else {
+        [self.buttonIPO7 setTransparent:YES];
+        [self.buttonIPO8 setTransparent:YES];
+        [self.buttonBank7 setTransparent:YES];
+        [self.buttonBank8 setTransparent:YES];
+        [self.buttonDragon7 setTransparent:YES];
+        [self.buttonDragon8 setTransparent:YES];
+        [self.buttonSell7 setTransparent:YES];
+        [self.buttonSell8 setTransparent:YES];
+        [self.stockLabelComp7 setStringValue:@""];
+        [self.stockLabelComp8 setStringValue:@""];
+    }
 }
 
 - (NSString*) formatStockPrice:(Company*)comp {
@@ -113,8 +117,14 @@ GameSetupWindowController *setupWindow;
     }
     i=0;
     for (NSTextField* label in self.stockCompanyLabel) {
-        label.stringValue = self.game.compNames[i];
+        label.stringValue = self.game.compNames[i++];
     }
+}
+
+- (IBAction)stockPassButton:(NSButton *)sender {
+    [self printLog:[NSString stringWithFormat:@"%@ did pass", self.game.currentPlayer.name]];
+    [self printLog:[self.game advancePlayersDidPass:YES]];
+    [self nextPlayer];
 }
 
 - (void) testButtons {
@@ -144,9 +154,17 @@ GameSetupWindowController *setupWindow;
     NSLog(@"Got Players %@", self.playerNames);
     self.game = [[Game alloc] initWithPlayers:players AndShortMode:isShort];
     [self printLog:@"Game started"];
-    [self setupStockMarketButtons];
-    [self updateButtonsForPlayer:self.game.player[0]];
+    [self nextPlayer];
+}
 
+- (void) nextPlayer {
+    if ([self.game.round isEqualToString:@"Stock Round"]) {
+        [self.actionTabView selectTabViewItemAtIndex:0];
+        [self setupStockMarketButtons];
+        [self updateButtonsForPlayer:self.game.currentPlayer];
+    } else {
+        [self.actionTabView selectTabViewItemAtIndex:1];
+    }
 }
 
 
