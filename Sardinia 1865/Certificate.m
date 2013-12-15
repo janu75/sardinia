@@ -7,6 +7,7 @@
 //
 
 #import "Certificate.h"
+#import "Shareholder.h"
 
 @implementation Certificate
 
@@ -36,6 +37,8 @@
     } else {
         self.type = @"Major";
     }
+    Shareholder *owner = self.owner;
+    owner.numShares -= self.share;
 }
 
 @end

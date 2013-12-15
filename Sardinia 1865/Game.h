@@ -52,4 +52,6 @@
 
 - (void) sellTrain:(Train*)aTrain From:(id)oldOwner To:(id)newOwner AtCost:(int)price;
 
+- (int) getMaxInitialStockPrice;
+
 @end

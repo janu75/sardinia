@@ -9,7 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "Game.h"
 
-@interface SarAppDelegate : NSObject <NSApplicationDelegate>
+@interface SarAppDelegate : NSObject <NSApplicationDelegate,NSTableViewDataSource,NSTableViewDelegate>
 
 @property (assign) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSTabView *roundView;
@@ -19,11 +19,17 @@
 @property (strong) NSArray* dragonBuyButton;
 @property (strong) NSArray* sellButton;
 @property (strong) NSArray* stockCompanyLabel;
+//@property (strong) NSArray* overviewPlayerLabel;
+//@property (strong) NSArray* moneyPlayer;
+//@property (strong) NSArray* certificiatesPlayer;
+//@property (strong) NSArray* sharesPlayer;
+//@property (strong) NSArray* maritimeCompPlayer;
 @property (strong) Game* game;
 @property (weak) IBOutlet NSTextField *stockRoundPlayerLabel;
 @property (weak) IBOutlet NSTextField *stockRoundMoneyLabel;
 @property (weak) IBOutlet NSTabView *actionTabView;
 @property (weak) IBOutlet NSTextField *stockStartingPrice;
+@property (weak) IBOutlet NSTextField *stockStartingPriceLabel;
 
 // Stock market buttons
 @property (weak) IBOutlet NSButton *buttonIPO1;
@@ -72,7 +78,10 @@
 @property (weak) IBOutlet NSTextField *stockLabelComp7;
 @property (weak) IBOutlet NSTextField *stockLabelComp8;
 
+@property (weak) IBOutlet NSScrollView *companyScrollView;
+@property (weak) IBOutlet NSTableView *companyTableView;
 
+@property (strong) NSDictionary *overviewTableData;
 @property (strong) NSArray *playerNames;
 @property BOOL isShortGame;
 - (void) setPlayers:(NSArray*)players AndGameMode:(BOOL)isShort;

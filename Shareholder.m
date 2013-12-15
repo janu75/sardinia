@@ -21,7 +21,6 @@
     return self;
 }
 
-
 //- (void) buyCertificate:(Certificate *)aCertificate atPrice:(int)price {
 //    self.money -= price;
 //    aCertificate.owner = self;

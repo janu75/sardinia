@@ -142,6 +142,8 @@
 - (void) equipCertificate:(Certificate *)aCertificate {
     [self.certificates addObject:aCertificate];
     aCertificate.owner = self;
+    self.numCertificates++;
+    self.numShares += aCertificate.share;
     // A company does not really buy certificates, it gets new certificates when started or being switched to major
 }
 
@@ -151,6 +153,10 @@
     aCertificate.owner = newOwner;
     oldOwner.money += self.stockPrice;
     newOwner.money -= self.stockPrice;
+    oldOwner.numCertificates--;
+    newOwner.numCertificates++;
+    oldOwner.numShares -= aCertificate.share;
+    newOwner.numShares += aCertificate.share;
     NSRange range = [aCertificate.type rangeOfString:@"President"];
     if (range.location != NSNotFound ) {
         oldOwner.money += self.stockPrice;

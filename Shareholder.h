@@ -16,6 +16,8 @@
 @property (strong) NSMutableArray *certificates; // of Certificate
 @property (strong) NSMutableArray *trains;       // of Train
 @property (strong) NSString* name;
+@property int numCertificates;
+@property int numShares;
 
 - (id) initWithName:(NSString*) aName;
 

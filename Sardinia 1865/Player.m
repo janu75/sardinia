@@ -7,6 +7,7 @@
 //
 
 #import "Player.h"
+#import "MaritimeCompany.h"
 
 @implementation Player
 
@@ -15,7 +16,9 @@
     if (self) {
         self.money = money;
         self.isPlayer = YES;
-        self.maritimeCompany = [[NSMutableArray alloc] initWithCapacity:2];
+        MaritimeCompany *m1 = [[MaritimeCompany alloc] init];
+        MaritimeCompany *m2 = [[MaritimeCompany alloc] init];
+        self.maritimeCompany = [@[m1, m2] mutableCopy];
     }
     return self;
 }

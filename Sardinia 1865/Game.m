@@ -28,17 +28,18 @@
             i++;
         }
         self.companies = companies;
+        int bankMoney = (isShort) ? 6000 : 8000;
+        self.bank   = [[Bank alloc] initWithMoney:bankMoney];
         int playerMoney = 300;
         if ([playerNames count] == 3) playerMoney = 330;
         if ([playerNames count] == 2) playerMoney = 360;
         NSMutableArray *players = [[NSMutableArray alloc] initWithCapacity:4];
         for (NSString* name in playerNames) {
             [players addObject:[[Player alloc] initWithName:name AndMoney:playerMoney]];
+            self.bank.money -= playerMoney;
         }
         self.trains = [self.settings generateTrains];
         self.dragon = [[Dragon alloc] initWithName:@"Dragon"];
-        int bankMoney = (isShort) ? 6000 : 8000;
-        self.bank   = [[Bank alloc] initWithMoney:bankMoney];
         self.player = players;
         [self shufflePlayers];
         self.currentPlayer = self.player[0];
@@ -235,6 +236,15 @@
         [oldGuy.trains removeObject:aTrain];
         oldGuy.money += price;
     }
+}
+
+- (int) getMaxInitialStockPrice {
+    if (self.phase < 3) {
+        return 100;
+    } else if (self.phase < 5) {
+        return 130;
+    }
+    return 150;
 }
 
 @end

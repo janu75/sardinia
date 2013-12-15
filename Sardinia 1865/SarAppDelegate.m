@@ -20,8 +20,8 @@ GameSetupWindowController *setupWindow;
     setupWindow = [[GameSetupWindowController alloc] initWithWindowNibName:@"GameSetupWindow"];
     [setupWindow showWindow:self];
 //    [setupWindow.window setLevel:NSFloatingWindowLevel];
-    [setupWindow.window makeKeyAndOrderFront:setupWindow];
     [setupWindow useSettings:self];
+    [setupWindow.window makeKeyAndOrderFront:setupWindow];
     [self printLog:@"Settings window opened"];
     
 }
@@ -81,6 +81,15 @@ GameSetupWindowController *setupWindow;
     }
 }
 
+- (void) setupPlayerOverviewLabels {
+    if (self.game.settings.isShortGame) {
+        NSTableColumn *col = [self.companyTableView tableColumnWithIdentifier:@"RCSF"];
+        [col setHidden:YES];
+        col = [self.companyTableView tableColumnWithIdentifier:@"SFSS"];
+        [col setHidden:YES];
+    }
+}
+
 - (NSString*) formatStockPrice:(Company*)comp {
     if (comp.stockPrice > 0) {
         return [NSString stringWithFormat:@"L. %d", comp.stockPrice];
@@ -91,6 +100,7 @@ GameSetupWindowController *setupWindow;
 - (void) updateButtonsForPlayer:(Player*)aPlayer {
     [self.stockRoundMoneyLabel setStringValue:[NSString stringWithFormat:@"L. %d", aPlayer.money]];
     [self.stockRoundPlayerLabel setStringValue:[NSString stringWithFormat:@"Player %@", aPlayer.name]];
+    [self.stockStartingPriceLabel setStringValue:[NSString stringWithFormat:@"Initial Price (50-%d):", [self.game getMaxInitialStockPrice]]];
     int i=0;
     for (NSButton *button in self.ipoBuyButton) {
         Company *comp = self.game.companies[i];
@@ -153,19 +163,94 @@ GameSetupWindowController *setupWindow;
     setupWindow = nil;
     NSLog(@"Got Players %@", self.playerNames);
     self.game = [[Game alloc] initWithPlayers:players AndShortMode:isShort];
+    [self setupPlayerOverviewLabels];
+    [self setupStockMarketButtons];
     [self printLog:@"Game started"];
     [self nextPlayer];
 }
 
 - (void) nextPlayer {
+    [self updateTableData];
     if ([self.game.round isEqualToString:@"Stock Round"]) {
         [self.actionTabView selectTabViewItemAtIndex:0];
-        [self setupStockMarketButtons];
         [self updateButtonsForPlayer:self.game.currentPlayer];
     } else {
         [self.actionTabView selectTabViewItemAtIndex:1];
     }
 }
 
+- (NSInteger)numberOfRowsInTableView:(NSTableView *)tableView {
+    return (NSInteger) [self.game.player count] + 2;
+}
+
+- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+    NSString *identifier = [tableColumn identifier];
+    NSArray *rowData = self.overviewTableData[identifier];
+    
+    if (rowData && [rowData count] > row) {
+        NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
+        cellView.textField.stringValue = rowData[row];
+        return cellView;
+    } else {
+        NSTextField *cellView = [[NSTextField alloc] initWithFrame:tableView.frame];
+        cellView.stringValue = [NSString stringWithFormat:@"??%@-%ld??", identifier, (long)row];
+        return cellView;
+//        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
+    }
+    return nil;
+}
+
+- (void) updateTableData {
+    NSMutableArray *player = [@[@"Bank", @"Dragon"] mutableCopy];
+    NSMutableArray *money = [@[[NSNumber numberWithInt:self.game.bank.money], [NSNumber numberWithInt:self.game.dragon.money]] mutableCopy];
+    NSMutableArray *cert = [@[[NSNumber numberWithInt:self.game.bank.numCertificates], [NSNumber numberWithInt:self.game.dragon.numCertificates]] mutableCopy];
+    for (Player *guy in self.game.player) {
+        [player addObject:guy.name];
+        [money addObject:[NSNumber numberWithInt:guy.money]];
+        [cert addObject:[NSString stringWithFormat:@"%luM + %d", (unsigned long)[guy.maritimeCompany count], guy.numCertificates]];
+    }
+    NSMutableDictionary *dict = [@{@"Player"       : player,
+                                  @"Money"        : money,
+                                  @"Certificates" : cert} mutableCopy];
+    for (Company *comp in self.game.companies) {
+        NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:6];
+        [array addObject:[NSString stringWithFormat:@"%d%%", [comp getShareByOwner:self.game.bank]]];
+        [array addObject:[NSString stringWithFormat:@"%d%%", [comp getShareByOwner:self.game.dragon]]];
+        for (Player *guy in self.game.player) {
+            [array addObject:[NSString stringWithFormat:@"%d%%", [comp getShareByOwner:guy]]];
+        }
+        [dict setObject:array forKey:comp.shortName];
+    }
+    self.overviewTableData = dict;
+    [self.companyTableView reloadData];
+}
+
+//// This method is optional if you use bindings to provide the data
+//- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+//    // Group our "model" object, which is a dictionary
+//    NSDictionary *dictionary = [_tableContents objectAtIndex:row];
+//    
+//    // In IB the tableColumn has the identifier set to the same string as the keys in our dictionary
+//    NSString *identifier = [tableColumn identifier];
+//    
+//    if ([identifier isEqualToString:@"MainCell"]) {
+//        // We pass us as the owner so we can setup target/actions into this main controller object
+//        NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
+//        // Then setup properties on the cellView based on the column
+//        cellView.textField.stringValue = [dictionary objectForKey:@"Name"];
+//        cellView.imageView.objectValue = [dictionary objectForKey:@"Image"];
+//        return cellView;
+//    } else if ([identifier isEqualToString:@"SizeCell"]) {
+//        NSTextField *textField = [tableView makeViewWithIdentifier:identifier owner:self];
+//        NSImage *image = [dictionary objectForKey:@"Image"];
+//        NSSize size = image ? [image size] : NSZeroSize;
+//        NSString *sizeString = [NSString stringWithFormat:@"%.0fx%.0f", size.width, size.height];
+//        textField.objectValue = sizeString;
+//        return textField;
+//    } else {
+//        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
+//    }
+//    return nil;
+//}
 
 @end
