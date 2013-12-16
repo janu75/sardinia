@@ -62,4 +62,10 @@
 
 - (void) decreaseStockPrice:(Company*)aComp;
 
+- (NSArray*) getTrainsForPurchase;
+
+- (NSArray*) companyCanAbsorb:(Company*)aComp;
+
+- (BOOL) companyCanGetAbsorbed:(Company*)aComp;
+
 @end

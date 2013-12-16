@@ -161,6 +161,7 @@
             for (Player *player in self.player) {
                 [player.soldCompanies removeAllObjects];
             }
+            [self buildCompanyOrder];
         }
     }
     return msg;
@@ -296,5 +297,43 @@
     [self addToCompanyStack:aComp];
 }
 
+- (NSArray*) companyCanAbsorb:(Company *)aComp {
+    if (!aComp.isOperating) {
+        return nil;
+    }
+    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:7];
+    for (Company* comp in self.companyStack) {
+        if (comp != aComp && comp.isOperating && aComp.president == comp.president) {
+            // Todo: Add share price check!
+            NSLog(@"Todo: Need to check if companies have enough money for this!");
+            [list addObject:comp.shortName];
+        }
+    }
+    return list;
+}
+
+- (BOOL) companyCanGetAbsorbed:(Company *)aComp {
+    if (!aComp.isOperating) {
+        return NO;
+    }
+    for (Company* comp in self.companyStack) {
+        if (comp != aComp && comp.isOperating && aComp.president == comp.president) {
+            return NO;
+            // Todo: Add share price check!
+            NSLog(@"Todo: Need to check if companies have enough money for this!");
+        }
+    }
+    return NO;
+}
+
+- (NSArray*) getTrainsForPurchase {
+    Train *train = [self.trains firstObject];
+    NSMutableArray *list = [NSMutableArray arrayWithObject:[NSString stringWithFormat:@"New Train: Capacity %d for L.%d", train.capacity, train.cost]];
+    for (Train *aTrain in self.bank.trains) {
+        [list addObjectsFromArray:[NSMutableArray arrayWithObject:[NSString stringWithFormat:@"Bank: Capacity %d for L.%d", aTrain.capacity, aTrain.cost]]];
+    }
+    NSLog(@"Todo: Buy trains from other companies");
+    return list;
+}
 
 @end

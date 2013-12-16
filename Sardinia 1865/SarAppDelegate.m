@@ -149,6 +149,70 @@ GameSetupWindowController *setupWindow;
     }
 }
 
+- (NSArray*) buildAbsorbItemsList:(NSArray*)comps {
+    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:7];
+    for (Company* comp in comps) {
+        [list addObject:comp.shortName];
+    }
+    return list;
+}
+
+- (void) updateButtonsForCompany:(Company*)comp {
+    NSArray *absorbCandidates = [self.game companyCanAbsorb:comp];
+    if ([absorbCandidates count]) {
+        [self.or_buttonAbsorbOther setEnabled:YES];
+        [self.or_popupAbsorb removeAllItems];
+        [self.or_popupAbsorb addItemsWithTitles:[self buildAbsorbItemsList:absorbCandidates]];
+        [self.or_popupAbsorb setEnabled:YES];
+    } else {
+        [self.or_buttonAbsorbOther setEnabled:NO];
+        [self.or_popupAbsorb setEnabled:NO];
+    }
+    if ([self.game companyCanGetAbsorbed:comp]) {
+        [self.or_buttonAbsorbThis setEnabled:YES];
+    } else {
+        [self.or_buttonAbsorbThis setEnabled:NO];
+    }
+//    if ([absorbCandidates count] && [comp canGetAbsorbed]) {
+//        self.or_textAbsorbOr.stringValue = @"or";
+//    } else {
+//        self.or_textAbsorbOr.stringValue = @"";
+//    }
+    if (comp.money<20) {
+        [self.or_buttonLay2ndTrack setEnabled:NO];
+    } else {
+        [self.or_buttonLay2ndTrack setEnabled:YES];
+    }
+    if (comp.numStationMarkers - comp.builtStations > 0 && comp.money>10) {
+        [self.or_buttonPlaceStation setEnabled:YES];
+        [self.or_textfieldStationCost setEnabled:YES];
+    } else {
+        [self.or_buttonPlaceStation setEnabled:NO];
+        [self.or_textfieldStationCost setEnabled:NO];
+    }
+    self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d",MIN(comp.traffic, comp.trainCapacity)*10];
+    NSArray *trains = [self.game getTrainsForPurchase];
+    if ([trains count]) {
+        [self.or_buttonBuyTrain setEnabled:YES];
+        [self.or_popupTrain setEnabled:YES];
+        [self.or_popupTrain removeAllItems];
+        [self.or_popupTrain addItemsWithTitles:trains];
+    } else {
+        [self.or_buttonBuyTrain setEnabled:NO];
+        [self.or_popupTrain setEnabled:NO];
+        [self.or_popupTrain removeAllItems];
+    }
+
+    self.or_CompanyName.stringValue = comp.name;
+    self.or_presidentName.stringValue = [NSString stringWithFormat:@"President: %@", comp.president.name];
+    Player *president = (Player*) comp.president;
+    if ([president.maritimeCompany count]) {
+        [self.or_MaritimeButton setEnabled:YES];
+    } else {
+        [self.or_MaritimeButton setEnabled:NO];
+    }
+}
+
 - (IBAction)stockPassButton:(NSButton *)sender {
     [self printLog:[NSString stringWithFormat:@"%@ passes", self.game.currentPlayer.name]];
     [self printLog:[self.game advancePlayersDidPass:YES]];
@@ -253,6 +317,7 @@ GameSetupWindowController *setupWindow;
         [self updateButtonsForPlayer:self.game.currentPlayer];
     } else {
         [self.actionTabView selectTabViewItemAtIndex:1];
+        [self updateButtonsForCompany:[self.game.companyTurnOrder firstObject]];
     }
 }
 

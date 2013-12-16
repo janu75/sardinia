@@ -107,6 +107,7 @@
 @property (weak) IBOutlet NSTextField *or_CompanyName;
 @property (weak) IBOutlet NSTextField *or_presidentName;
 @property (weak) IBOutlet NSButton *or_MaritimeButton;
+@property (weak) IBOutlet NSTextField *or_textfieldOperateText;
 
 
 
