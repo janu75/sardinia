@@ -119,10 +119,11 @@
 
 - (void) operateTrainsAndPayDividend:(BOOL)payout {
     int income = MIN(self.traffic, self.trainCapacity) * 10;
+    self.lastIncome = income;
     if (income > 0) {
         self.isOperating = YES;
         if (payout) {
-            [self increaseStockPrice];
+            self.paidDividend = YES;
             for (Certificate *cert in self.certificates) {
                 Shareholder *owner = (Shareholder*) cert.owner;
                 owner.money += (cert.share * income) / 100;
@@ -130,8 +131,6 @@
         } else {
             self.money += income;
         }
-    } else {
-        if (self.traffic > 0) [self decreaseStockPrice];
     }
 }
 

@@ -28,6 +28,7 @@
             i++;
         }
         self.companies = companies;
+        self.companyStack = [[NSMutableArray alloc] initWithCapacity:8];
         int bankMoney = (isShort) ? 6000 : 8000;
         self.bank   = [[Bank alloc] initWithMoney:bankMoney];
         int playerMoney = 300;
@@ -266,5 +267,34 @@
     }
     return 150;
 }
+
+- (void) addToCompanyStack:(Company *)aComp {
+    NSUInteger index = 0;
+    for (Company *comp in self.companyStack) {
+        if (aComp.stockPrice > comp.stockPrice) {
+            [self.companyStack insertObject:aComp atIndex:index];
+            return;
+        }
+        index++;
+    }
+    [self.companyStack insertObject:aComp atIndex:index];
+}
+
+- (void) removeFromCompanyStack:(Company *)aComp {
+    [self.companyStack removeObject:aComp];
+}
+
+- (void) increaseStockPrice:(Company *)aComp {
+    [aComp increaseStockPrice];
+    [self removeFromCompanyStack:aComp];
+    [self addToCompanyStack:aComp];
+}
+
+- (void) decreaseStockPrice:(Company *)aComp {
+    [aComp decreaseStockPrice];
+    [self removeFromCompanyStack:aComp];
+    [self addToCompanyStack:aComp];
+}
+
 
 @end

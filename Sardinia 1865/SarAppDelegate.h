@@ -88,4 +88,26 @@
 - (void) setPlayers:(NSArray*)players AndGameMode:(BOOL)isShort;
 
 @property (weak) IBOutlet CompanyStatusTableController *companyTable;
+
+// Operating Round
+@property (weak) IBOutlet NSButton *or_buttonAbsorbOther;
+@property (weak) IBOutlet NSPopUpButton *or_popupAbsorb;
+@property (weak) IBOutlet NSTextField *or_textAbsorbOr;
+@property (weak) IBOutlet NSButton *or_buttonAbsorbThis;
+@property (weak) IBOutlet NSButton *or_buttonLay2ndTrack;
+@property (weak) IBOutlet NSButton *or_buttonPlaceStation;
+@property (weak) IBOutlet NSTextField *or_textfieldStationCost;
+@property (weak) IBOutlet NSButton *or_buttonAddTraffic;
+@property (weak) IBOutlet NSTextField *or_buttonTraffic;
+@property (weak) IBOutlet NSButton *or_buttonOperateTrains;
+@property (weak) IBOutlet NSButton *or_buttonPayDividend;
+@property (weak) IBOutlet NSButton *or_buttonBuyTrain;
+@property (weak) IBOutlet NSPopUpButton *or_popupTrain;
+@property (weak) IBOutlet NSTextField *or_textfieldTrainCost;
+@property (weak) IBOutlet NSTextField *or_CompanyName;
+@property (weak) IBOutlet NSTextField *or_presidentName;
+@property (weak) IBOutlet NSButton *or_MaritimeButton;
+
+
+
 @end

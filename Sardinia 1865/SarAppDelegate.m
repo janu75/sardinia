@@ -27,7 +27,9 @@ GameSetupWindowController *setupWindow;
 }
 
 - (void) printLog:(NSString*)message {
-    self.textLog.string = [NSString stringWithFormat:@"%@\n%@", self.textLog.string, message];
+    if (![message isEqualToString:@""]) {
+        self.textLog.string = [NSString stringWithFormat:@"%@\n%@", self.textLog.string, message];
+    }
 }
 
 - (void) setupStockMarketButtons {
@@ -148,7 +150,7 @@ GameSetupWindowController *setupWindow;
 }
 
 - (IBAction)stockPassButton:(NSButton *)sender {
-    [self printLog:[NSString stringWithFormat:@"%@ did pass", self.game.currentPlayer.name]];
+    [self printLog:[NSString stringWithFormat:@"%@ passes", self.game.currentPlayer.name]];
     [self printLog:[self.game advancePlayersDidPass:YES]];
     [self nextPlayer];
 }
@@ -170,7 +172,11 @@ GameSetupWindowController *setupWindow;
         [comp setInitialStockPrice:[self.stockStartingPrice.stringValue intValue]];
     }
     Certificate *cert = [comp certificateFromOwner:comp];
+    BOOL wasFloating = comp.isFloating;
     [comp sellCertificate:cert To:self.game.currentPlayer];
+    if (!wasFloating && comp.isFloating) {
+        [self.game addToCompanyStack:comp];
+    }
     [self printLog:[NSString stringWithFormat:@"%@ buys %@ of %@ from Initial Offer", self.game.currentPlayer.name, cert.type, comp.shortName]];
     [self printLog:[self.game advancePlayersDidPass:NO]];
     [self nextPlayer];

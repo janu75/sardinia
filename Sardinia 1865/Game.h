@@ -12,6 +12,7 @@
 #import "Bank.h"
 #import "Dragon.h"
 #import "Train.h"
+#import "Company.h"
 
 @interface Game : NSObject
 
@@ -52,5 +53,13 @@
 - (void) sellTrain:(Train*)aTrain From:(id)oldOwner To:(id)newOwner AtCost:(int)price;
 
 - (int) getMaxInitialStockPrice;
+
+- (void) addToCompanyStack:(Company*)aComp;
+
+- (void) removeFromCompanyStack:(Company*)aComp;
+
+- (void) increaseStockPrice:(Company*)aComp;
+
+- (void) decreaseStockPrice:(Company*)aComp;
 
 @end

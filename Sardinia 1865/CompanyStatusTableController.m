@@ -63,37 +63,35 @@
     NSMutableArray *shares = [[NSMutableArray alloc] initWithCapacity:8];
     NSMutableArray *income = [[NSMutableArray alloc] initWithCapacity:8];
     NSMutableArray *dragon = [[NSMutableArray alloc] initWithCapacity:8];
-    for (Company *comp in self.game.companies) {
-        if (comp.isFloating) {
-            [compName addObject:comp.name];
-            [shortName addObject:comp.shortName];
-            [president addObject:comp.president.name];
-            [money addObject:[NSNumber numberWithInt:comp.money]];
-            NSMutableString *train = [[NSMutableString alloc] init];
-            for (Train* t in comp.trains) {
-                [train appendFormat:@"%d", [t techLevel]];
-            }
-            [trains addObject:train];
-            [capacity addObject:[NSString stringWithFormat:@"%d", comp.trainCapacity]];
-            [traffic addObject:[NSString stringWithFormat:@"%d", comp.traffic]];
-            [stations addObject:[NSString stringWithFormat:@"%d", comp.builtStations]];
-            [markers addObject:[NSString stringWithFormat:@"%d", comp.numStationMarkers]];
-            [mComp addObject:[NSString stringWithFormat:@"%lu", (unsigned long)[comp.maritimeCompanies count]]];
-            if (comp.isMajor) {
-                [type addObject:@"Major"];
-            } else {
-                [type addObject:@"Minor"];
-            }
-            [stockPrice addObject:[NSString stringWithFormat:@"%d", comp.stockPrice]];
-            [shares addObject:[NSString stringWithFormat:@"%d", [comp getShareByOwner:comp]]];
-            [income addObject:[NSString stringWithFormat:@"%d", comp.lastIncome]];
-            if ([comp isDragonBuy]) {
-                [dragon addObject:@"Buy"];
-            } else if ([comp isDragonSell]) {
-                [dragon addObject:@"Sell"];
-            } else {
-                [dragon addObject:@"Keep"];
-            }
+    for (Company *comp in self.game.companyStack) {
+        [compName addObject:comp.name];
+        [shortName addObject:comp.shortName];
+        [president addObject:comp.president.name];
+        [money addObject:[NSNumber numberWithInt:comp.money]];
+        NSMutableString *train = [[NSMutableString alloc] init];
+        for (Train* t in comp.trains) {
+            [train appendFormat:@"%d", [t techLevel]];
+        }
+        [trains addObject:train];
+        [capacity addObject:[NSString stringWithFormat:@"%d", comp.trainCapacity]];
+        [traffic addObject:[NSString stringWithFormat:@"%d", comp.traffic]];
+        [stations addObject:[NSString stringWithFormat:@"%d", comp.builtStations]];
+        [markers addObject:[NSString stringWithFormat:@"%d", comp.numStationMarkers]];
+        [mComp addObject:[NSString stringWithFormat:@"%lu", (unsigned long)[comp.maritimeCompanies count]]];
+        if (comp.isMajor) {
+            [type addObject:@"Major"];
+        } else {
+            [type addObject:@"Minor"];
+        }
+        [stockPrice addObject:[NSString stringWithFormat:@"%d", comp.stockPrice]];
+        [shares addObject:[NSString stringWithFormat:@"%d", [comp getShareByOwner:comp]]];
+        [income addObject:[NSString stringWithFormat:@"%d", comp.lastIncome]];
+        if ([comp isDragonBuy]) {
+            [dragon addObject:@"Buy"];
+        } else if ([comp isDragonSell]) {
+            [dragon addObject:@"Sell"];
+        } else {
+            [dragon addObject:@"Keep"];
         }
     }
     self.overviewTableData = @{@"Company"    : compName,
@@ -115,14 +113,12 @@
     [self.statusTable reloadData];
     NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
     NSUInteger i = 0;
-    for (Company* comp in self.game.companies) {
-        if (comp.isFloating) {
-            if (self.game.currentPlayer == comp.president) {
-                [indexSet addIndex:i];
-                NSLog(@"Hit!");
-            }
-            i++;
+    for (Company* comp in self.game.companyStack) {
+        if (self.game.currentPlayer == comp.president) {
+            [indexSet addIndex:i];
+            NSLog(@"Hit!");
         }
+        i++;
     }
     NSLog(@"Marking rows for %@", self.game.currentPlayer.name);
     [self.statusTable deselectAll:self];

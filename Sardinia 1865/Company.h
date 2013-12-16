@@ -17,6 +17,7 @@
 @property BOOL isFloating;
 @property BOOL isMajor;
 @property BOOL boughtBrandNewTrain;
+@property BOOL paidDividend;
 
 @property int numStationMarkers;
 @property int builtStations;

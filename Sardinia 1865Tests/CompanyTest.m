@@ -324,6 +324,19 @@ Company *compC;
     [compA operateTrainsAndPayDividend:NO];
     [compB operateTrainsAndPayDividend:YES];
     [compC operateTrainsAndPayDividend:NO];
+    for (Company *comp in @[compA, compB, compC]) {
+        if (comp.traffic>0 && comp.lastIncome == 0) {
+            [comp decreaseStockPrice];
+        }
+        if (comp.boughtBrandNewTrain) {
+            [comp increaseStockPrice];
+        }
+        if (comp.paidDividend) {
+            [comp increaseStockPrice];
+        }
+        comp.boughtBrandNewTrain = NO;
+        comp.paidDividend = NO;
+    }
     
     // No change in money, as companies don't have trains or traffic yet
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
@@ -333,14 +346,31 @@ Company *compC;
     XCTAssertEqual(compB.stockPrice,  90, @"operate trains test");
     XCTAssertEqual(compC.stockPrice, 100, @"operate trains test");
     
-    Train *aTrain = [[Train alloc] initWithTech:2 AndDiscount:NO];
+    Train *trainA = [[Train alloc] initWithTech:2 AndDiscount:NO];
+    Train *trainB = [[Train alloc] initWithTech:2 AndDiscount:NO];
+    Train *trainC = [[Train alloc] initWithTech:2 AndDiscount:NO];
+    Train *trainD = [[Train alloc] initWithTech:2 AndDiscount:NO];
+    Train *trainE = [[Train alloc] initWithTech:2 AndDiscount:NO];
     
     [compA trafficUpgrade:5];
-    [compB buyTrain:aTrain];                    moneyB -= 100;
-    [compC buyTrain:aTrain];                    moneyC -= 100;
+    [compB buyTrain:trainA];                    moneyB -= 100;
+    [compC buyTrain:trainB];                    moneyC -= 100;
     [compA operateTrainsAndPayDividend:NO];
     [compB operateTrainsAndPayDividend:YES];
     [compC operateTrainsAndPayDividend:NO];
+    for (Company *comp in @[compA, compB, compC]) {
+        if (comp.traffic>0 && comp.lastIncome == 0) {
+            [comp decreaseStockPrice];
+        }
+        if (comp.boughtBrandNewTrain) {
+            [comp increaseStockPrice];
+        }
+        if (comp.paidDividend) {
+            [comp increaseStockPrice];
+        }
+        comp.boughtBrandNewTrain = NO;
+        comp.paidDividend = NO;
+    }
     
     // Comp A now drops in stock price, as it does have traffic, but no train
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
@@ -353,13 +383,26 @@ Company *compC;
     [compA trafficUpgrade:5];
     [compB trafficUpgrade:6];
     [compC trafficUpgrade:7];
-    [compA buyTrain:aTrain];                    moneyA -= 100;
-    [compB buyTrain:aTrain];                    moneyB -= 100;
-    [compC buyTrain:aTrain];                    moneyC -= 100;
+    [compA buyTrain:trainC];                    moneyA -= 100;
+    [compB buyTrain:trainD];                    moneyB -= 100;
+    [compC buyTrain:trainE];                    moneyC -= 100;
     
     [compA operateTrainsAndPayDividend:NO];     moneyA +=  80;
     [compB operateTrainsAndPayDividend:YES];    moneyB +=  60;
     [compC operateTrainsAndPayDividend:NO];     moneyC +=  70;
+    for (Company *comp in @[compA, compB, compC]) {
+        if (comp.traffic>0 && comp.lastIncome == 0) {
+            [comp decreaseStockPrice];
+        }
+        if (comp.boughtBrandNewTrain) {
+            [comp increaseStockPrice];
+        }
+        if (comp.paidDividend) {
+            [comp increaseStockPrice];
+        }
+        comp.boughtBrandNewTrain = NO;
+        comp.paidDividend = NO;
+    }
     
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
     XCTAssertEqual(compB.money, moneyB, @"operate trains test");
@@ -376,6 +419,19 @@ Company *compC;
     [compA operateTrainsAndPayDividend:YES];        moneyA += 80/5 * 2;         moneyPlayer += 80/5 * 3;
     [compB operateTrainsAndPayDividend:YES];        moneyB += 60;
     [compC operateTrainsAndPayDividend:NO];         moneyC += 70;
+    for (Company *comp in @[compA, compB, compC]) {
+        if (comp.traffic>0 && comp.lastIncome == 0) {
+            [comp decreaseStockPrice];
+        }
+        if (comp.boughtBrandNewTrain) {
+            [comp increaseStockPrice];
+        }
+        if (comp.paidDividend) {
+            [comp increaseStockPrice];
+        }
+        comp.boughtBrandNewTrain = NO;
+        comp.paidDividend = NO;
+    }
     
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
     XCTAssertEqual(compB.money, moneyB, @"operate trains test");
@@ -394,6 +450,19 @@ Company *compC;
     [compA operateTrainsAndPayDividend:YES];                                    moneyPlayer += 80;
     [compB operateTrainsAndPayDividend:NO];         moneyB += 60;
     [compC operateTrainsAndPayDividend:YES];        moneyC += 70/10 * 7;        moneyPlayer += 70/10 * 3;
+    for (Company *comp in @[compA, compB, compC]) {
+        if (comp.traffic>0 && comp.lastIncome == 0) {
+            [comp decreaseStockPrice];
+        }
+        if (comp.boughtBrandNewTrain) {
+            [comp increaseStockPrice];
+        }
+        if (comp.paidDividend) {
+            [comp increaseStockPrice];
+        }
+        comp.boughtBrandNewTrain = NO;
+        comp.paidDividend = NO;
+    }
     
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
     XCTAssertEqual(compB.money, moneyB, @"operate trains test");
