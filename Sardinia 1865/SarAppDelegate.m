@@ -298,6 +298,8 @@ GameSetupWindowController *setupWindow;
     }
     self.overviewTableData = dict;
     [self.companyTableView reloadData];
+    NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[self.game.player indexOfObject:self.game.currentPlayer]+2];
+    [self.companyTableView selectRowIndexes:indexSet byExtendingSelection:NO];
     [self.companyTable updateTableData];
 }
 

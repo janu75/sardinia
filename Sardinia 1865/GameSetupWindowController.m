@@ -24,6 +24,7 @@ SarAppDelegate *myController;
         [self.playerCName setEnabled:YES];
         [self.playerDName setEnabled:YES];
     } else if (sender.selectedRow == 1) {
+        [self.shortGameButton setEnabled:YES];
         [self.playerCName setEnabled:YES];
         [self.playerDName setEnabled:NO];
     } else {

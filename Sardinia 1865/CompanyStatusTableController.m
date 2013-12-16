@@ -113,6 +113,20 @@
                                @"Dragon"     : dragon
                                };
     [self.statusTable reloadData];
+    NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+    NSUInteger i = 0;
+    for (Company* comp in self.game.companies) {
+        if (comp.isFloating) {
+            if (self.game.currentPlayer == comp.president) {
+                [indexSet addIndex:i];
+                NSLog(@"Hit!");
+            }
+            i++;
+        }
+    }
+    NSLog(@"Marking rows for %@", self.game.currentPlayer.name);
+    [self.statusTable deselectAll:self];
+    [self.statusTable selectRowIndexes:indexSet byExtendingSelection:NO];
 }
 
 @end
