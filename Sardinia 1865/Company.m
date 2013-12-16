@@ -100,6 +100,7 @@
 // Tested
 - (void) sellTrain:(Train *)aTrain {
     [self sellTrain:aTrain ForMoney:aTrain.cost];
+    self.settings.phase = aTrain.techLevel;
 }
 
 // Tested
@@ -151,6 +152,16 @@
 - (void) sellCertificate:(Certificate *)aCertificate To:(Shareholder*)newOwner {
     Shareholder *oldOwner = aCertificate.owner;
     aCertificate.owner = newOwner;
+    int stockPrice = self.stockPrice;
+    if ([oldOwner.name isEqualToString:@"Dragon"]) {
+        if ([self isDragonBuy]) {
+            stockPrice = [self.settings getDragonPriceWithStockPrice:stockPrice AndGrade:@"Buy"];
+        } else if ([self isDragonSell]) {
+            stockPrice = [self.settings getDragonPriceWithStockPrice:stockPrice AndGrade:@"Sell"];
+        } else {
+            stockPrice = [self.settings getDragonPriceWithStockPrice:stockPrice AndGrade:@"Neutral"];
+        }
+    }
     oldOwner.money += self.stockPrice;
     newOwner.money -= self.stockPrice;
     oldOwner.numCertificates--;
@@ -168,6 +179,9 @@
     }
     if (unsold_shares < 50) {
         self.isFloating = YES;
+        if (!self.dragonRow) {
+            [self setDragonRowWithPhase:self.settings.phase];
+        }
     }
     [self updatePresident];
 }
@@ -225,7 +239,15 @@
             maxOwner = ownerByName[name];
         }
     }
-    if (presidentShare < maxShare) self.president = maxOwner;
+    if (presidentShare < maxShare) {
+        Certificate *presidentCert = self.certificates[0];
+        Certificate *replacement = [self certificateFromOwner:maxOwner];
+        replacement.owner = self.president;
+        replacement = [self certificateFromOwner:maxOwner];
+        replacement.owner = self.president;
+        presidentCert.owner = maxOwner;
+        self.president = maxOwner;
+    }
     return self.president;
 }
 
@@ -251,9 +273,13 @@
 - (Certificate*) certificateFromOwner:(Shareholder *)anOwner {
     Certificate *myCert;
     // Return last possible certificate in list to make sure we don't sell president shares easily
+    // Unless these are IPO shares, in this case, return the first one
     for (Certificate* cert in self.certificates) {
         if (cert.owner == anOwner) {
             myCert = cert;
+            if (anOwner == self) {
+                return myCert;
+            }
         }
     }
     return myCert;

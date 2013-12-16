@@ -27,7 +27,6 @@
 @property (strong) NSMutableArray *companyTurnOrder;
 @property (strong) NSMutableArray *trains;
 @property (strong) NSString* round;
-@property int phase;
 @property int passCount;
 
 - (id) initWithPlayers:(NSArray*)playerNames AndShortMode:(BOOL)isShort;

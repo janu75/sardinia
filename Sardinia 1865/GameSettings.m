@@ -28,6 +28,7 @@
             NSLog(@"Error reading plist: %@, format: %ld", errorDesc, format);
         }
         self.trainSpec = [self.pref objectForKey:@"Train Spec"];
+        self.phase = 2;
     }
     return self;
 }
@@ -107,6 +108,20 @@
         }
     }
     return trains;
+}
+
+- (int) getDragonPriceWithStockPrice:(int)price AndGrade:(NSString*)grade {
+    if ([grade isEqualToString:@"Sell"]) {
+        return price;
+    }
+    if ([grade isEqualToString:@"Buy"]) {
+        NSDictionary *dict = [self.pref objectForKey:@"Dragon Price Buy"];
+        int val = [dict[[NSString stringWithFormat:@"%d", price]] intValue];
+        return val;
+    }
+    NSDictionary *dict = [self.pref objectForKey:@"Dragon Price Neutral"];
+    int val = [dict[[NSString stringWithFormat:@"%d", price]] intValue];
+    return val;
 }
 
 @end

@@ -45,7 +45,6 @@
         self.currentPlayer = self.player[0];
         self.startPlayer = self.player[0];
         self.round = @"Stock Round";
-        self.phase = 2;
     }
     return self;
 }
@@ -53,17 +52,35 @@
 - (BOOL) player:(Shareholder *)aPlayer CanBuy:(NSUInteger)nComp FromShareholder:(Shareholder*)aShareholder {
     BOOL canBuy = NO;
     Company *comp = self.companies[nComp];
+    int stockprice = comp.stockPrice;
+    if (stockprice == 0) stockprice = 2*60;  // Initial offering: stockprice not set yet, set to 2*min for canBuy check
+    if ([aShareholder.name isEqualToString:@"Dragon"]) {
+        if ([comp isDragonBuy]) {
+            stockprice = [self.settings getDragonPriceWithStockPrice:stockprice AndGrade:@"Buy"];
+        } else if ([comp isDragonSell]) {
+            stockprice = [self.settings getDragonPriceWithStockPrice:stockprice AndGrade:@"Sell"];
+        } else {
+            stockprice = [self.settings getDragonPriceWithStockPrice:stockprice AndGrade:@"Neutral"];
+        }
+
+    }
     int playerShare       = [comp getShareByOwner:aPlayer];
     int shareholderShare  = [comp getShareByOwner:aShareholder];
     int shareLimit        = aPlayer.isPlayer ? 60 : 50;
     if (playerShare < shareLimit && shareholderShare > 0) {
         canBuy = YES;
     }
-    if (aPlayer.money < comp.stockPrice) {
+    if (aPlayer.isPlayer && aPlayer.money < stockprice) {
         canBuy = NO;
     }
-    if ([comp getCertificatesByOwner:aPlayer] == [self.settings certificateLimit:aPlayer.name InPhase:self.phase]) {
+    if ([comp getCertificatesByOwner:aPlayer] == [self.settings certificateLimit:aPlayer.name InPhase:self.settings.phase]) {
         canBuy = NO;
+    }
+    if (aPlayer.isPlayer) {
+        Player *player = (Player*) aPlayer;
+        if ([player.soldCompanies containsObject:comp]) {
+            canBuy = NO;
+        }
     }
     return canBuy;
 }
@@ -123,7 +140,7 @@
             self.currentPlayer = self.player[(i+1) % [self.player count]];
         } else {
             self.round = @"Stock Round";
-            self.phase = 2;
+            self.settings.phase = 2;
             self.currentPlayer = self.startPlayer;
             self.passCount = 0;
             msg = [self dragonTurn];
@@ -140,6 +157,9 @@
         msg = [self dragonTurn];
         if (self.passCount == [self.player count]) {
             self.round = @"Operating Round";
+            for (Player *player in self.player) {
+                [player.soldCompanies removeAllObjects];
+            }
         }
     }
     return msg;
@@ -239,9 +259,9 @@
 }
 
 - (int) getMaxInitialStockPrice {
-    if (self.phase < 3) {
+    if (self.settings.phase < 3) {
         return 100;
-    } else if (self.phase < 5) {
+    } else if (self.settings.phase < 5) {
         return 130;
     }
     return 150;

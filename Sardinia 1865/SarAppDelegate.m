@@ -90,6 +90,22 @@ GameSetupWindowController *setupWindow;
     }
 }
 
+- (NSString*) formatStockPriceForDragon:(Company*)comp {
+    int stockPrice = comp.stockPrice;
+    if ([comp isDragonBuy]) {
+        stockPrice = [self.game.settings getDragonPriceWithStockPrice:stockPrice AndGrade:@"Buy"];
+    } else if ([comp isDragonSell]) {
+        stockPrice = [self.game.settings getDragonPriceWithStockPrice:stockPrice AndGrade:@"Sell"];
+    } else {
+        stockPrice = [self.game.settings getDragonPriceWithStockPrice:stockPrice AndGrade:@"Neutral"];
+    }
+    if (stockPrice > 0) {
+        return [NSString stringWithFormat:@"L. %d", comp.stockPrice];
+    }
+    return @"N/A";
+}
+
+
 - (NSString*) formatStockPrice:(Company*)comp {
     if (comp.stockPrice > 0) {
         return [NSString stringWithFormat:@"L. %d", comp.stockPrice];
@@ -110,7 +126,7 @@ GameSetupWindowController *setupWindow;
     i=0;
     for (NSButton *button in self.dragonBuyButton) {
         Company *comp = self.game.companies[i];
-        [button setTitle:[self formatStockPrice:comp]];
+        [button setTitle:[self formatStockPriceForDragon:comp]];
         [button setEnabled:[self.game player:aPlayer CanBuyFromDragon:i++]];
     }
     i=0;
@@ -135,6 +151,60 @@ GameSetupWindowController *setupWindow;
     [self printLog:[NSString stringWithFormat:@"%@ did pass", self.game.currentPlayer.name]];
     [self printLog:[self.game advancePlayersDidPass:YES]];
     [self nextPlayer];
+}
+
+- (IBAction)stockInitialPrice:(NSTextField *)sender {
+    int price = [sender.stringValue intValue];
+    price = price/10;
+    price = price*10;
+    price = MIN(price, [self.game getMaxInitialStockPrice]);
+    price = MAX(price, 60);
+    [sender setStringValue:[NSString stringWithFormat:@"%d", price]];
+}
+
+- (IBAction)buyIpoButton:(NSButton *)sender {
+    NSUInteger index = [self.ipoBuyButton indexOfObject:sender];
+    Company *comp = self.game.companies[index];
+    if ([comp getShareByOwner:comp] == 100) {
+        // Initial offer
+        [comp setInitialStockPrice:[self.stockStartingPrice.stringValue intValue]];
+    }
+    Certificate *cert = [comp certificateFromOwner:comp];
+    [comp sellCertificate:cert To:self.game.currentPlayer];
+    [self printLog:[NSString stringWithFormat:@"%@ buys %@ of %@ from Initial Offer", self.game.currentPlayer.name, cert.type, comp.shortName]];
+    [self printLog:[self.game advancePlayersDidPass:NO]];
+    [self nextPlayer];
+}
+
+- (IBAction)buyBankButton:(NSButton *)sender {
+    NSUInteger index = [self.bankBuyButton indexOfObject:sender];
+    Company *comp = self.game.companies[index];
+    Certificate *cert = [comp certificateFromOwner:self.game.bank];
+    [comp sellCertificate:cert To:self.game.currentPlayer];
+    [self printLog:[NSString stringWithFormat:@"%@ buys %@ of %@ from Bank", self.game.currentPlayer.name, cert.type, comp.shortName]];
+    [self printLog:[self.game advancePlayersDidPass:NO]];
+    [self nextPlayer];
+}
+
+- (IBAction)buyDragonButton:(NSButton*)sender {
+    NSUInteger index = [self.dragonBuyButton indexOfObject:sender];
+    Company *comp = self.game.companies[index];
+    Certificate *cert = [comp certificateFromOwner:self.game.dragon];
+    [comp sellCertificate:cert To:self.game.currentPlayer];
+    [self printLog:[NSString stringWithFormat:@"%@ buys %@ of %@ from Dragon", self.game.currentPlayer.name, cert.type, comp.shortName]];
+    [self printLog:[self.game advancePlayersDidPass:NO]];
+    [self nextPlayer];
+}
+
+- (IBAction)sellButton:(NSButton *)sender {
+    NSUInteger index = [self.sellButton indexOfObject:sender];
+    Company *comp = self.game.companies[index];
+    Certificate *cert = [comp certificateFromOwner:self.game.currentPlayer];
+    [comp sellCertificate:cert To:self.game.bank];
+    [self printLog:[NSString stringWithFormat:@"%@ sells %@ of %@ to Bank", self.game.currentPlayer.name, cert.type, comp.shortName]];
+    [self.game.currentPlayer.soldCompanies addObject:comp];
+    [self updateTableData];
+    [self updateButtonsForPlayer:self.game.currentPlayer];
 }
 
 - (void) testButtons {
@@ -163,6 +233,7 @@ GameSetupWindowController *setupWindow;
     setupWindow = nil;
     NSLog(@"Got Players %@", self.playerNames);
     self.game = [[Game alloc] initWithPlayers:players AndShortMode:isShort];
+    self.companyTable.game = self.game;
     [self setupPlayerOverviewLabels];
     [self setupStockMarketButtons];
     [self printLog:@"Game started"];
@@ -217,40 +288,17 @@ GameSetupWindowController *setupWindow;
         [array addObject:[NSString stringWithFormat:@"%d%%", [comp getShareByOwner:self.game.bank]]];
         [array addObject:[NSString stringWithFormat:@"%d%%", [comp getShareByOwner:self.game.dragon]]];
         for (Player *guy in self.game.player) {
-            [array addObject:[NSString stringWithFormat:@"%d%%", [comp getShareByOwner:guy]]];
+            if (comp.president == guy) {
+                [array addObject:[NSString stringWithFormat:@"* %d%%", [comp getShareByOwner:guy]]];
+            } else {
+                [array addObject:[NSString stringWithFormat:@"%d%%", [comp getShareByOwner:guy]]];
+            }
         }
         [dict setObject:array forKey:comp.shortName];
     }
     self.overviewTableData = dict;
     [self.companyTableView reloadData];
+    [self.companyTable updateTableData];
 }
-
-//// This method is optional if you use bindings to provide the data
-//- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
-//    // Group our "model" object, which is a dictionary
-//    NSDictionary *dictionary = [_tableContents objectAtIndex:row];
-//    
-//    // In IB the tableColumn has the identifier set to the same string as the keys in our dictionary
-//    NSString *identifier = [tableColumn identifier];
-//    
-//    if ([identifier isEqualToString:@"MainCell"]) {
-//        // We pass us as the owner so we can setup target/actions into this main controller object
-//        NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
-//        // Then setup properties on the cellView based on the column
-//        cellView.textField.stringValue = [dictionary objectForKey:@"Name"];
-//        cellView.imageView.objectValue = [dictionary objectForKey:@"Image"];
-//        return cellView;
-//    } else if ([identifier isEqualToString:@"SizeCell"]) {
-//        NSTextField *textField = [tableView makeViewWithIdentifier:identifier owner:self];
-//        NSImage *image = [dictionary objectForKey:@"Image"];
-//        NSSize size = image ? [image size] : NSZeroSize;
-//        NSString *sizeString = [NSString stringWithFormat:@"%.0fx%.0f", size.width, size.height];
-//        textField.objectValue = sizeString;
-//        return textField;
-//    } else {
-//        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
-//    }
-//    return nil;
-//}
 
 @end

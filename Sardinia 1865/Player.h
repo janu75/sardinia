@@ -14,6 +14,7 @@
 
 @property (strong) NSString* name;
 @property (strong) NSMutableArray* maritimeCompany;
+@property (strong) NSMutableArray* soldCompanies;
 
 - (id) initWithName:(NSString*)aName AndMoney:(int)money;
 

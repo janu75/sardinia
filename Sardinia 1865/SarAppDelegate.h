@@ -8,6 +8,7 @@
 
 #import <Cocoa/Cocoa.h>
 #import "Game.h"
+#import "CompanyStatusTableController.h"
 
 @interface SarAppDelegate : NSObject <NSApplicationDelegate,NSTableViewDataSource,NSTableViewDelegate>
 
@@ -86,4 +87,5 @@
 @property BOOL isShortGame;
 - (void) setPlayers:(NSArray*)players AndGameMode:(BOOL)isShort;
 
+@property (weak) IBOutlet CompanyStatusTableController *companyTable;
 @end

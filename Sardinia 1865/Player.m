@@ -19,6 +19,7 @@
         MaritimeCompany *m1 = [[MaritimeCompany alloc] init];
         MaritimeCompany *m2 = [[MaritimeCompany alloc] init];
         self.maritimeCompany = [@[m1, m2] mutableCopy];
+        self.soldCompanies = [[NSMutableArray alloc] initWithCapacity:8];
     }
     return self;
 }

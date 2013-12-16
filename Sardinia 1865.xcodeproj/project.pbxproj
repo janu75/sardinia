@@ -46,6 +46,7 @@
 		632087FD185B85E5007A1704 /* GameSetupWindowController.m in Sources */ = {isa = PBXBuildFile; fileRef = 632087FC185B85E5007A1704 /* GameSetupWindowController.m */; };
 		632087FF185B8617007A1704 /* GameSetupWindow.xib in Resources */ = {isa = PBXBuildFile; fileRef = 632087FE185B8617007A1704 /* GameSetupWindow.xib */; };
 		63208801185CC0B7007A1704 /* GameTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 63208800185CC0B7007A1704 /* GameTest.m */; };
+		63562263185F1B8100D8776E /* CompanyStatusTableController.m in Sources */ = {isa = PBXBuildFile; fileRef = 63562262185F1B8100D8776E /* CompanyStatusTableController.m */; };
 		638FD2921859FD5800DA445A /* GameSettingsTest.m in Sources */ = {isa = PBXBuildFile; fileRef = 638FD2911859FD5800DA445A /* GameSettingsTest.m */; };
 		638FD299185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
 		638FD29A185A00A800DA445A /* 1865-settings.plist in Resources */ = {isa = PBXBuildFile; fileRef = 638FD298185A00A800DA445A /* 1865-settings.plist */; };
@@ -112,8 +113,8 @@
 		632087FC185B85E5007A1704 /* GameSetupWindowController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = GameSetupWindowController.m; sourceTree = "<group>"; };
 		632087FE185B8617007A1704 /* GameSetupWindow.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = GameSetupWindow.xib; sourceTree = "<group>"; };
 		63208800185CC0B7007A1704 /* GameTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameTest.m; path = "../Sardinia 1865/GameTest.m"; sourceTree = "<group>"; };
-		63208802185DF1D7007A1704 /* PlayerOverviewTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = PlayerOverviewTableController.h; sourceTree = "<group>"; };
-		63208803185DF1D7007A1704 /* PlayerOverviewTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = PlayerOverviewTableController.m; sourceTree = "<group>"; };
+		63562261185F1B8100D8776E /* CompanyStatusTableController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CompanyStatusTableController.h; sourceTree = "<group>"; };
+		63562262185F1B8100D8776E /* CompanyStatusTableController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CompanyStatusTableController.m; sourceTree = "<group>"; };
 		638FD2911859FD5800DA445A /* GameSettingsTest.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = GameSettingsTest.m; path = "../Sardinia 1865/GameSettingsTest.m"; sourceTree = "<group>"; };
 		638FD298185A00A800DA445A /* 1865-settings.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; path = "1865-settings.plist"; sourceTree = "<group>"; };
 		638FD29B185B0AD400DA445A /* Shareholder.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = Shareholder.h; path = ../Shareholder.h; sourceTree = "<group>"; };
@@ -186,10 +187,10 @@
 			children = (
 				6320879218578C11007A1704 /* SarAppDelegate.h */,
 				6320879318578C11007A1704 /* SarAppDelegate.m */,
+				63562261185F1B8100D8776E /* CompanyStatusTableController.h */,
+				63562262185F1B8100D8776E /* CompanyStatusTableController.m */,
 				632087FB185B85E5007A1704 /* GameSetupWindowController.h */,
 				632087FC185B85E5007A1704 /* GameSetupWindowController.m */,
-				63208802185DF1D7007A1704 /* PlayerOverviewTableController.h */,
-				63208803185DF1D7007A1704 /* PlayerOverviewTableController.m */,
 				632087FE185B8617007A1704 /* GameSetupWindow.xib */,
 				638FD29B185B0AD400DA445A /* Shareholder.h */,
 				638FD29C185B0AD400DA445A /* Shareholder.m */,
@@ -373,6 +374,7 @@
 				632087F9185AFA3F007A1704 /* DragonTable.m in Sources */,
 				632087BE18578C76007A1704 /* Dragon.m in Sources */,
 				632087CE18578CA9007A1704 /* Certificate.m in Sources */,
+				63562263185F1B8100D8776E /* CompanyStatusTableController.m in Sources */,
 				632087C618578C8B007A1704 /* Train.m in Sources */,
 				632087FD185B85E5007A1704 /* GameSetupWindowController.m in Sources */,
 				632087CA18578C95007A1704 /* Bank.m in Sources */,

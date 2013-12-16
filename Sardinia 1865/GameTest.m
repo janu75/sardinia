@@ -57,7 +57,7 @@ Game *game;
     XCTAssertEqual([gameA.companyStack count], (NSUInteger)0, @"Init test");
     XCTAssertEqual([gameA.companyTurnOrder count], (NSUInteger)0, @"Init test");
     XCTAssertEqual(gameA.round, @"Stock Round", @"Init test");
-    XCTAssertEqual(gameA.phase, 2, @"Init test");
+    XCTAssertEqual(gameA.settings.phase, 2, @"Init test");
     XCTAssertEqual(gameA.passCount, 0, @"Init test");
     for (Player *player in gameA.player) {
         XCTAssertEqual(player.money, 360, @"Init test");
@@ -87,7 +87,7 @@ Game *game;
     XCTAssertEqual([gameA.companyStack count], (NSUInteger)0, @"Init test");
     XCTAssertEqual([gameA.companyTurnOrder count], (NSUInteger)0, @"Init test");
     XCTAssertEqual(gameA.round, @"Stock Round", @"Init test");
-    XCTAssertEqual(gameA.phase, 2, @"Init test");
+    XCTAssertEqual(gameA.settings.phase, 2, @"Init test");
     XCTAssertEqual(gameA.passCount, 0, @"Init test");
     for (Player *player in gameA.player) {
         XCTAssertEqual(player.money, 330, @"Init test");
@@ -118,7 +118,7 @@ Game *game;
     XCTAssertEqual([gameA.companyStack count], (NSUInteger)0, @"Init test");
     XCTAssertEqual([gameA.companyTurnOrder count], (NSUInteger)0, @"Init test");
     XCTAssertEqual(gameA.round, @"Stock Round", @"Init test");
-    XCTAssertEqual(gameA.phase, 2, @"Init test");
+    XCTAssertEqual(gameA.settings.phase, 2, @"Init test");
     XCTAssertEqual(gameA.passCount, 0, @"Init test");
     for (Player *player in gameA.player) {
         XCTAssertEqual(player.money, 300, @"Init test");
@@ -126,6 +126,9 @@ Game *game;
 }
 
 - (void) testPlayerCanSellStuff {
+//    for (Company* comp in game.companies) {
+//        [comp setInitialStockPrice:60];
+//    }
     for (Player *player in game.player) {
         for (NSUInteger i=0; i<8; i++) {
             XCTAssert([game player:player CanBuyFromIpo:i], @"Player can sell test");
@@ -135,7 +138,7 @@ Game *game;
         }
     }
     for (NSUInteger i=0; i<8; i++) {
-        XCTAssert([game player:game.dragon CanBuyFromIpo:i], @"Player can sell test");
+        XCTAssert([game player:game.dragon CanBuyFromIpo:i], @"Comp %lu", (unsigned long)i);
         XCTAssert(![game player:game.dragon CanBuyFromBank:i], @"Player can sell test");
         XCTAssert(![game player:game.dragon CanBuyFromDragon:i], @"Player can sell test");
         XCTAssert(![game player:game.dragon CanSell:i], @"Player can sell test");
@@ -146,7 +149,7 @@ Game *game;
     Player *playerB = game.player[1];
     Player *playerC = game.player[2];
     Player *playerD = game.player[3];
-    compA.stockPrice = 100;
+    [compA setInitialStockPrice:60];
     [compA sellCertificate:compA.certificates[0] To:playerA];
     [compA sellCertificate:compA.certificates[1] To:playerB];
     [compA sellCertificate:compA.certificates[2] To:playerC];

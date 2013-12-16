@@ -24,6 +24,7 @@
 @property int trainCapacity;
 @property int stockPrice;
 @property int money;
+@property int lastIncome;
 @property (strong) NSNumber *dragonRow;
 
 //@property (strong) NSString *name;
@@ -84,3 +85,4 @@
 - (void) setDragonRowWithPhase:(int)phase;
 
 @end
+// Company Money Trains Traincapacity Traffic Stations Markers Type stockprice ownShares income
