@@ -117,15 +117,17 @@
                                };
     [self.statusTable reloadData];
     NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
-    NSUInteger i = 0;
-    for (Company* comp in self.game.companyStack) {
-        if (self.game.currentPlayer == comp.president) {
-            [indexSet addIndex:i];
-            NSLog(@"Hit!");
+    if ([self.game.round isEqualToString:@"Stock Round"]) {
+        NSUInteger i = 0;
+        for (Company* comp in self.game.companyStack) {
+            if (self.game.currentPlayer == comp.president) {
+                [indexSet addIndex:i];
+            }
+            i++;
         }
-        i++;
+    } else {
+        [indexSet addIndex:[self.game.companyStack indexOfObject:[self.game.companyTurnOrder firstObject]]];
     }
-    NSLog(@"Marking rows for %@", self.game.currentPlayer.name);
     [self.statusTable deselectAll:self];
     [self.statusTable selectRowIndexes:indexSet byExtendingSelection:NO];
 }

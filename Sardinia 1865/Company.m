@@ -60,6 +60,7 @@
 // Tested
 - (void) layExtraTrack {
     self.money -= 20;
+    self.canLay2ndTrack = NO;
 }
 
 // Tested
@@ -90,10 +91,15 @@
 - (void) placeStationMarkerForCost:(int)cost{
     self.money -= cost;
     self.builtStations++;
+    self.canBuildStation = NO;
+    self.canLay2ndTrack = NO;
 }
 
 // Tested
 - (void) buyTrain:(Train *)aTrain {
+    if (aTrain.owner == nil) {
+        self.boughtBrandNewTrain = YES;
+    }
     [self buyTrain:aTrain ForMoney:aTrain.cost];
 }
 
@@ -133,6 +139,8 @@
         }
     }
     self.didOperateThisTurn = YES;
+    self.canLay2ndTrack = NO;
+    self.canBuildStation = NO;
 }
 
 - (void) absorbCompany:(Company *)aCompany {
@@ -291,6 +299,14 @@
     } else {
         self.dragonRow = @1;
     }
+}
+
+- (void) cleanFlagsForOperatingRound {
+    self.didOperateThisTurn = NO;
+    self.boughtBrandNewTrain = NO;
+    self.paidDividend = NO;
+    self.canBuildStation = (self.money>=10) ? YES : NO;
+    self.canLay2ndTrack  = (self.money>=20) ? YES : NO;
 }
 
 @end

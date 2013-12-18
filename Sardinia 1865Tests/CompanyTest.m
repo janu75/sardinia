@@ -163,6 +163,9 @@ Company *compC;
     [compA sellCertificate:certA To:aPlayer];
     [compB sellCertificate:certB To:aPlayer];
     [compC sellCertificate:certC To:aPlayer];
+    [compA cleanFlagsForOperatingRound];
+    [compB cleanFlagsForOperatingRound];
+    [compC cleanFlagsForOperatingRound];
     
     XCTAssertEqual(compA.builtStations, 1, @"Place station marker test");
     XCTAssertEqual(compB.builtStations, 1, @"Place station marker test");
@@ -170,6 +173,9 @@ Company *compC;
     XCTAssertEqual(compA.money, 160, @"Place station marker test");
     XCTAssertEqual(compB.money, 180, @"Place station marker test");
     XCTAssertEqual(compC.money, 200, @"Place station marker test");
+    XCTAssertTrue(compA.canBuildStation, @"Place station marker test");
+    XCTAssertTrue(compB.canBuildStation, @"Place station marker test");
+    XCTAssertTrue(compC.canBuildStation, @"Place station marker test");
     
     [compA placeStationMarkerForCost:110];
     [compB placeStationMarkerForCost:70];
@@ -181,6 +187,9 @@ Company *compC;
     XCTAssertEqual(compA.money, 0, @"Place station marker test");
     XCTAssertEqual(compB.money, 110, @"Place station marker test");
     XCTAssertEqual(compC.money, 200, @"Place station marker test");
+    XCTAssertTrue(!compA.canBuildStation, @"Place station marker test");
+    XCTAssertTrue(!compB.canBuildStation, @"Place station marker test");
+    XCTAssertTrue(compC.canBuildStation, @"Place station marker test");
 }
 
 - (void) testBuyAndSellTrain {
@@ -244,11 +253,18 @@ Company *compC;
 }
 
 - (void) testLayTrack {
+    [compA cleanFlagsForOperatingRound];
     XCTAssertEqual(compA.money, 0, @"lay track test");
+    XCTAssertTrue(!compA.canLay2ndTrack, @"lay track test");
+    compA.money += 180;
+    [compA cleanFlagsForOperatingRound];
+    XCTAssertEqual(compA.money, 180, @"lay track test");
+    XCTAssertTrue(compA.canLay2ndTrack, @"lay track test");
     [compA layExtraTrack];
-    XCTAssertEqual(compA.money, -20, @"lay track test");
+    XCTAssertEqual(compA.money, 160, @"lay track test");
+    XCTAssertTrue(!compA.canLay2ndTrack, @"lay track test");
     [compA layExtraTrack];
-    XCTAssertEqual(compA.money, -40, @"lay track test");
+    XCTAssertEqual(compA.money, 140, @"lay track test");
 }
 
 - (void) testOperateMines {
@@ -334,8 +350,7 @@ Company *compC;
         if (comp.paidDividend) {
             [comp increaseStockPrice];
         }
-        comp.boughtBrandNewTrain = NO;
-        comp.paidDividend = NO;
+        [comp cleanFlagsForOperatingRound];
     }
     
     // No change in money, as companies don't have trains or traffic yet
@@ -368,8 +383,7 @@ Company *compC;
         if (comp.paidDividend) {
             [comp increaseStockPrice];
         }
-        comp.boughtBrandNewTrain = NO;
-        comp.paidDividend = NO;
+        [comp cleanFlagsForOperatingRound];
     }
     
     // Comp A now drops in stock price, as it does have traffic, but no train
@@ -377,8 +391,8 @@ Company *compC;
     XCTAssertEqual(compB.money, moneyB, @"operate trains test");
     XCTAssertEqual(compC.money, moneyC, @"operate trains test");
     XCTAssertEqual(compA.stockPrice,  70, @"operate trains test");
-    XCTAssertEqual(compB.stockPrice,  90, @"operate trains test");
-    XCTAssertEqual(compC.stockPrice, 100, @"operate trains test");
+    XCTAssertEqual(compB.stockPrice, 100, @"operate trains test");
+    XCTAssertEqual(compC.stockPrice, 110, @"operate trains test");
 
     [compA trafficUpgrade:5];
     [compB trafficUpgrade:6];
@@ -400,22 +414,21 @@ Company *compC;
         if (comp.paidDividend) {
             [comp increaseStockPrice];
         }
-        comp.boughtBrandNewTrain = NO;
-        comp.paidDividend = NO;
+        [comp cleanFlagsForOperatingRound];
     }
     
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
     XCTAssertEqual(compB.money, moneyB, @"operate trains test");
     XCTAssertEqual(compC.money, moneyC, @"operate trains test");
-    XCTAssertEqual(compA.stockPrice,  70, @"operate trains test");
-    XCTAssertEqual(compB.stockPrice, 100, @"operate trains test");
-    XCTAssertEqual(compC.stockPrice, 100, @"operate trains test");
+    XCTAssertEqual(compA.stockPrice,  80, @"operate trains test");
+    XCTAssertEqual(compB.stockPrice, 120, @"operate trains test");
+    XCTAssertEqual(compC.stockPrice, 120, @"operate trains test");
 
     Player *aPlayer = [[Player alloc] initWithName:@"Paul" AndMoney:0];
     int moneyPlayer = 0;
     
-    [compA sellCertificate:compA.certificates[0] To:aPlayer];  moneyA += 2*70;  moneyPlayer -= 2*70;
-    [compA sellCertificate:compA.certificates[1] To:aPlayer];  moneyA += 70;    moneyPlayer -= 70;
+    [compA sellCertificate:compA.certificates[0] To:aPlayer];  moneyA += 2*80;  moneyPlayer -= 2*80;
+    [compA sellCertificate:compA.certificates[1] To:aPlayer];  moneyA += 80;    moneyPlayer -= 80;
     [compA operateTrainsAndPayDividend:YES];        moneyA += 80/5 * 2;         moneyPlayer += 80/5 * 3;
     [compB operateTrainsAndPayDividend:YES];        moneyB += 60;
     [compC operateTrainsAndPayDividend:NO];         moneyC += 70;
@@ -429,24 +442,23 @@ Company *compC;
         if (comp.paidDividend) {
             [comp increaseStockPrice];
         }
-        comp.boughtBrandNewTrain = NO;
-        comp.paidDividend = NO;
+        [comp cleanFlagsForOperatingRound];
     }
     
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
     XCTAssertEqual(compB.money, moneyB, @"operate trains test");
     XCTAssertEqual(compC.money, moneyC, @"operate trains test");
     XCTAssertEqual(aPlayer.money, moneyPlayer, @"operate trains test");
-    XCTAssertEqual(compA.stockPrice,  80, @"operate trains test");
-    XCTAssertEqual(compB.stockPrice, 110, @"operate trains test");
-    XCTAssertEqual(compC.stockPrice, 100, @"operate trains test");
+    XCTAssertEqual(compA.stockPrice,  90, @"operate trains test");
+    XCTAssertEqual(compB.stockPrice, 130, @"operate trains test");
+    XCTAssertEqual(compC.stockPrice, 120, @"operate trains test");
 
-    [compA sellCertificate:compA.certificates[2] To:aPlayer];  moneyA += 80;    moneyPlayer -= 80;
-    [compA sellCertificate:compA.certificates[3] To:aPlayer];  moneyA += 80;    moneyPlayer -= 80;
-    [compB sellCertificate:compB.certificates[0] To:aPlayer];  moneyB += 2*110; moneyPlayer -= 2*110;
-    [compB sellCertificate:compB.certificates[1] To:aPlayer];  moneyB += 110;   moneyPlayer -= 110;
-    [compC sellCertificate:compC.certificates[0] To:aPlayer];  moneyC += 2*100; moneyPlayer -= 200;
-    [compC sellCertificate:compC.certificates[1] To:aPlayer];  moneyC += 100;   moneyPlayer -= 100;
+    [compA sellCertificate:compA.certificates[2] To:aPlayer];  moneyA += 90;    moneyPlayer -= 90;
+    [compA sellCertificate:compA.certificates[3] To:aPlayer];  moneyA += 90;    moneyPlayer -= 90;
+    [compB sellCertificate:compB.certificates[0] To:aPlayer];  moneyB += 2*130; moneyPlayer -= 2*130;
+    [compB sellCertificate:compB.certificates[1] To:aPlayer];  moneyB += 130;   moneyPlayer -= 130;
+    [compC sellCertificate:compC.certificates[0] To:aPlayer];  moneyC += 2*120; moneyPlayer -= 2*120;
+    [compC sellCertificate:compC.certificates[1] To:aPlayer];  moneyC += 120;   moneyPlayer -= 120;
     [compA operateTrainsAndPayDividend:YES];                                    moneyPlayer += 80;
     [compB operateTrainsAndPayDividend:NO];         moneyB += 60;
     [compC operateTrainsAndPayDividend:YES];        moneyC += 70/10 * 7;        moneyPlayer += 70/10 * 3;
@@ -460,17 +472,16 @@ Company *compC;
         if (comp.paidDividend) {
             [comp increaseStockPrice];
         }
-        comp.boughtBrandNewTrain = NO;
-        comp.paidDividend = NO;
+        [comp cleanFlagsForOperatingRound];
     }
     
     XCTAssertEqual(compA.money, moneyA, @"operate trains test");
     XCTAssertEqual(compB.money, moneyB, @"operate trains test");
     XCTAssertEqual(compC.money, moneyC, @"operate trains test");
     XCTAssertEqual(aPlayer.money, moneyPlayer, @"operate trains test");
-    XCTAssertEqual(compA.stockPrice,  90, @"operate trains test");
-    XCTAssertEqual(compB.stockPrice, 110, @"operate trains test");
-    XCTAssertEqual(compC.stockPrice, 110, @"operate trains test");
+    XCTAssertEqual(compA.stockPrice, 100, @"operate trains test");
+    XCTAssertEqual(compB.stockPrice, 130, @"operate trains test");
+    XCTAssertEqual(compC.stockPrice, 130, @"operate trains test");
 }
 
 - (void) testCertificates {
@@ -651,6 +662,73 @@ Company *compC;
     XCTAssertEqualObjects(compA.president, playerA, @"update president test");
     XCTAssertEqualObjects(compB.president, playerC, @"update president test");
     XCTAssertNil(compC.president, @"update president test");
+}
+
+- (void) testCleanFlagsForOperatingRound {
+    compA.money = 180;
+    [compA cleanFlagsForOperatingRound];
+    XCTAssertFalse(compA.didOperateThisTurn, @"Clean flags test");
+    XCTAssertTrue(compA.canLay2ndTrack, @"Clean flags test");
+    XCTAssertTrue(compA.canBuildStation, @"Clean flags test");
+    XCTAssertFalse(compA.boughtBrandNewTrain, @"Clean flags test");
+    XCTAssertFalse(compA.paidDividend, @"Clean flags test");
+    
+    [compA operateTrainsAndPayDividend:NO];
+    XCTAssertTrue(compA.didOperateThisTurn, @"Clean flags test");
+    XCTAssertFalse(compA.canLay2ndTrack, @"Clean flags test");
+    XCTAssertFalse(compA.canBuildStation, @"Clean flags test");
+    XCTAssertFalse(compA.boughtBrandNewTrain, @"Clean flags test");
+    XCTAssertFalse(compA.paidDividend, @"Clean flags test");
+
+    [compA cleanFlagsForOperatingRound];
+    compA.traffic = 5;
+    [compA operateTrainsAndPayDividend:NO];
+    XCTAssertTrue(compA.didOperateThisTurn, @"Clean flags test");
+    XCTAssertFalse(compA.canLay2ndTrack, @"Clean flags test");
+    XCTAssertFalse(compA.canBuildStation, @"Clean flags test");
+    XCTAssertFalse(compA.boughtBrandNewTrain, @"Clean flags test");
+    XCTAssertFalse(compA.paidDividend, @"Clean flags test");
+    
+    Train *train = [[Train alloc] initWithTech:2 AndDiscount:NO];
+    [compA cleanFlagsForOperatingRound];
+    [compA buyTrain:train];
+    XCTAssertFalse(compA.didOperateThisTurn, @"Clean flags test");
+    XCTAssertTrue(compA.canLay2ndTrack, @"Clean flags test");
+    XCTAssertTrue(compA.canBuildStation, @"Clean flags test");
+    XCTAssertTrue(compA.boughtBrandNewTrain, @"Clean flags test");
+    XCTAssertFalse(compA.paidDividend, @"Clean flags test");
+
+    [compA cleanFlagsForOperatingRound];
+    [compA operateTrainsAndPayDividend:NO];
+    XCTAssertTrue(compA.didOperateThisTurn, @"Clean flags test");
+    XCTAssertFalse(compA.canLay2ndTrack, @"Clean flags test");
+    XCTAssertFalse(compA.canBuildStation, @"Clean flags test");
+    XCTAssertFalse(compA.boughtBrandNewTrain, @"Clean flags test");
+    XCTAssertFalse(compA.paidDividend, @"Clean flags test");
+
+    [compA cleanFlagsForOperatingRound];
+    [compA operateTrainsAndPayDividend:YES];
+    XCTAssertTrue(compA.didOperateThisTurn, @"Clean flags test");
+    XCTAssertFalse(compA.canLay2ndTrack, @"Clean flags test");
+    XCTAssertFalse(compA.canBuildStation, @"Clean flags test");
+    XCTAssertFalse(compA.boughtBrandNewTrain, @"Clean flags test");
+    XCTAssertTrue(compA.paidDividend, @"Clean flags test");
+
+    [compA cleanFlagsForOperatingRound];
+    [compA layExtraTrack];
+    XCTAssertFalse(compA.didOperateThisTurn, @"Clean flags test");
+    XCTAssertFalse(compA.canLay2ndTrack, @"Clean flags test");
+    XCTAssertTrue(compA.canBuildStation, @"Clean flags test");
+    XCTAssertFalse(compA.boughtBrandNewTrain, @"Clean flags test");
+    XCTAssertFalse(compA.paidDividend, @"Clean flags test");
+    
+    [compA cleanFlagsForOperatingRound];
+    [compA placeStationMarkerForCost:10];
+    XCTAssertFalse(compA.didOperateThisTurn, @"Clean flags test");
+    XCTAssertFalse(compA.canLay2ndTrack, @"Clean flags test");
+    XCTAssertFalse(compA.canBuildStation, @"Clean flags test");
+    XCTAssertFalse(compA.boughtBrandNewTrain, @"Clean flags test");
+    XCTAssertFalse(compA.paidDividend, @"Clean flags test");
 }
 
 @end

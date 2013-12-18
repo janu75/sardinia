@@ -14,6 +14,7 @@
 @property int capacity;
 @property int techLevel;
 @property (strong) NSNumber *rustsAt;
+@property (weak) id owner;
 
 - (id) initWithTech:(int)techLevel AndDiscount:(BOOL)discount;
 

@@ -162,12 +162,14 @@
                 [player.soldCompanies removeAllObjects];
             }
             [self buildCompanyOrder];
+            Company *comp = [self.companyTurnOrder firstObject];
+            [comp cleanFlagsForOperatingRound];
         }
     } else if ([self.round isEqualToString:@"Operating Round"]) {
         Company *comp = [self.companyTurnOrder firstObject];
         [self.companyTurnOrder removeObject:comp];
         comp = [self.companyTurnOrder firstObject];
-        comp.didOperateThisTurn = NO;
+        [comp cleanFlagsForOperatingRound];
     }
     return msg;
 }
@@ -263,6 +265,7 @@
         [oldGuy.trains removeObject:aTrain];
         oldGuy.money += price;
     }
+    aTrain.owner = newOwner;
 }
 
 - (int) getMaxInitialStockPrice {
@@ -331,14 +334,67 @@
     return NO;
 }
 
-- (NSArray*) getTrainsForPurchase {
-    Train *train = [self.trains firstObject];
-    NSMutableArray *list = [NSMutableArray arrayWithObject:[NSString stringWithFormat:@"New Train: Capacity %d for L.%d", train.capacity, train.cost]];
-    for (Train *aTrain in self.bank.trains) {
-        [list addObjectsFromArray:[NSMutableArray arrayWithObject:[NSString stringWithFormat:@"Bank: Capacity %d for L.%d", aTrain.capacity, aTrain.cost]]];
+- (NSArray*) getTrainTextFromTrainList:(NSArray *)trainList ForCompany:(Company *)aComp {
+    NSMutableArray *list      = [[NSMutableArray alloc] initWithCapacity:20];
+    BOOL presidentMayPay = YES;
+    if ([aComp.trains count]) {
+        presidentMayPay = NO;
+    } else {
+        for (Train* train in trainList) {
+            if (train.owner == nil || train.owner == self.bank) {
+                if (aComp.money >= train.cost) {
+                    presidentMayPay = NO;
+                }
+            }
+        }
     }
-    NSLog(@"Todo: Buy trains from other companies");
+    Player *president = (Player*) aComp.president;
+    for (Train* train in trainList) {
+        if (train.owner == nil) {
+            if (train.cost <= aComp.money) {
+                [list addObject:[NSString stringWithFormat:@"New Train: Capacity %d for L.%d", train.capacity, train.cost]];
+            } else if (presidentMayPay) {
+                [list addObject:[NSString stringWithFormat:@"New Train: Capacity %d for L.%d + %d (%@)", train.capacity, aComp.money, train.cost-aComp.money, president.name]];
+            }
+        } else if (train.owner == self.bank) {
+            if (train.cost <= aComp.money) {
+                [list addObject:[NSString stringWithFormat:@"Bank: Capacity %d for L.%d", train.capacity, train.cost]];
+            } else {
+                [list addObject:[NSString stringWithFormat:@"Bank: Capacity %d for L.%d + %d (%@)", train.capacity, train.cost, train.cost-aComp.money, president.name]];
+            }
+        } else {
+            if (aComp.money > 0) {
+                Company* comp = (Company*) train.owner;
+                [list addObject:[NSString stringWithFormat:@"%@: Capacity %d for L.1 - %d", comp.shortName, train.capacity, aComp.money]];
+            }
+        }
+    }
     return list;
+}
+
+- (NSArray*) getTrainsForPurchaseForCompany:(Company *)aComp {
+    NSMutableArray *trainList = [[NSMutableArray alloc] initWithCapacity:20];
+    [trainList addObject:[self.trains firstObject]];
+    [trainList addObjectsFromArray:self.bank.trains];
+    for (Company *comp in self.companies) {
+        if (aComp != comp) {
+            [trainList addObjectsFromArray:comp.trains];
+        }
+    }
+    return trainList;
+}
+
+- (BOOL) companyCanBuyTrain:(Company *)aComp {
+    if (!aComp.didOperateThisTurn) {
+        return NO;
+    }
+    if ([aComp.trains count] == 0) {
+        return YES;
+    }
+    if (aComp.money > 0) {
+        return YES;
+    }
+    return NO;
 }
 
 @end

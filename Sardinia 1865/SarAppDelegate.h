@@ -98,7 +98,7 @@
 @property (weak) IBOutlet NSButton *or_buttonPlaceStation;
 @property (weak) IBOutlet NSTextField *or_textfieldStationCost;
 @property (weak) IBOutlet NSButton *or_buttonAddTraffic;
-@property (weak) IBOutlet NSTextField *or_buttonTraffic;
+@property (weak) IBOutlet NSTextField *or_textfieldTraffic;
 @property (weak) IBOutlet NSButton *or_buttonOperateTrains;
 @property (weak) IBOutlet NSButton *or_buttonPayDividend;
 @property (weak) IBOutlet NSButton *or_buttonBuyTrain;

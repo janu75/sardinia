@@ -225,7 +225,24 @@ Game *game;
 }
 
 
+- (void) testCompanyCanBuyTrain {
+    Company *comp = [game.companies firstObject];
+    Train *train = [game.trains firstObject];
+    
+    XCTAssertFalse([game companyCanBuyTrain:comp], @"Company can buy train test");
 
+    [comp operateTrainsAndPayDividend:NO];
+    
+    XCTAssertTrue([game companyCanBuyTrain:comp], @"Company can buy train test");
+
+    [comp buyTrain:train];
+    
+    XCTAssertFalse([game companyCanBuyTrain:comp], @"Company can buy train test");
+
+    comp.money = 10;
+
+    XCTAssertTrue([game companyCanBuyTrain:comp], @"Company can buy train test");
+}
 
 
 

@@ -62,10 +62,14 @@
 
 - (void) decreaseStockPrice:(Company*)aComp;
 
-- (NSArray*) getTrainsForPurchase;
+- (NSArray*) getTrainsForPurchaseForCompany:(Company*)aComp;
+
+- (NSArray*) getTrainTextFromTrainList:(NSArray*)trainList ForCompany:(Company*)aComp;
 
 - (NSArray*) companyCanAbsorb:(Company*)aComp;
 
 - (BOOL) companyCanGetAbsorbed:(Company*)aComp;
+
+- (BOOL) companyCanBuyTrain:(Company*)aComp;
 
 @end
