@@ -70,7 +70,12 @@
         [money addObject:[NSNumber numberWithInt:comp.money]];
         NSMutableString *train = [[NSMutableString alloc] init];
         for (Train* t in comp.trains) {
-            [train appendFormat:@"%d", [t techLevel]];
+            [train appendFormat:@"%d-", [t techLevel]];
+        }
+        if ([train length] == 0) {
+            train = [@"No Trains" mutableCopy];
+        } else {
+            [train deleteCharactersInRange:NSMakeRange([train length]-1, 1)];
         }
         [trains addObject:train];
         [capacity addObject:[NSString stringWithFormat:@"%d", comp.trainCapacity]];

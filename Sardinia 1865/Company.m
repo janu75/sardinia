@@ -132,6 +132,7 @@
             self.money += income;
         }
     }
+    self.didOperateThisTurn = YES;
 }
 
 - (void) absorbCompany:(Company *)aCompany {

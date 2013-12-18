@@ -1191,6 +1191,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="actionAbsorbAnotherCompany:" target="494" id="R3F-ac-vQu"/>
+                                            </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ngz-3E-uML">
                                             <rect key="frame" x="237" y="246" width="18" height="17"/>
@@ -1208,6 +1211,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="actionAbsorbThisCompany:" target="494" id="2pP-8G-IV2"/>
+                                            </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="T2A-nv-I3z">
                                             <rect key="frame" x="11" y="184" width="179" height="32"/>
@@ -1216,6 +1222,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="actionLay2ndTrack:" target="494" id="fVX-b7-o5E"/>
+                                            </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pyo-6J-le2">
                                             <rect key="frame" x="17" y="220" width="64" height="17"/>
@@ -1242,6 +1251,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="actionPlaceStationToken:" target="494" id="h03-xW-H0M"/>
+                                            </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="UbB-YM-hzN">
                                             <rect key="frame" x="183" y="139" width="38" height="17"/>
@@ -1268,6 +1280,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="actionAddTraffic:" target="494" id="CW3-FO-fDd"/>
+                                            </connections>
                                         </button>
                                         <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="JZN-YH-qip">
                                             <rect key="frame" x="123" y="103" width="96" height="22"/>
@@ -1285,6 +1300,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="actionOperateTrains:" target="494" id="qmH-JD-Qnt"/>
+                                            </connections>
                                         </button>
                                         <button fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iIn-1q-iLR">
                                             <rect key="frame" x="212" y="72" width="103" height="18"/>
@@ -1301,6 +1319,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="actionBuyTrain:" target="494" id="NbH-92-zTF"/>
+                                            </connections>
                                         </button>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="LP3-Iy-eR8">
                                             <rect key="frame" x="110" y="35" width="242" height="26"/>
@@ -1333,6 +1354,20 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="actionHandOverMCompany:" target="494" id="oeF-3z-w2W"/>
+                                            </connections>
+                                        </button>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="cgX-7j-fJ6">
+                                            <rect key="frame" x="576" y="151" width="294" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="Connect Maritime Company with Station" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Zf5-zd-0M5">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="actionConnectMCompany:" target="494" id="yEB-mF-VHA"/>
+                                            </connections>
                                         </button>
                                         <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="gvs-pv-Bdm">
                                             <rect key="frame" x="582" y="249" width="375" height="17"/>
@@ -1359,6 +1394,9 @@
                                                 <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
+                                            <connections>
+                                                <action selector="actionOperatingTurnDone:" target="494" id="mtd-4E-qzB"/>
+                                            </connections>
                                         </button>
                                         <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="TS0-d1-bMh">
                                             <rect key="frame" x="159" y="241" width="75" height="26"/>
@@ -2396,7 +2434,10 @@
                 <outlet property="or_buttonAbsorbThis" destination="6XO-yU-I6r" id="dOv-qJ-W5i"/>
                 <outlet property="or_buttonAddTraffic" destination="PxL-sp-NyS" id="xPP-2Y-HRo"/>
                 <outlet property="or_buttonBuyTrain" destination="FQb-Hd-w28" id="0hJ-99-Rf6"/>
+                <outlet property="or_buttonConnectMaritime" destination="cgX-7j-fJ6" id="Bpc-Wm-3SR"/>
+                <outlet property="or_buttonHandOverMaritime" destination="8IO-eh-IV8" id="h99-yV-GYD"/>
                 <outlet property="or_buttonLay2ndTrack" destination="T2A-nv-I3z" id="O8U-Wn-mGM"/>
+                <outlet property="or_buttonOperateDone" destination="nSH-NC-HOr" id="pCY-3s-IiI"/>
                 <outlet property="or_buttonOperateTrains" destination="bZ3-bq-QPf" id="xij-1E-pSM"/>
                 <outlet property="or_buttonPayDividend" destination="iIn-1q-iLR" id="IgX-w8-zua"/>
                 <outlet property="or_buttonPlaceStation" destination="cfi-rc-L2w" id="Sgu-AY-82y"/>

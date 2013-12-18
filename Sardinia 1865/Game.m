@@ -163,6 +163,11 @@
             }
             [self buildCompanyOrder];
         }
+    } else if ([self.round isEqualToString:@"Operating Round"]) {
+        Company *comp = [self.companyTurnOrder firstObject];
+        [self.companyTurnOrder removeObject:comp];
+        comp = [self.companyTurnOrder firstObject];
+        comp.didOperateThisTurn = NO;
     }
     return msg;
 }

@@ -190,6 +190,7 @@ GameSetupWindowController *setupWindow;
         [self.or_buttonPlaceStation setEnabled:NO];
         [self.or_textfieldStationCost setEnabled:NO];
     }
+    [self.or_buttonOperateTrains setEnabled:YES];
     self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d",MIN(comp.traffic, comp.trainCapacity)*10];
     NSArray *trains = [self.game getTrainsForPurchase];
     if ([trains count]) {
@@ -207,16 +208,26 @@ GameSetupWindowController *setupWindow;
     self.or_presidentName.stringValue = [NSString stringWithFormat:@"President: %@", comp.president.name];
     Player *president = (Player*) comp.president;
     if ([president.maritimeCompany count]) {
-        [self.or_MaritimeButton setEnabled:YES];
+        [self.or_buttonHandOverMaritime setEnabled:YES];
     } else {
-        [self.or_MaritimeButton setEnabled:NO];
+        [self.or_buttonHandOverMaritime setEnabled:NO];
+    }
+    if ([comp.maritimeCompanies count]) {
+        [self.or_buttonConnectMaritime setEnabled:YES];
+    } else {
+        [self.or_buttonConnectMaritime setEnabled:NO];
+    }
+    if (comp.didOperateThisTurn && [comp.trains count]>0) {
+        [self.or_buttonOperateDone setEnabled:YES];
+    } else {
+        [self.or_buttonOperateDone setEnabled:NO];
     }
 }
 
 - (IBAction)stockPassButton:(NSButton *)sender {
     [self printLog:[NSString stringWithFormat:@"%@ passes", self.game.currentPlayer.name]];
     [self printLog:[self.game advancePlayersDidPass:YES]];
-    [self nextPlayer];
+    [self refreshView];
 }
 
 - (IBAction)stockInitialPrice:(NSTextField *)sender {
@@ -243,7 +254,7 @@ GameSetupWindowController *setupWindow;
     }
     [self printLog:[NSString stringWithFormat:@"%@ buys %@ of %@ from Initial Offer", self.game.currentPlayer.name, cert.type, comp.shortName]];
     [self printLog:[self.game advancePlayersDidPass:NO]];
-    [self nextPlayer];
+    [self refreshView];
 }
 
 - (IBAction)buyBankButton:(NSButton *)sender {
@@ -253,7 +264,7 @@ GameSetupWindowController *setupWindow;
     [comp sellCertificate:cert To:self.game.currentPlayer];
     [self printLog:[NSString stringWithFormat:@"%@ buys %@ of %@ from Bank", self.game.currentPlayer.name, cert.type, comp.shortName]];
     [self printLog:[self.game advancePlayersDidPass:NO]];
-    [self nextPlayer];
+    [self refreshView];
 }
 
 - (IBAction)buyDragonButton:(NSButton*)sender {
@@ -263,7 +274,7 @@ GameSetupWindowController *setupWindow;
     [comp sellCertificate:cert To:self.game.currentPlayer];
     [self printLog:[NSString stringWithFormat:@"%@ buys %@ of %@ from Dragon", self.game.currentPlayer.name, cert.type, comp.shortName]];
     [self printLog:[self.game advancePlayersDidPass:NO]];
-    [self nextPlayer];
+    [self refreshView];
 }
 
 - (IBAction)sellButton:(NSButton *)sender {
@@ -307,10 +318,10 @@ GameSetupWindowController *setupWindow;
     [self setupPlayerOverviewLabels];
     [self setupStockMarketButtons];
     [self printLog:@"Game started"];
-    [self nextPlayer];
+    [self refreshView];
 }
 
-- (void) nextPlayer {
+- (void) refreshView {
     [self updateTableData];
     if ([self.game.round isEqualToString:@"Stock Round"]) {
         [self.actionTabView selectTabViewItemAtIndex:0];
@@ -372,6 +383,96 @@ GameSetupWindowController *setupWindow;
     NSIndexSet *indexSet = [NSIndexSet indexSetWithIndex:[self.game.player indexOfObject:self.game.currentPlayer]+2];
     [self.companyTableView selectRowIndexes:indexSet byExtendingSelection:NO];
     [self.companyTable updateTableData];
+}
+
+- (IBAction)actionAbsorbAnotherCompany:(NSButton *)sender {
+    NSLog(@"Todo: Implementation of absorbtion");
+}
+
+- (IBAction)actionAbsorbThisCompany:(NSButton *)sender {
+    NSLog(@"Todo: Implementation of absorbtion");
+}
+
+- (IBAction)actionLay2ndTrack:(NSButton *)sender {
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    [comp layExtraTrack];
+    [self.or_buttonLay2ndTrack setEnabled:NO];
+    [self refreshView];
+}
+
+- (IBAction)actionPlaceStationToken:(NSButton *)sender {
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    int cost = [self.or_textfieldStationCost.stringValue intValue];
+    [comp placeStationMarkerForCost:cost];
+    [self.or_buttonPlaceStation setEnabled:NO];
+    [self refreshView];
+}
+
+- (IBAction)actionAddTraffic:(NSButton *)sender {
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    int traffic = [self.or_textfieldOperateText.stringValue intValue];
+    comp.traffic += traffic;
+//    [self.or_buttonTraffic setEnabled:NO];   // Might make sense to keep this live all the time
+    [self refreshView];
+}
+
+- (IBAction)actionOperateTrains:(NSButton *)sender {
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    BOOL payDividend = (self.or_buttonPayDividend.state==NSOnState) ? YES : NO;
+    [comp operateTrainsAndPayDividend:payDividend];
+    [self.or_buttonOperateTrains setEnabled:NO];
+    [self.or_buttonBuyTrain setEnabled:YES];
+    if ([comp.trains count]) [self.or_buttonOperateDone setEnabled:YES];
+    [self refreshView];
+}
+
+- (IBAction)actionBuyTrain:(NSButton *)sender {
+    NSLog(@"Implement Buy Trains");
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    Train *aTrain = [self.game.trains firstObject];
+    [comp buyTrain:aTrain];
+    [self.game.trains removeObject:aTrain];
+    [self.or_buttonOperateDone setEnabled:YES];
+    [self refreshView];
+}
+
+- (IBAction)actionHandOverMCompany:(NSButton *)sender {
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    Player* president = (Player*) comp.president;
+    MaritimeCompany *mc = [president.maritimeCompany firstObject];
+    [president.maritimeCompany removeObject:mc];
+    [comp.maritimeCompanies addObject:mc];
+    comp.traffic += 8;
+    // Todo: this should go into Game
+    if ([president.maritimeCompany count]) {
+        [self.or_buttonHandOverMaritime setEnabled:YES];
+    } else {
+        [self.or_buttonHandOverMaritime setEnabled:NO];
+    }
+    if ([comp.maritimeCompanies count]) {
+        [self.or_buttonConnectMaritime setEnabled:YES];
+    } else {
+        [self.or_buttonConnectMaritime setEnabled:NO];
+    }
+    [self refreshView];
+}
+
+- (IBAction)actionConnectMCompany:(NSButton *)sender {
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    MaritimeCompany *mc = [comp.maritimeCompanies firstObject];
+    [comp.maritimeCompanies removeObject:mc];
+    comp.traffic += self.game.settings.phase;
+    if ([comp.maritimeCompanies count]) {
+        [self.or_buttonConnectMaritime setEnabled:YES];
+    } else {
+        [self.or_buttonConnectMaritime setEnabled:NO];
+    }
+    [self refreshView];
+}
+
+- (IBAction)actionOperatingTurnDone:(NSButton *)sender {
+    [self printLog:[self.game advancePlayersDidPass:NO]];
+    [self refreshView];
 }
 
 @end

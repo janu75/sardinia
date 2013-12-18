@@ -19,6 +19,8 @@
 @property BOOL boughtBrandNewTrain;
 @property BOOL paidDividend;
 
+@property BOOL didOperateThisTurn;
+
 @property int numStationMarkers;
 @property int builtStations;
 @property int traffic;

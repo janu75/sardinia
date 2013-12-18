@@ -106,8 +106,10 @@
 @property (weak) IBOutlet NSTextField *or_textfieldTrainCost;
 @property (weak) IBOutlet NSTextField *or_CompanyName;
 @property (weak) IBOutlet NSTextField *or_presidentName;
-@property (weak) IBOutlet NSButton *or_MaritimeButton;
+@property (weak) IBOutlet NSButton *or_buttonHandOverMaritime;
 @property (weak) IBOutlet NSTextField *or_textfieldOperateText;
+@property (weak) IBOutlet NSButton *or_buttonConnectMaritime;
+@property (weak) IBOutlet NSButton *or_buttonOperateDone;
 
 
 
