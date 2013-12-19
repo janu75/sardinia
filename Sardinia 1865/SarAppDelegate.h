@@ -15,6 +15,7 @@
 @property (assign) IBOutlet NSWindow *window;
 @property (weak) IBOutlet NSTabView *roundView;
 @property (unsafe_unretained) IBOutlet NSTextView *textLog;
+@property (weak) IBOutlet NSScrollView *textLogScrollView;
 @property (strong) NSArray* ipoBuyButton;
 @property (strong) NSArray* bankBuyButton;
 @property (strong) NSArray* dragonBuyButton;
@@ -29,7 +30,8 @@
 @property (weak) IBOutlet NSTextField *stockRoundPlayerLabel;
 @property (weak) IBOutlet NSTextField *stockRoundMoneyLabel;
 @property (weak) IBOutlet NSTabView *actionTabView;
-@property (weak) IBOutlet NSTextField *stockStartingPrice;
+@property (weak) IBOutlet NSPopUpButton *stockStartingPrice;
+
 @property (weak) IBOutlet NSTextField *stockStartingPriceLabel;
 
 // Stock market buttons

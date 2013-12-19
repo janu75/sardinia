@@ -29,7 +29,7 @@
         self.isMajor = isMajor;
         self.certificates = [[NSMutableArray alloc] initWithCapacity:10];
         self.trains = [[NSMutableArray alloc] initWithCapacity:4];
-        
+        self.maritimeCompanies = [[NSMutableArray alloc] initWithCapacity:2];
         self.settings = settings;
         self.name = [self.settings companyLongName:aName];
         
@@ -111,8 +111,8 @@
 
 // Tested
 - (void) buyTrain:(Train *)aTrain ForMoney:(int)price {
-    [self.trains addObject:aTrain];
-    self.money -= price;
+//    [self.trains addObject:aTrain];
+//    self.money -= price;
     self.trainCapacity += aTrain.capacity;
 }
 
@@ -127,7 +127,6 @@
     int income = MIN(self.traffic, self.trainCapacity) * 10;
     self.lastIncome = income;
     if (income > 0) {
-        self.isOperating = YES;
         if (payout) {
             self.paidDividend = YES;
             for (Certificate *cert in self.certificates) {
@@ -138,6 +137,7 @@
             self.money += income;
         }
     }
+    self.isOperating = YES;
     self.didOperateThisTurn = YES;
     self.canLay2ndTrack = NO;
     self.canBuildStation = NO;

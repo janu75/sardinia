@@ -33,5 +33,28 @@
     XCTAssertNotNil(settings, @"Init test");
 }
 
+- (void) testInitialStockValues {
+    GameSettings *settings = [[GameSettings alloc] init];
+    NSDictionary *dict = @{@"2": @"100",
+                           @"3": @"130",
+                           @"4": @"130",
+                           @"5": @"150",
+                           @"6": @"150",
+                           @"7": @"150"
+                           };
+    for (NSString* key in dict) {
+        [settings enterNewPhase:[key intValue]];
+        XCTAssertEqual([settings maxInitialStockValue], [dict[key]intValue], @"Initial stock value test");
+    }
+    [settings enterNewPhase:3];
+    NSArray *list = [settings getInitialValuesForMoney:300];
+    NSArray *correctList = @[@"60", @"70", @"80", @"90", @"100", @"110", @"120", @"130"];
+    XCTAssertEqualObjects(list, correctList, @"Initial stock value test");
+
+    [settings enterNewPhase:5];
+    list = [settings getInitialValuesForMoney:290];
+    correctList = @[@"60", @"70", @"80", @"90", @"100", @"110", @"120", @"130", @"140"];
+    XCTAssertEqualObjects(list, correctList, @"Initial stock value test");
+}
 
 @end

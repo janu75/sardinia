@@ -14,6 +14,7 @@
 
 @property int numPlayers;
 @property int phase;
+@property int trainLimit;
 @property BOOL isShortGame;
 @property (strong) NSDictionary *trainSpec;
 
@@ -34,5 +35,13 @@
 - (NSMutableArray*) generateTrains;
 
 - (int) getDragonPriceWithStockPrice:(int)price AndGrade:(NSString*)grade;
+
+- (NSString*) adjustTrainLimit;
+
+- (NSString*) enterNewPhase:(int)aPhase;
+
+- (NSArray*) getInitialValuesForMoney:(int)money;
+
+- (int) maxInitialStockValue;
 
 @end

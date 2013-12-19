@@ -124,4 +124,32 @@
     return val;
 }
 
+- (NSString*) adjustTrainLimit {
+    NSDictionary *dict = [self.pref objectForKey:@"Train Limit"];
+    int newLimit = [dict[[NSString stringWithFormat:@"%d", self.phase]] intValue];
+    if (newLimit != self.trainLimit) {
+        self.trainLimit = newLimit;
+        return [NSString stringWithFormat:@"Train limit now is %d", newLimit];
+    }
+    return @"";
+}
+
+- (NSString*) enterNewPhase:(int)aPhase {
+    self.phase = aPhase;
+    return [self adjustTrainLimit];
+}
+
+- (NSArray*) getInitialValuesForMoney:(int)money {
+    NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:10];
+    for (int i=60; i<=[self maxInitialStockValue]; i+=10) {
+        if (money >= 2*i) [list addObject:[NSString stringWithFormat:@"%d", i]];
+    }
+    return list;
+}
+
+- (int) maxInitialStockValue {
+    NSDictionary *dict = [self.pref objectForKey:@"Initial Stock Price Limit"];
+    return [dict[[NSString stringWithFormat:@"%d", self.phase]] intValue];
+}
+
 @end

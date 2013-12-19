@@ -28,7 +28,7 @@ GameSetupWindowController *setupWindow;
 
 - (void) printLog:(NSString*)message {
     if (![message isEqualToString:@""]) {
-        self.textLog.string = [NSString stringWithFormat:@"%@\n%@", self.textLog.string, message];
+        self.textLog.string = [NSString stringWithFormat:@"%@\n%@", message, self.textLog.string];
     }
 }
 
@@ -107,7 +107,6 @@ GameSetupWindowController *setupWindow;
     return @"N/A";
 }
 
-
 - (NSString*) formatStockPrice:(Company*)comp {
     if (comp.stockPrice > 0) {
         return [NSString stringWithFormat:@"L. %d", comp.stockPrice];
@@ -118,7 +117,9 @@ GameSetupWindowController *setupWindow;
 - (void) updateButtonsForPlayer:(Player*)aPlayer {
     [self.stockRoundMoneyLabel setStringValue:[NSString stringWithFormat:@"L. %d", aPlayer.money]];
     [self.stockRoundPlayerLabel setStringValue:[NSString stringWithFormat:@"Player %@", aPlayer.name]];
-    [self.stockStartingPriceLabel setStringValue:[NSString stringWithFormat:@"Initial Price (50-%d):", [self.game getMaxInitialStockPrice]]];
+    [self.stockStartingPriceLabel setStringValue:[NSString stringWithFormat:@"Initial Price (60-%d):", [self.game getMaxInitialStockPrice]]];
+    [self.stockStartingPrice removeAllItems];
+    [self.stockStartingPrice addItemsWithTitles:[self.game.settings getInitialValuesForMoney:aPlayer.money]];
     int i=0;
     for (NSButton *button in self.ipoBuyButton) {
         Company *comp = self.game.companies[i];
@@ -238,17 +239,13 @@ GameSetupWindowController *setupWindow;
 - (IBAction)buyIpoButton:(NSButton *)sender {
     NSUInteger index = [self.ipoBuyButton indexOfObject:sender];
     Company *comp = self.game.companies[index];
-    if ([comp getShareByOwner:comp] == 100) {
-        // Initial offer
-        [comp setInitialStockPrice:[self.stockStartingPrice.stringValue intValue]];
+    NSArray *priceList = [self.game.settings getInitialValuesForMoney:1000];
+    int price = 0;
+    if (self.stockStartingPrice.selectedItem) {
+        NSUInteger ind = [self.stockStartingPrice indexOfSelectedItem];
+        price = [priceList[ind]intValue];
     }
-    Certificate *cert = [comp certificateFromOwner:comp];
-    BOOL wasFloating = comp.isFloating;
-    [comp sellCertificate:cert To:self.game.currentPlayer];
-    if (!wasFloating && comp.isFloating) {
-        [self.game addToCompanyStack:comp];
-    }
-    [self printLog:[NSString stringWithFormat:@"%@ buys %@ of %@ from Initial Offer", self.game.currentPlayer.name, cert.type, comp.shortName]];
+    [self printLog:[self.game player:self.game.currentPlayer BuysIpoShare:comp AtPrice:price]];
     [self printLog:[self.game advancePlayersDidPass:NO]];
     [self refreshView];
 }
@@ -256,9 +253,7 @@ GameSetupWindowController *setupWindow;
 - (IBAction)buyBankButton:(NSButton *)sender {
     NSUInteger index = [self.bankBuyButton indexOfObject:sender];
     Company *comp = self.game.companies[index];
-    Certificate *cert = [comp certificateFromOwner:self.game.bank];
-    [comp sellCertificate:cert To:self.game.currentPlayer];
-    [self printLog:[NSString stringWithFormat:@"%@ buys %@ of %@ from Bank", self.game.currentPlayer.name, cert.type, comp.shortName]];
+    [self printLog:[self.game player:self.game.currentPlayer BuysBankShare:comp]];
     [self printLog:[self.game advancePlayersDidPass:NO]];
     [self refreshView];
 }
@@ -266,9 +261,7 @@ GameSetupWindowController *setupWindow;
 - (IBAction)buyDragonButton:(NSButton*)sender {
     NSUInteger index = [self.dragonBuyButton indexOfObject:sender];
     Company *comp = self.game.companies[index];
-    Certificate *cert = [comp certificateFromOwner:self.game.dragon];
-    [comp sellCertificate:cert To:self.game.currentPlayer];
-    [self printLog:[NSString stringWithFormat:@"%@ buys %@ of %@ from Dragon", self.game.currentPlayer.name, cert.type, comp.shortName]];
+    [self printLog:[self.game player:self.game.currentPlayer BuysDragonShare:comp]];
     [self printLog:[self.game advancePlayersDidPass:NO]];
     [self refreshView];
 }
@@ -276,12 +269,8 @@ GameSetupWindowController *setupWindow;
 - (IBAction)sellButton:(NSButton *)sender {
     NSUInteger index = [self.sellButton indexOfObject:sender];
     Company *comp = self.game.companies[index];
-    Certificate *cert = [comp certificateFromOwner:self.game.currentPlayer];
-    [comp sellCertificate:cert To:self.game.bank];
-    [self printLog:[NSString stringWithFormat:@"%@ sells %@ of %@ to Bank", self.game.currentPlayer.name, cert.type, comp.shortName]];
-    [self.game.currentPlayer.soldCompanies addObject:comp];
-    [self updateTableData];
-    [self updateButtonsForPlayer:self.game.currentPlayer];
+    [self printLog:[self.game player:self.game.currentPlayer SellsShare:comp]];
+    [self refreshView];
 }
 
 - (void) testButtons {
@@ -423,33 +412,22 @@ GameSetupWindowController *setupWindow;
 }
 
 - (IBAction)actionBuyTrain:(NSButton *)sender {
-    NSLog(@"Implement Buy Trains");
     Company *comp = [self.game.companyTurnOrder firstObject];
-    Train *aTrain = [self.game.trains firstObject];
-    // Fixme: This needs to go into Game
-    [comp buyTrain:aTrain];
-    [self.game.trains removeObject:aTrain];
+    if (self.or_popupTrain) {
+        NSUInteger trainNum = [self.or_popupTrain indexOfSelectedItem];
+        int cost = self.or_textfieldTrainCost.stringValue.intValue;
+        [self printLog:[self.game company:comp BuysTrain:trainNum AtCost:cost]];
+    }
     [self refreshView];
 }
 
 - (IBAction)actionHandOverMCompany:(NSButton *)sender {
-    // Fixme: This needs to go into Game
-    Company *comp = [self.game.companyTurnOrder firstObject];
-    Player* president = (Player*) comp.president;
-    MaritimeCompany *mc = [president.maritimeCompany firstObject];
-    [president.maritimeCompany removeObject:mc];
-    [comp.maritimeCompanies addObject:mc];
-    comp.traffic += 8;
-    // Todo: this should go into Game
+    [self printLog:[self.game presidentHandsOverMaritimeCompanyTo:[self.game.companyTurnOrder firstObject]]];
     [self refreshView];
 }
 
 - (IBAction)actionConnectMCompany:(NSButton *)sender {
-    // Fixme: This needs to go into Game
-    Company *comp = [self.game.companyTurnOrder firstObject];
-    MaritimeCompany *mc = [comp.maritimeCompanies firstObject];
-    [comp.maritimeCompanies removeObject:mc];
-    comp.traffic += self.game.settings.phase;
+    [self printLog:[self.game companyConnectsToMaritimeCompany:[self.game.companyTurnOrder firstObject]]];
     [self refreshView];
 }
 

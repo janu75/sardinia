@@ -29,6 +29,8 @@
 @property (strong) NSMutableArray *trains;
 @property (strong) NSString* round;
 @property int passCount;
+@property int operatingRoundNum;
+
 
 - (id) initWithPlayers:(NSArray*)playerNames AndShortMode:(BOOL)isShort;
 
@@ -48,9 +50,9 @@
 
 - (NSString*) dragonTurn;
 
-- (void) sellTrain:(Train*)aTrain From:(id)oldOwner To:(id)newOwner;
+- (void) sellTrain:(Train*)aTrain To:(id)newOwner;
 
-- (void) sellTrain:(Train*)aTrain From:(id)oldOwner To:(id)newOwner AtCost:(int)price;
+- (void) sellTrain:(Train*)aTrain To:(id)newOwner AtCost:(int)price;
 
 - (int) getMaxInitialStockPrice;
 
@@ -71,5 +73,21 @@
 - (BOOL) companyCanGetAbsorbed:(Company*)aComp;
 
 - (BOOL) companyCanBuyTrain:(Company*)aComp;
+
+- (NSString*) company:(Company*)aCompany BuysTrain:(NSUInteger)num AtCost:(int)aPrice;
+
+- (NSString*) presidentHandsOverMaritimeCompanyTo:(Company*)aComp;
+
+- (NSString*) companyConnectsToMaritimeCompany:(Company*)aComp;
+
+- (NSString*) checkTrainLimits;
+
+- (NSString*) player:(Player*)aPlayer BuysIpoShare:(Company*)aComp AtPrice:(int)aPrice;
+
+- (NSString*) player:(Player*)aPlayer BuysBankShare:(Company*)aComp;
+
+- (NSString*) player:(Player*)aPlayer BuysDragonShare:(Company*)aComp;
+
+- (NSString*) player:(Player*)aPlayer SellsShare:(Company*)aComp;
 
 @end

@@ -354,5 +354,35 @@
 		<key>490</key>
 		<string>540</string>
 	</dict>
+	<key>Train Limit</key>
+	<dict>
+		<key>2</key>
+		<string>4</string>
+		<key>3</key>
+		<string>3</string>
+		<key>4</key>
+		<string>3</string>
+		<key>5</key>
+		<string>3</string>
+		<key>6</key>
+		<string>2</string>
+		<key>7</key>
+		<string>2</string>
+	</dict>
+	<key>Initial Stock Price Limit</key>
+	<dict>
+		<key>2</key>
+		<string>100</string>
+		<key>3</key>
+		<string>130</string>
+		<key>4</key>
+		<string>130</string>
+		<key>5</key>
+		<string>150</string>
+		<key>6</key>
+		<string>150</string>
+		<key>7</key>
+		<string>150</string>
+	</dict>
 </dict>
 </plist>

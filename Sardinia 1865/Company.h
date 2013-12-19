@@ -23,6 +23,7 @@
 @property BOOL canBuildStation;
 @property BOOL boughtBrandNewTrain;
 @property BOOL paidDividend;
+@property BOOL presidentSoldShares;
 
 @property int numStationMarkers;
 @property int builtStations;
