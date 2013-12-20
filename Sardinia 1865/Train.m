@@ -47,4 +47,24 @@
     return self;
 }
 
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeInt:self.cost forKey:@"Train Cost"];
+    [aCoder encodeInt:self.capacity forKey:@"Train Capactiy"];
+    [aCoder encodeInt:self.techLevel forKey:@"Train TechLevel"];
+    [aCoder encodeObject:self.rustsAt forKey:@"Train RustsAt"];
+    [aCoder encodeObject:self.owner forKey:@"Train Owner"];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        self.cost = [aDecoder decodeIntForKey:@"Train Cost"];
+        self.capacity = [aDecoder decodeIntForKey:@"Train Capacity"];
+        self.techLevel = [aDecoder decodeIntForKey:@"Train TechLevel"];
+        self.rustsAt   = [aDecoder decodeObjectForKey:@"Train RustsAt"];
+        self.owner     = [aDecoder decodeObjectForKey:@"Train Owner"];
+    }
+    return self;
+}
+
 @end

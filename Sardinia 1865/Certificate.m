@@ -41,4 +41,20 @@
     owner.numShares -= self.share;
 }
 
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeInt:self.share forKey:@"Certificate Share"];
+    [aCoder encodeObject:self.type forKey:@"Certificate Type"];
+    [aCoder encodeObject:self.owner forKey:@"Certificate Owner"];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        self.share = [aDecoder decodeIntForKey:@"Certificate Share"];
+        self.type  = [aDecoder decodeObjectForKey:@"Certificate Type"];
+        self.owner = [aDecoder decodeObjectForKey:@"Certificate Owner"];
+    }
+    return self;
+}
+
 @end

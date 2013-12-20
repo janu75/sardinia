@@ -36,4 +36,20 @@
     XCTAssertEqualObjects(train.rustsAt, [NSNumber numberWithInt:6], @"Train rust");
 }
 
+- (void) testCoding {
+    Train *train = [[Train alloc] initWithTech:3 AndDiscount:NO];
+    NSString *path = @"savetest-Train";
+    XCTAssertTrue([NSKeyedArchiver archiveRootObject:train toFile:path], @"coding test");
+    
+    Train *copy = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    XCTAssertNotEqualObjects(train, copy, @"coding test");
+    
+    NSString *path2 = @"savetest-Train2";
+    XCTAssertTrue([NSKeyedArchiver archiveRootObject:copy toFile:path2], @"coding test");
+    
+    Train *copy2 = [NSKeyedUnarchiver unarchiveObjectWithFile:path2];
+    XCTAssertNotEqualObjects(train, copy2, @"coding test");
+}
+
+
 @end

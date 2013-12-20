@@ -662,7 +662,7 @@
                         <font key="font" metaFont="system"/>
                         <tabViewItems>
                             <tabViewItem label="Stock Round" identifier="1" id="K0S-K2-jeJ">
-                                <view key="view" ambiguous="YES" id="vS0-ob-o58">
+                                <view key="view" id="vS0-ob-o58">
                                     <rect key="frame" x="10" y="33" width="1369" height="0.0"/>
                                     <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                     <subviews>
@@ -2452,6 +2452,51 @@
                             <autoresizingMask key="autoresizingMask"/>
                         </scroller>
                     </scrollView>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dYO-HF-iQd">
+                        <rect key="frame" x="1046" y="540" width="136" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Operating Round - 2" id="2nW-fO-CU7">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zKm-FA-9fF">
+                        <rect key="frame" x="1048" y="515" width="88" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Train Phase 2" id="COb-f7-OK2">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ue-Zm-GN1">
+                        <rect key="frame" x="1050" y="490" width="97" height="17"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Player Turns: 0" id="SZZ-K2-rfC">
+                            <font key="font" metaFont="system"/>
+                            <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                            <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                        </textFieldCell>
+                    </textField>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6Ec-Ky-JEu">
+                        <rect key="frame" x="1046" y="422" width="352" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Load Previous Game Round" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="Rb2-vg-bg8" id="j8n-8j-mxw">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="system"/>
+                            <menu key="menu" title="OtherViews" id="fkh-P9-bCl">
+                                <items>
+                                    <menuItem title="Load Previous Game Round" state="on" id="Rb2-vg-bg8"/>
+                                    <menuItem title="Item 2" id="Rjc-wQ-962"/>
+                                    <menuItem title="Item 3" id="ebh-D2-Wwc"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="actionLoadSavedGame:" target="494" id="dPO-rW-ofn"/>
+                        </connections>
+                    </popUpButton>
                 </subviews>
                 <constraints>
                     <constraint firstItem="gjs-7f-a4D" firstAttribute="top" secondItem="372" secondAttribute="top" constant="12" symbolic="YES" id="1cI-aX-wEx"/>
@@ -2531,6 +2576,7 @@
                 <outlet property="or_textfieldStationCost" destination="oqW-Ms-GwC" id="rJa-tq-h7r"/>
                 <outlet property="or_textfieldTraffic" destination="JZN-YH-qip" id="o6X-3i-srn"/>
                 <outlet property="or_textfieldTrainCost" destination="3BL-My-ffH" id="uvK-xF-7Kr"/>
+                <outlet property="popupLoadGames" destination="6Ec-Ky-JEu" id="c4j-E6-oDy"/>
                 <outlet property="roundView" destination="gjs-7f-a4D" id="WKm-D7-NGf"/>
                 <outlet property="stockLabelComp1" destination="4bW-Jm-JZo" id="9vV-13-kBM"/>
                 <outlet property="stockLabelComp2" destination="q83-jH-ep4" id="CfB-Bf-BJK"/>
@@ -2544,6 +2590,9 @@
                 <outlet property="stockRoundPlayerLabel" destination="STD-la-jE0" id="e5s-qu-FN3"/>
                 <outlet property="stockStartingPrice" destination="BR2-pi-I4r" id="ywP-jU-QOG"/>
                 <outlet property="stockStartingPriceLabel" destination="5VZ-Hb-F9f" id="MHA-uQ-zJD"/>
+                <outlet property="textFieldOperatingRound" destination="dYO-HF-iQd" id="bpo-c3-jtp"/>
+                <outlet property="textFieldTrainPhase" destination="zKm-FA-9fF" id="NnJ-q7-mL2"/>
+                <outlet property="textFieldTurnMarker" destination="2Ue-Zm-GN1" id="Jjk-uI-Hgc"/>
                 <outlet property="textLog" destination="c9c-aa-5Xt" id="Ghw-mN-KJ0"/>
                 <outlet property="textLogScrollView" destination="trT-2h-3Aa" id="Bdm-lH-qYB"/>
                 <outlet property="window" destination="371" id="532"/>

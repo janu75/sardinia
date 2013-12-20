@@ -33,6 +33,10 @@
 @property (weak) IBOutlet NSPopUpButton *stockStartingPrice;
 
 @property (weak) IBOutlet NSTextField *stockStartingPriceLabel;
+@property (weak) IBOutlet NSTextField *textFieldOperatingRound;
+@property (weak) IBOutlet NSTextField *textFieldTrainPhase;
+@property (weak) IBOutlet NSTextField *textFieldTurnMarker;
+@property (weak) IBOutlet NSPopUpButton *popupLoadGames;
 
 // Stock market buttons
 @property (weak) IBOutlet NSButton *buttonIPO1;

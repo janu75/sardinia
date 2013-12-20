@@ -9,7 +9,7 @@
 #import <Foundation/Foundation.h>
 #import "Certificate.h"
 
-@interface Shareholder : NSObject
+@interface Shareholder : NSObject<NSCoding>
 
 @property int money;
 @property BOOL isPlayer;

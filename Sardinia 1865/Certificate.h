@@ -9,11 +9,11 @@
 #import <Foundation/Foundation.h>
 //#import "Shareholder.h"
 
-@interface Certificate : NSObject
+@interface Certificate : NSObject<NSCoding>
 
 @property int share;
-@property NSString *type;
-@property id owner;
+@property (strong) NSString *type;
+@property (weak) id owner;
 
 - (id) initWithType:(NSString*)type;
 

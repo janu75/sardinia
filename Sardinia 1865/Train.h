@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface Train : NSObject
+@interface Train : NSObject<NSCoding>
 
 @property int cost;
 @property int capacity;

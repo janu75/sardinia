@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface GameSettings : NSObject
+@interface GameSettings : NSObject<NSCoding>
 
 @property (strong) NSDictionary *pref;
 

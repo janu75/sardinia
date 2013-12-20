@@ -48,6 +48,8 @@
         self.currentPlayer = self.player[0];
         self.startPlayer = self.player[0];
         self.round = @"Stock Round";
+        self.turnCount = 0;
+        self.saveGames = [[NSMutableDictionary alloc] initWithCapacity:1000];
     }
     return self;
 }
@@ -142,6 +144,7 @@
 
 - (NSString*) advancePlayersDidPass:(BOOL)didPass {
     NSString *msg;
+    self.turnCount++;
     [self updateStock];
     if ([self.round isEqualToString:@"Maritime Companies"]) {
         if ([self.startPlayer.maritimeCompany count] < 2) {
@@ -198,6 +201,7 @@
         }
         [comp cleanFlagsForOperatingRound];
     }
+    [self saveGame];
     return msg;
 }
 
@@ -617,6 +621,63 @@
         }
     }
     return @"Error: Could not swap president's share with anyone else. This should not happen...";
+}
+
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.companies forKey:@"Game Companies"];
+    [aCoder encodeObject:self.player forKey:@"Game Player"];
+    [aCoder encodeObject:self.settings forKey:@"Game Settings"];
+    [aCoder encodeObject:self.compNames forKey:@"Game CompNames"];
+    [aCoder encodeObject:self.bank forKey:@"Game Bank"];
+    [aCoder encodeObject:self.dragon forKey:@"Game Dragon"];
+    [aCoder encodeObject:self.currentPlayer forKey:@"Game CurrentPlayer"];
+    [aCoder encodeObject:self.startPlayer forKey:@"Game StartPlayer"];
+    [aCoder encodeObject:self.companyStack forKey:@"Game CompanyStack"];
+    [aCoder encodeObject:self.companyTurnOrder forKey:@"Game CompanyTurnOrder"];
+    [aCoder encodeObject:self.trains forKey:@"Game Trains"];
+    [aCoder encodeObject:self.round forKey:@"Game Round"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.passCount] forKey:@"Game PassCount"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.operatingRoundNum] forKey:@"Game OperatingRoundNum"];
+    [aCoder encodeInt:self.turnCount forKey:@"Game TurnCount"];
+    [aCoder encodeObject:self.saveGames forKey:@"Game SaveGames"];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        self.companies = [aDecoder decodeObjectForKey:@"Game Companies"];
+        self.player = [aDecoder decodeObjectForKey:@"Game Player"];
+        self.settings = [aDecoder decodeObjectForKey:@"Game Settings"];
+        self.compNames = [aDecoder decodeObjectForKey:@"Game CompNames"];
+        self.bank = [aDecoder decodeObjectForKey:@"Game Bank"];
+        self.dragon = [aDecoder decodeObjectForKey:@"Game Dragon"];
+        self.currentPlayer = [aDecoder decodeObjectForKey:@"Game CurrentPlayer"];
+        self.startPlayer = [aDecoder decodeObjectForKey:@"Game StartPlayer"];
+        self.companyStack = [aDecoder decodeObjectForKey:@"Game CompanyStack"];
+        self.companyTurnOrder = [aDecoder decodeObjectForKey:@"Game CompanyTurnOrder"];
+        self.trains = [aDecoder decodeObjectForKey:@"Game Trains"];
+        self.round = [aDecoder decodeObjectForKey:@"Game Round"];
+        self.passCount = [[aDecoder decodeObjectForKey:@"Game PassCount"] intValue];
+        self.operatingRoundNum = [[aDecoder decodeObjectForKey:@"Game OperatingRoundNum"] intValue];
+        self.turnCount         = [aDecoder decodeIntForKey:@"Game TurnCount"];
+        self.saveGames         = [aDecoder decodeObjectForKey:@"Game SaveGames"];
+    }
+    return self;
+}
+
+- (void) saveGame {
+    NSString *path = [NSString stringWithFormat:@"savegame-%03d", self.turnCount];
+    if ([NSKeyedArchiver archiveRootObject:self toFile:path]) {
+        NSString *key;
+        if ([self.round isEqualToString:@"Stock Round"]) {
+            key = [NSString stringWithFormat:@"Load %d: Stock Round - Start of turn for %@", self.turnCount, self.currentPlayer.name];
+        } else if ([self.round isEqualToString:@"Operating Round"]) {
+            key = [NSString stringWithFormat:@"Load %d: Operating Round - Start of turn for %@", self.turnCount, self.currentPlayer.name];
+        } else {
+            key = [NSString stringWithFormat:@"Load %d: %@", self.turnCount, self.round];
+        }
+        self.saveGames[key] = path;
+    }
 }
 
 @end

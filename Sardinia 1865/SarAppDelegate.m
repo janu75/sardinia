@@ -375,6 +375,16 @@ GameSetupWindowController *setupWindow;
     }
     [self.companyTableView selectRowIndexes:indexSet byExtendingSelection:NO];
     [self.companyTable updateTableData];
+    if ([self.game.round isEqualToString:@"Operating Round"]) {
+        self.textFieldOperatingRound.stringValue = [NSString stringWithFormat:@"Operating Round - %d", self.game.operatingRoundNum];
+    } else {
+        self.textFieldOperatingRound.stringValue = self.game.round;
+    }
+    self.textFieldTrainPhase.stringValue = [NSString stringWithFormat:@"Phase: %d", self.game.settings.phase];
+    self.textFieldTurnMarker.stringValue = [NSString stringWithFormat:@"Player turns: %d", self.game.turnCount];
+    NSArray *list = [self.game.saveGames allKeys];
+    [self.popupLoadGames removeAllItems];
+    [self.popupLoadGames addItemsWithTitles:[list sortedArrayUsingSelector:@selector(compare:)]];
 }
 
 - (IBAction)actionAbsorbAnotherCompany:(NSButton *)sender {
@@ -436,6 +446,13 @@ GameSetupWindowController *setupWindow;
 
 - (IBAction)actionOperatingTurnDone:(NSButton *)sender {
     [self printLog:[self.game advancePlayersDidPass:NO]];
+    [self refreshView];
+}
+
+- (IBAction)actionLoadSavedGame:(NSPopUpButton *)sender {
+    NSString *key = [[sender selectedItem] title];
+    NSString *path = self.game.saveGames[key];
+    self.game = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     [self refreshView];
 }
 

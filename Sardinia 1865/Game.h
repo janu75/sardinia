@@ -14,7 +14,7 @@
 #import "Train.h"
 #import "Company.h"
 
-@interface Game : NSObject
+@interface Game : NSObject<NSCoding>
 
 @property (strong) NSArray* companies;
 @property (strong) NSArray* player;
@@ -30,6 +30,8 @@
 @property (strong) NSString* round;
 @property int passCount;
 @property int operatingRoundNum;
+@property int turnCount;
+@property (strong) NSMutableDictionary* saveGames;
 
 
 - (id) initWithPlayers:(NSArray*)playerNames AndShortMode:(BOOL)isShort;
@@ -93,5 +95,7 @@
 - (void) updateStock;
 
 - (NSString*) swapPresidentForCompany:(Company*)aComp;
+
+- (void) saveGame;
 
 @end

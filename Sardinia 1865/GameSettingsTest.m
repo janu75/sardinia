@@ -57,4 +57,19 @@
     XCTAssertEqualObjects(list, correctList, @"Initial stock value test");
 }
 
+- (void) testCoding {
+    GameSettings *settings = [[GameSettings alloc] init];
+    NSString *path = @"savetest-GameSettings";
+    XCTAssertTrue([NSKeyedArchiver archiveRootObject:settings toFile:path], @"coding test");
+    
+    GameSettings *copy = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    XCTAssertNotEqualObjects(settings, copy, @"coding test");
+    
+    NSString *path2 = @"savetest-GameSettings2";
+    XCTAssertTrue([NSKeyedArchiver archiveRootObject:copy toFile:path2], @"coding test");
+    
+    GameSettings *copy2 = [NSKeyedUnarchiver unarchiveObjectWithFile:path2];
+    XCTAssertNotEqualObjects(settings, copy2, @"coding test");
+}
+
 @end

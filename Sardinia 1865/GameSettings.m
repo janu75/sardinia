@@ -152,4 +152,26 @@
     return [dict[[NSString stringWithFormat:@"%d", self.phase]] intValue];
 }
 
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:self.pref forKey:@"GameSettings Pref"];
+    [aCoder encodeInt:self.numPlayers forKey:@"GameSettings NumPlayers"];
+    [aCoder encodeInt:self.phase forKey:@"GameSettings Phase"];
+    [aCoder encodeInt:self.trainLimit forKey:@"GameSettings TrainLimit"];
+    [aCoder encodeBool:self.isShortGame forKey:@"GameSettings IsShortGame"];
+    [aCoder encodeObject:self.trainSpec forKey:@"GameSettings TrainSpec"];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        self.pref = [aDecoder decodeObjectForKey:@"GameSettings Pref"];
+        self.numPlayers = [aDecoder decodeIntForKey:@"GameSettings NumPlayers"];
+        self.phase      = [aDecoder decodeIntForKey:@"GameSettings Phase"];
+        self.trainLimit = [aDecoder decodeIntForKey:@"GameSettings TrainLimit"];
+        self.isShortGame = [aDecoder decodeBoolForKey:@"GameSettings IsShortGame"];
+        self.trainSpec   = [aDecoder decodeObjectForKey:@"GameSettings TrainSpec"];
+    }
+    return self;
+}
+
 @end

@@ -11,7 +11,7 @@
 #import "Train.h"
 #import "GameSettings.h"
 
-@interface Company : Shareholder
+@interface Company : Shareholder<NSCoding>
 
 @property BOOL isOperating;
 @property BOOL isFloating;
@@ -34,12 +34,11 @@
 @property int lastIncome;
 @property (strong) NSNumber *dragonRow;
 
-//@property (strong) NSString *name;
 @property (strong) NSString *shortName;
 @property (strong) NSMutableArray *trains; // of Train
 @property (strong) NSMutableArray *maritimeCompanies; // of MaritimeCompany
 //@property (strong) NSMutableArray *certificates;// of Certificate
-@property (strong) Shareholder* president;
+@property (weak) Shareholder* president;
 
 - (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor AndSettings:(GameSettings*)settings;
 

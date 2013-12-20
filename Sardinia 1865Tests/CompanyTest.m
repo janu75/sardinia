@@ -898,4 +898,19 @@ Company *compC;
 - (void) testOperateTrains {
 }
 
+- (void) testCoding {
+    NSString *path = @"savetest-Company";
+    XCTAssertTrue([NSKeyedArchiver archiveRootObject:compA toFile:path], @"coding test");
+    
+    Company *copyOfComp = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    XCTAssertNotEqualObjects(compA, copyOfComp, @"coding test");
+    
+    NSString *path2 = @"savetest-Company2";
+    XCTAssertTrue([NSKeyedArchiver archiveRootObject:copyOfComp toFile:path2], @"coding test");
+    
+    Company *copy2 = [NSKeyedUnarchiver unarchiveObjectWithFile:path2];
+    XCTAssertNotEqualObjects(compA, copy2, @"coding test");
+}
+
+
 @end

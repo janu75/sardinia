@@ -21,16 +21,28 @@
     return self;
 }
 
-//- (void) buyCertificate:(Certificate *)aCertificate atPrice:(int)price {
-//    self.money -= price;
-//    aCertificate.owner = self;
-//    [self.certificates addObject:aCertificate];
-//}
-//
-//- (void) sellCertificate:(Certificate *)aCertificate atPrice:(int)price {
-//    self.money += price;
-//    aCertificate.owner = nil;
-//    [self.certificates removeObject:aCertificate];
-//}
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeObject:[NSNumber numberWithInt:self.money] forKey:@"Shareholder Money"];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.isPlayer] forKey:@"Shareholder IsPlayer"];
+    [aCoder encodeObject:self.certificates forKey:@"Shareholder Certificates"];
+    [aCoder encodeObject:self.trains forKey:@"Shareholder Trains"];
+    [aCoder encodeObject:self.name forKey:@"Shareholder Name"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.numCertificates] forKey:@"Shareholder NumCertificates"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.numShares] forKey:@"Shareholder NumShares"];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        self.money = [[aDecoder decodeObjectForKey:@"Shareholder Money"] intValue];
+        self.isPlayer = [[aDecoder decodeObjectForKey:@"Shareholder IsPlayer"] boolValue];
+        self.certificates = [aDecoder decodeObjectForKey:@"Shareholder Certificates"];
+        self.trains = [aDecoder decodeObjectForKey:@"Shareholder Trains"];
+        self.name = [aDecoder decodeObjectForKey:@"Shareholder Name"];
+        self.numCertificates = [[aDecoder decodeObjectForKey:@"Shareholder NumCertificates"] intValue];
+        self.numShares = [[aDecoder decodeObjectForKey:@"Shareholder NumShares"] intValue];
+    }
+    return self;
+}
 
 @end

@@ -314,4 +314,56 @@
     self.canLay2ndTrack  = (self.money>=20) ? YES : NO;
 }
 
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+    [super encodeWithCoder:aCoder];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.isOperating] forKey:@"Company IsOperating"];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.isFloating] forKey:@"Company IsFloating"];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.isMajor] forKey:@"Company IsMajor"];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.didOperateThisTurn] forKey:@"Company DidOperateThisTurn"];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.canLay2ndTrack] forKey:@"Company CanLay2ndTrack"];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.canBuildStation] forKey:@"Company CanBuildStation"];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.boughtBrandNewTrain] forKey:@"Company BoughtBrandNewTrain"];
+    [aCoder encodeObject:[NSNumber numberWithBool:self.paidDividend] forKey:@"Company PaidDividend"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.presidentSoldShares] forKey:@"Company PresidentSoldShares"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.numStationMarkers] forKey:@"Company NumStationMarkers"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.builtStations] forKey:@"Company BuiltStations"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.traffic] forKey:@"Company Traffic"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.trainCapacity] forKey:@"Company TrainCapacity"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.stockPrice] forKey:@"Company StockPrice"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.money] forKey:@"Company Money"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.lastIncome] forKey:@"Company lastIncome"];
+    [aCoder encodeObject:self.dragonRow forKey:@"Company DragonRow"];
+    [aCoder encodeObject:self.shortName forKey:@"Company ShortName"];
+    [aCoder encodeObject:self.trains forKey:@"Company Trains"];
+    [aCoder encodeObject:self.maritimeCompanies forKey:@"Company MaritimeCompanies"];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder {
+    self = [super initWithCoder:aDecoder];
+    if (self) {
+        self.isOperating = [[aDecoder decodeObjectForKey:@"Company IsOperating"] boolValue];
+        self.isFloating  = [[aDecoder decodeObjectForKey:@"Company IsFloating"] boolValue];
+        self.isMajor     = [[aDecoder decodeObjectForKey:@"Company IsMajor"] boolValue];
+        self.didOperateThisTurn = [[aDecoder decodeObjectForKey:@"Company DidOperateThisTurn"] boolValue];
+        self.canLay2ndTrack     = [[aDecoder decodeObjectForKey:@"Company CanLay2ndTrack"] boolValue];
+        self.canBuildStation    = [[aDecoder decodeObjectForKey:@"Company CanBuildStation"] boolValue];
+        self.boughtBrandNewTrain = [[aDecoder decodeObjectForKey:@"Company BoughtBrandNewTrain"] boolValue];
+        self.paidDividend        = [[aDecoder decodeObjectForKey:@"Company PaidDividend"] boolValue];
+        self.presidentSoldShares = [[aDecoder decodeObjectForKey:@"Company PresidentSoldShares"] intValue];
+        self.numStationMarkers   = [[aDecoder decodeObjectForKey:@"Company NumStationMarkers"] intValue];
+        self.builtStations       = [[aDecoder decodeObjectForKey:@"Company BuiltStations"] intValue];
+        self.traffic             = [[aDecoder decodeObjectForKey:@"Company Traffic"] intValue];
+        self.trainCapacity       = [[aDecoder decodeObjectForKey:@"Company TrainCapacity"] intValue];
+        self.stockPrice          = [[aDecoder decodeObjectForKey:@"Company StockPrice"] intValue];
+        self.money               = [[aDecoder decodeObjectForKey:@"Company Money"] intValue];
+        self.lastIncome          = [[aDecoder decodeObjectForKey:@"Company LastIncome"] intValue];
+        self.dragonRow           = [aDecoder decodeObjectForKey:@"Company DragonRow"];
+        self.shortName           = [aDecoder decodeObjectForKey:@"Company ShortName"];
+        self.trains              = [aDecoder decodeObjectForKey:@"Company Trains"];
+        self.maritimeCompanies   = [aDecoder decodeObjectForKey:@"Company MaritimeCompanies"];
+        [self updatePresident];  // This sets self.president
+    }
+    return self;
+}
+
 @end

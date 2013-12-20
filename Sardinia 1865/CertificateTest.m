@@ -67,4 +67,13 @@
     XCTAssertEqualObjects(certC.type, @"Major", @"Expected type from init");
 }
 
+- (void) testCoding {
+    Certificate *cert = [[Certificate alloc] initWithType:@"President Major"];
+    NSString *path = @"savetest-Certificate";
+    XCTAssertTrue([NSKeyedArchiver archiveRootObject:cert toFile:path], @"coding test");
+    
+    Certificate *copyOfCert = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    XCTAssertNotEqualObjects(cert, copyOfCert, @"coding test");
+}
+
 @end

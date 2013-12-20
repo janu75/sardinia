@@ -500,8 +500,6 @@ Game *game;
     }
 
     NSArray *stack = @[comp[1], comp[2], comp[3], comp[0]];
-    NSLog(@"Stack: %@", stack);
-    NSLog(@"game.companyStack: %@", game.companyStack);
     XCTAssertEqualObjects(game.companyStack, stack, @"stock round test");
     XCTAssertEqual(comp[0].stockPrice, 60, @"stock round test");
     XCTAssertEqual(comp[1].stockPrice, 100, @"stock round test");
@@ -922,6 +920,14 @@ Game *game;
     XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 0, @"stock price test");
     XCTAssertEqual([compA.trains count], (NSUInteger) 0, @"stock price test");
     XCTAssertEqual([compB.trains count], (NSUInteger) 3, @"stock price test");
+}
+
+- (void) testCoding {
+    NSString *path = @"savetest";
+    XCTAssertTrue([NSKeyedArchiver archiveRootObject:game toFile:path], @"coding test");
+
+    Game *copyOfGame = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    XCTAssertNotEqualObjects(game, copyOfGame, @"coding test");
 }
 
 @end
