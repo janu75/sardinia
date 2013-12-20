@@ -8,7 +8,7 @@
 
 #import <Foundation/Foundation.h>
 
-@interface MaritimeCompany : NSObject
+@interface MaritimeCompany : NSObject<NSCoding>
 
 @property BOOL isPrivate;
 @property BOOL isConnected;

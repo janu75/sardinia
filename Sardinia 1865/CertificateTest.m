@@ -74,6 +74,9 @@
     
     Certificate *copyOfCert = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     XCTAssertNotEqualObjects(cert, copyOfCert, @"coding test");
+    
+    XCTAssertEqualObjects(cert.type, copyOfCert.type, @"coding test");
+    XCTAssertEqual(cert.share, copyOfCert.share, @"coding test");
 }
 
 @end

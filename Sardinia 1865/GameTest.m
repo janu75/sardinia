@@ -923,11 +923,30 @@ Game *game;
 }
 
 - (void) testCoding {
+    Company *comp = game.companies[4];
+    comp.name = @"Test name";
+    Player *player = game.player[2];
+    player.name = @"Mr. Testguy";
+    game.bank.name = @"Banco";
+    game.dragon.name = @"Drache";
+    Train *train = game.trains[18];
+    train.techLevel = 42;
+    
     NSString *path = @"savetest";
     XCTAssertTrue([NSKeyedArchiver archiveRootObject:game toFile:path], @"coding test");
 
     Game *copyOfGame = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     XCTAssertNotEqualObjects(game, copyOfGame, @"coding test");
+    
+    Company *ccomp = copyOfGame.companies[4];
+    Player *cplayer = copyOfGame.player[2];
+    Train *ctrain = copyOfGame.trains[18];
+    
+    XCTAssertEqualObjects(ccomp.name, @"Test name", @"coding test");
+    XCTAssertEqualObjects(cplayer.name, @"Mr. Testguy", @"coding test");
+    XCTAssertEqualObjects(copyOfGame.bank.name, @"Banco", @"coding test");
+    XCTAssertEqualObjects(copyOfGame.dragon.name, @"Drache", @"coding test");
+    XCTAssertEqual(ctrain.techLevel, 42, @"coding test");
 }
 
 @end

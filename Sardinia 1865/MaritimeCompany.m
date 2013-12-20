@@ -20,4 +20,20 @@
     return self;
 }
 
+- (void) encodeWithCoder:(NSCoder *)aCoder {
+    [aCoder encodeBool:self.isPrivate forKey:@"MaritimeCompany IsPrivate"];
+    [aCoder encodeBool:self.isConnected forKey:@"MaritimeCompany IsConnected"];
+    [aCoder encodeInt:self.identifier forKey:@"MaritimeCompany Identifier"];
+}
+
+- (id) initWithCoder:(NSCoder *)aDecoder {
+    self = [super init];
+    if (self) {
+        self.isPrivate = [aDecoder decodeBoolForKey:@"MaritimeCompany IsPrivate"];
+        self.isConnected = [aDecoder decodeBoolForKey:@"MaritimeCompany IsConnected"];
+        self.identifier  = [aDecoder decodeIntForKey:@"MaritimeCompany Identifier"];
+    }
+    return self;
+}
+
 @end
