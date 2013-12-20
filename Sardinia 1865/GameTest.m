@@ -158,6 +158,7 @@ Game *game;
     [compA sellCertificate:compA.certificates[1] To:playerB];
     [compA sellCertificate:compA.certificates[2] To:playerC];
     [compA sellCertificate:compA.certificates[3] To:playerD];
+    [compA updatePresident];
 
     // PlayerA cannot sell, as compA has not operated yet!
     for (Player *player in game.player) {
@@ -278,10 +279,9 @@ Game *game;
     XCTAssertEqual([player.maritimeCompany count], (NSUInteger) 2, @"handover maritime Comp test");
     XCTAssertEqual(comp.traffic, 0, @"handover maritime Comp test");
     
-    Certificate *certA = comp.certificates[0];
-    Certificate *certB = comp.certificates[1];
-    [comp sellCertificate:certA To:player];
-    [comp sellCertificate:certB To:player];
+    [game player:player BuysIpoShare:comp AtPrice:100];
+    [game player:player BuysIpoShare:comp AtPrice:99];
+    [game advancePlayersDidPass:NO];
     
     XCTAssertEqual([comp.maritimeCompanies count], (NSUInteger) 0, @"handover maritime Comp test");
     XCTAssertEqual([player.maritimeCompany count], (NSUInteger) 2, @"handover maritime Comp test");
@@ -298,43 +298,6 @@ Game *game;
     XCTAssertEqual([comp.maritimeCompanies count], (NSUInteger) 0, @"handover maritime Comp test");
     XCTAssertEqual([player.maritimeCompany count], (NSUInteger) 1, @"handover maritime Comp test");
     XCTAssertEqual(comp.traffic, 10, @"handover maritime Comp test");
-}
-
-- (void) testGetTrainsForPurchase {
-    Company *compA = game.companies[0];
-    Company *compB = game.companies[1];
-    Train *trainA = game.trains[0];
-    Train *trainB = game.trains[1];
-    Train *trainC = game.trains[2];
-    NSArray *list = [game getTrainsForPurchaseForCompany:compA];
-    NSArray *testList = @[trainA];
-
-    XCTAssertEqual([list count], (NSUInteger) 1, @"get trains test");
-    XCTAssertEqualObjects(list, testList, @"get trains test");
-    
-    [game sellTrain:trainA To:compA];
-    list = [game getTrainsForPurchaseForCompany:compB];
-    testList = @[trainB, trainA];
-    XCTAssertEqual([list count], (NSUInteger) 2, @"get trains test");
-    XCTAssertEqualObjects(list, testList, @"get trains test");
-
-    list = [game getTrainsForPurchaseForCompany:compA];
-    testList = @[trainB];
-    XCTAssertEqual([list count], (NSUInteger) 1, @"get trains test");
-    XCTAssertEqualObjects(list, testList, @"get trains test");
-    
-    [game.bank.trains addObject:trainB];
-    [game.trains removeObject:trainB];
-
-    list = [game getTrainsForPurchaseForCompany:compB];
-    testList = @[trainC, trainB, trainA];
-    XCTAssertEqual([list count], (NSUInteger) 3, @"get trains test");
-    XCTAssertEqualObjects(list, testList, @"get trains test");
-
-    list = [game getTrainsForPurchaseForCompany:compA];
-    testList = @[trainC, trainB];
-    XCTAssertEqual([list count], (NSUInteger) 2, @"get trains test");
-    XCTAssertEqualObjects(list, testList, @"get trains test");
 }
 
 - (void) testSellTrain {
@@ -434,6 +397,7 @@ Game *game;
     XCTAssertEqual(playerA.money, moneyA, @"player can buy/sell test");
     
     [game player:playerA BuysIpoShare:compA AtPrice:60];        moneyA -= 2*60;
+    [game updateStock];
     
     XCTAssertEqual([game player:playerA CanBuyFromIpo:0], YES, @"play can buy/sell test");
     XCTAssertEqual([game player:playerA CanBuyFromBank:0], NO, @"play can buy/sell test");
@@ -443,6 +407,7 @@ Game *game;
     XCTAssertEqual(compA.stockPrice, 60, @"player can buy/sell test");
 
     [game player:playerA BuysIpoShare:compA AtPrice:99];        moneyA -= 60;
+    [game updateStock];
     
     // Player cannot sell, as company didn't operate yet
     XCTAssertEqual([game player:playerA CanBuyFromIpo:0], NO, @"play can buy/sell test");  // certificate limit reached
@@ -451,7 +416,7 @@ Game *game;
     XCTAssertEqual([game player:playerA CanSell:0], NO, @"play can buy/sell test");
     XCTAssertEqual(playerA.money, moneyA, @"player can buy/sell test");
     XCTAssertEqual(compA.stockPrice, 60, @"player can buy/sell test");
-    XCTAssertEqual(compA.presidentSoldShares, NO, @"player can buy/sell test");
+    XCTAssertEqual(compA.presidentSoldShares, 0, @"player can buy/sell test");
     
     compA.isOperating = YES;
     
@@ -461,7 +426,7 @@ Game *game;
     XCTAssertEqual([game player:playerA CanSell:0], YES, @"play can buy/sell test");
     XCTAssertEqual(playerA.money, moneyA, @"player can buy/sell test");
     XCTAssertEqual(compA.stockPrice, 60, @"player can buy/sell test");
-    XCTAssertEqual(compA.presidentSoldShares, NO, @"player can buy/sell test");
+    XCTAssertEqual(compA.presidentSoldShares, 0, @"player can buy/sell test");
     
     [game player:playerA SellsShare:compA];                     moneyA += 60;
     
@@ -473,7 +438,11 @@ Game *game;
     XCTAssertEqual(playerA.money, moneyA, @"player can buy/sell test");
     // Stock price only is decreased if playerA is done with his turn
     XCTAssertEqual(compA.stockPrice, 60, @"player can buy/sell test");
-    XCTAssertEqual(compA.presidentSoldShares, YES, @"player can buy/sell test");
+    XCTAssertEqual(compA.presidentSoldShares, 1, @"player can buy/sell test");
+
+    [game updateStock];
+    XCTAssertEqual(compA.stockPrice, 50, @"player can buy/sell test");
+    XCTAssertEqual(compA.presidentSoldShares, 0, @"player can buy/sell test");
 }
 
 - (void) testStockRound {
@@ -729,5 +698,230 @@ Game *game;
     XCTAssertEqualObjects(game.round, @"Operating Round", @"stock round test");
 }
 
+- (void) testStockPriceMovement {
+    Company *compA = game.companies[0];
+    Company *compB = game.companies[1];
+    Player *playerA = game.player[0];
+    Player *playerB = game.player[1];
+
+    [game player:playerA BuysIpoShare:compA AtPrice:100];
+    [game advancePlayersDidPass:NO];
+    [game player:playerA BuysIpoShare:compA AtPrice:100];
+    [game advancePlayersDidPass:NO];
+    [game player:playerB BuysIpoShare:compB AtPrice:90];
+    [game advancePlayersDidPass:NO];
+    [game player:playerB BuysIpoShare:compB AtPrice:90];
+    [game advancePlayersDidPass:NO];
+    [compA trafficUpgrade:10];
+    game.round = @"Operating Round";
+    
+    // No traffic - no change in stock price
+    XCTAssertEqual(compA.stockPrice, 100, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    XCTAssertEqual(compA.president, playerA, @"stock price test");
+    XCTAssertEqual([compA isDragonBuy], NO, @"stock price test");
+    
+    [compA operateTrainsAndPayDividend:YES];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    
+    // Case 4: Zero dividend - stock price decreases
+    XCTAssertEqual(compA.stockPrice,  90, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    
+    NSArray *trainKeys = [game getTrainTextForCompany:compA];
+    [game company:compA BuysTrain:trainKeys[0] AtCost:99];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    
+    // Case 2: Every time company buys a brand-new train
+    // Back one due to not generating income
+    XCTAssertEqual(compA.stockPrice,  90, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    XCTAssertEqual([compA isDragonBuy], NO, @"stock price test");
+    
+    [compA cleanFlagsForOperatingRound];
+    [compA operateTrainsAndPayDividend:YES];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    
+    // Case 1: Every time a company pays a non-zero dividend
+    XCTAssertEqual(compA.stockPrice, 100, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    
+    [compA cleanFlagsForOperatingRound];
+    [compA operateTrainsAndPayDividend:NO];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    
+    // No change if company withholds income
+    XCTAssertEqual(compA.stockPrice, 100, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    
+    [compA cleanFlagsForOperatingRound];
+    trainKeys = [game getTrainTextForCompany:compA];
+    [game company:compA BuysTrain:trainKeys[0] AtCost:99];
+    trainKeys = [game getTrainTextForCompany:compA];
+    [game company:compA BuysTrain:trainKeys[0] AtCost:99];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+
+    // Only 1 increase if company buys two trains
+    XCTAssertEqual(compA.stockPrice, 110, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    XCTAssertEqual([compA isDragonBuy], YES, @"stock price test");
+    
+    [compA cleanFlagsForOperatingRound];
+    [game player:playerB BuysIpoShare:compA AtPrice:99];
+    [game player:playerB BuysIpoShare:compA AtPrice:99];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    
+    // No change if other player buys share
+    XCTAssertEqual(compA.stockPrice, 110, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    
+    [compA cleanFlagsForOperatingRound];
+    [game player:playerB SellsShare:compA];
+    [game player:playerB SellsShare:compA];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    
+    // No change if other player sells share
+    XCTAssertEqual(compA.stockPrice, 110, @"stock price test");
+    XCTAssertEqual(compA.president, playerA, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+
+    [compA cleanFlagsForOperatingRound];
+    [game player:playerB BuysBankShare:compA];
+    [game player:playerB BuysBankShare:compA];
+    [game player:playerA SellsShare:compA];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    
+    // Drop by one if president sells share
+    XCTAssertEqual(compA.stockPrice, 100, @"stock price test");
+    XCTAssertEqual(compA.president, playerA, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 1, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerB], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerB], 2, @"stock price test");
+    
+    [compA cleanFlagsForOperatingRound];
+    [game player:playerA BuysBankShare:compA];
+    [game player:playerA SellsShare:compA];
+    [game player:playerA SellsShare:compA];
+    [game player:playerA SellsShare:compA];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    
+    // Drop by two if president sells 3 shares (after two, he lost the president's share, but still counts as president when selling)
+    XCTAssertEqual(compA.stockPrice,  70, @"stock price test");
+    XCTAssertEqual(compA.president, playerB, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerB], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerB], 1, @"stock price test");
+    XCTAssertEqual([compA isDragonBuy], YES, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:game.dragon], 0, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 0, @"stock price test");
+    
+    [game dragonTurn];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    
+    // Dragon buys one
+    XCTAssertEqual(compA.stockPrice,  70, @"stock price test");
+    XCTAssertEqual(compA.president, playerB, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerB], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerB], 1, @"stock price test");
+    XCTAssertEqual([compA isDragonBuy], YES, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:game.dragon], 20, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 1, @"stock price test");
+
+    [game dragonTurn];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    [game dragonTurn];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+
+    // Dragon buys one (50% limit), playerB remains president
+    XCTAssertEqual(compA.stockPrice,  70, @"stock price test");
+    XCTAssertEqual(compA.president, playerB, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerB], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerB], 1, @"stock price test");
+    XCTAssertEqual([compA isDragonBuy], YES, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:game.dragon], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 2, @"stock price test");
+    XCTAssertEqual([compA.trains count], (NSUInteger) 3, @"stock price test");
+    XCTAssertEqual([compB.trains count], (NSUInteger) 0, @"stock price test");
+    
+    trainKeys = [game getTrainTextForCompany:compB];
+    [game company:compB BuysTrain:trainKeys[1] AtCost:10];
+    trainKeys = [game getTrainTextForCompany:compB];
+    [game company:compB BuysTrain:trainKeys[1] AtCost:10];
+    
+    // compA sells two trains, now in dragon neutral range
+    XCTAssertEqual(compA.stockPrice,  70, @"stock price test");
+    XCTAssertEqual(compA.president, playerB, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerB], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerB], 1, @"stock price test");
+    XCTAssertEqual([compA isDragonBuy], NO, @"stock price test");
+    XCTAssertEqual([compA isDragonSell], NO, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:game.dragon], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 2, @"stock price test");
+    XCTAssertEqual([compA.trains count], (NSUInteger) 1, @"stock price test");
+    XCTAssertEqual([compB.trains count], (NSUInteger) 2, @"stock price test");
+
+    trainKeys = [game getTrainTextForCompany:compB];
+    [game company:compB BuysTrain:trainKeys[1] AtCost:10];
+    
+    // compA sells third train, now in dragon sell range
+    XCTAssertEqual(compA.stockPrice,  70, @"stock price test");
+    XCTAssertEqual(compA.president, playerB, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerB], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerB], 1, @"stock price test");
+    XCTAssertEqual([compA isDragonBuy], NO, @"stock price test");
+    XCTAssertEqual([compA isDragonSell], YES, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:game.dragon], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 2, @"stock price test");
+    XCTAssertEqual([compA.trains count], (NSUInteger) 0, @"stock price test");
+    XCTAssertEqual([compB.trains count], (NSUInteger) 3, @"stock price test");
+
+    [game dragonTurn];
+    game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [game advancePlayersDidPass:NO];
+    
+    // dragon sells all his stock => stock price drops by two steps
+    XCTAssertEqual(compA.stockPrice,  50, @"stock price test");
+    XCTAssertEqual(compA.president, playerB, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerA], 0, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:playerB], 40, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:playerB], 1, @"stock price test");
+    XCTAssertEqual([compA isDragonBuy], NO, @"stock price test");
+    XCTAssertEqual([compA isDragonSell], YES, @"stock price test");
+    XCTAssertEqual([compA getShareByOwner:game.dragon], 0, @"stock price test");
+    XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 0, @"stock price test");
+    XCTAssertEqual([compA.trains count], (NSUInteger) 0, @"stock price test");
+    XCTAssertEqual([compB.trains count], (NSUInteger) 3, @"stock price test");
+}
 
 @end

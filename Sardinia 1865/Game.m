@@ -70,7 +70,9 @@
     int playerShare       = [comp getShareByOwner:aPlayer];
     int shareholderShare  = [comp getShareByOwner:aShareholder];
     int shareLimit        = aPlayer.isPlayer ? 60 : 50;
-    if (playerShare < shareLimit && shareholderShare > 0) {
+    Certificate *cert = [comp certificateFromOwner:aShareholder];
+    int shareAmount = cert.share;
+    if (playerShare+shareAmount <= shareLimit && shareholderShare > 0) {
         canBuy = YES;
     }
     if (aPlayer.isPlayer && aPlayer.money < stockprice) {
@@ -140,6 +142,7 @@
 
 - (NSString*) advancePlayersDidPass:(BOOL)didPass {
     NSString *msg;
+    [self updateStock];
     if ([self.round isEqualToString:@"Maritime Companies"]) {
         if ([self.startPlayer.maritimeCompany count] < 2) {
             NSUInteger i = [self.player indexOfObject:self.currentPlayer];
@@ -152,13 +155,6 @@
             msg = [self dragonTurn];
         }
     } else if ([self.round isEqualToString:@"Stock Round"]) {
-        NSArray *stack = [self.companyStack copy]; // Need to copy as we are changing the stack within the loop!
-        for (Company* comp in stack) {
-            if (comp.presidentSoldShares) {
-                [self decreaseStockPrice:comp];
-                comp.presidentSoldShares = NO;
-            }
-        }
         NSUInteger i = [self.player indexOfObject:self.currentPlayer];
         self.currentPlayer = self.player[(i+1) % [self.player count]];
         if (didPass) {
@@ -189,6 +185,12 @@
                 comp = [self.companyTurnOrder firstObject];
             } else {
                 self.round = @"Stock Round";
+                self.passCount = 0;
+                for (Company *comp in self.companies) {
+                    if (comp.isFloating) {
+                        [comp updateDragonRowInPhase:self.settings.phase];
+                    }
+                }
                 // FIXME: Add reminder to downgrade tokened mines here!
                 // FIXME: Add conversion minor => major here!
                 msg = [self dragonTurn];
@@ -208,8 +210,9 @@
     // Generate an integer for each company:
     // value bits  6          4     9         3
     //             Diversify  Rank  Cheapest  Top of Pile
-    NSUInteger val = [aComp getShareByOwner:self.dragon]<<(4+9+3);
-    val = val | ([aComp rank]<<(9+3));
+    // Sort will be low to high
+    NSUInteger val = (6-[aComp getShareByOwner:self.dragon])<<(4+9+3);
+    val = val | ((30-[aComp rank])<<(9+3));
     val = val | (aComp.stockPrice<<3);
     val = val | ([self.companyStack indexOfObject:aComp]);
     return val;
@@ -226,9 +229,10 @@
     }
     // First, sell all companies
     for (Company *comp in sellCompanies) {
-        if ([self player:self.dragon CanSell:[self.companies indexOfObject:comp]]) {
+        while ([self player:self.dragon CanSell:[self.companies indexOfObject:comp]]) {
             Certificate *cert = [comp certificateFromOwner:self.dragon];
             [comp sellCertificate:cert To:self.bank];
+            comp.presidentSoldShares++;
             log = [NSString stringWithFormat:@"%@Dragon sells %@ (%@)\n", log, comp.name, comp.shortName];
         }
     }
@@ -273,7 +277,7 @@
 - (void) sellTrain:(Train *)aTrain To:(id)newOwner {
     id oldOwner = aTrain.owner;
     [self sellTrain:aTrain To:newOwner AtCost:aTrain.cost];
-    if (oldOwner == self) {
+    if (oldOwner == nil) {
         Company *comp = newOwner;
         comp.boughtBrandNewTrain = YES;
     }
@@ -365,8 +369,18 @@
     return NO;
 }
 
-- (NSArray*) getTrainTextFromTrainList:(NSArray *)trainList ForCompany:(Company *)aComp {
-    NSMutableArray *list      = [[NSMutableArray alloc] initWithCapacity:20];
+- (NSDictionary*) buildTrainListWithTextForCompany:(Company*)aComp {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:20];
+    // Build a list of all trains not owned by this company
+    NSMutableArray *trainList = [[NSMutableArray alloc] initWithCapacity:20];
+    [trainList addObject:[self.trains firstObject]];
+    [trainList addObjectsFromArray:self.bank.trains];
+    for (Company *comp in self.companies) {
+        if (aComp != comp) {
+            [trainList addObjectsFromArray:comp.trains];
+        }
+    }
+    // Check if company if forced to buy a train and if president may help out in buying from bank or new train stack
     BOOL presidentMayPay = YES;
     if ([aComp.trains count]) {
         presidentMayPay = NO;
@@ -380,40 +394,59 @@
         }
     }
     Player *president = (Player*) aComp.president;
+    int i=0;
     for (Train* train in trainList) {
         if (train.owner == nil) {
             if (train.cost <= aComp.money) {
-                [list addObject:[NSString stringWithFormat:@"New Train: Capacity %d for L.%d", train.capacity, train.cost]];
+                NSString *key = [NSString stringWithFormat:@"%d: New Train: Capacity %d for L.%d", i, train.capacity, train.cost];
+                [dict setObject:train forKey:key];
             } else if (presidentMayPay) {
-                [list addObject:[NSString stringWithFormat:@"New Train: Capacity %d for L.%d + %d (%@)", train.capacity, aComp.money, train.cost-aComp.money, president.name]];
+                NSString *key = [NSString stringWithFormat:@"%d: New Train: Capacity %d for L.%d + %d (%@)", i, train.capacity, aComp.money, train.cost-aComp.money, president.name];
+                [dict setObject:train forKey:key];
             }
         } else if (train.owner == self.bank) {
             if (train.cost <= aComp.money) {
-                [list addObject:[NSString stringWithFormat:@"Bank: Capacity %d for L.%d", train.capacity, train.cost]];
+                NSString *key = [NSString stringWithFormat:@"%d: Bank: Capacity %d for L.%d", i, train.capacity, train.cost];
+                [dict setObject:train forKey:key];
             } else {
-                [list addObject:[NSString stringWithFormat:@"Bank: Capacity %d for L.%d + %d (%@)", train.capacity, train.cost, train.cost-aComp.money, president.name]];
+                NSString *key = [NSString stringWithFormat:@"%d: Bank: Capacity %d for L.%d + %d (%@)", i, train.capacity, train.cost, train.cost-aComp.money, president.name];
+                [dict setObject:train forKey:key];
             }
         } else {
             if (aComp.money > 0) {
                 Company* comp = (Company*) train.owner;
-                [list addObject:[NSString stringWithFormat:@"%@: Capacity %d for L.1 - %d", comp.shortName, train.capacity, aComp.money]];
+                NSString *key = [NSString stringWithFormat:@"%d: %@: Capacity %d for L.1 - %d", i, comp.shortName, train.capacity, aComp.money];
+                [dict setObject:train forKey:key];
             }
         }
+        i++;
     }
-    return list;
+    return dict;
 }
 
-- (NSArray*) getTrainsForPurchaseForCompany:(Company *)aComp {
-    NSMutableArray *trainList = [[NSMutableArray alloc] initWithCapacity:20];
-    [trainList addObject:[self.trains firstObject]];
-    [trainList addObjectsFromArray:self.bank.trains];
-    for (Company *comp in self.companies) {
-        if (aComp != comp) {
-            [trainList addObjectsFromArray:comp.trains];
-        }
-    }
-    return trainList;
+- (NSArray*) getTrainTextForCompany:(Company *)aComp {
+    NSDictionary *dict = [self buildTrainListWithTextForCompany:aComp];
+    NSArray *keys = [dict allKeys];
+    NSArray *text = [keys sortedArrayUsingSelector:@selector(caseInsensitiveCompare:)];
+    return text;
 }
+
+- (Train*) getTrainForPurchaseForCompany:(Company *)aComp WithText:(NSString *)aKey {
+    NSDictionary *dict = [self buildTrainListWithTextForCompany:aComp];
+    return (Train*) dict[aKey];
+}
+
+//- (NSArray*) getTrainsForPurchaseForCompany:(Company *)aComp FromText:(NSString*)key {
+//    NSMutableArray *trainList = [[NSMutableArray alloc] initWithCapacity:20];
+//    [trainList addObject:[self.trains firstObject]];
+//    [trainList addObjectsFromArray:self.bank.trains];
+//    for (Company *comp in self.companies) {
+//        if (aComp != comp) {
+//            [trainList addObjectsFromArray:comp.trains];
+//        }
+//    }
+//    return trainList;
+//}
 
 - (BOOL) companyCanBuyTrain:(Company *)aComp {
     if (!aComp.didOperateThisTurn) {
@@ -428,9 +461,8 @@
     return NO;
 }
 
-- (NSString*) company:(Company *)aCompany BuysTrain:(NSUInteger)num AtCost:(int)aPrice {
-    NSArray *list = [self getTrainsForPurchaseForCompany:aCompany];
-    Train *train = list[num];
+- (NSString*) company:(Company *)aCompany BuysTrain:(NSString*)key AtCost:(int)aPrice {
+    Train *train = [self getTrainForPurchaseForCompany:aCompany WithText:key];
     
     NSString *transaction;
     if (train.owner==nil || train.owner==self.bank) {
@@ -446,8 +478,11 @@
             [aCompany buyTrain:train];
         }
     } else {
-        [self sellTrain:train To:aCompany AtCost:aPrice];
+        Company *otherComp = train.owner;
         transaction = [NSString stringWithFormat:@"%@ buys a used train with capacity %d for %d from %@", aCompany.shortName, train.capacity, aPrice, [train.owner shortName]];
+        [self sellTrain:train To:aCompany AtCost:aPrice];
+        [aCompany buyTrain:train];
+        [otherComp sellTrain:train];
     }
     return transaction;
 }
@@ -517,13 +552,71 @@
 }
 
 - (NSString*) player:(Player *)aPlayer SellsShare:(Company *)aComp {
+    NSString *msg = @"";
     if (aPlayer == aComp.president) {
-        aComp.presidentSoldShares = YES;
+        aComp.presidentSoldShares++;
     }
     Certificate *cert = [aComp certificateFromOwner:aPlayer];
+    if ([cert.type hasPrefix:@"President"]) {
+        msg = [self swapPresidentForCompany:aComp];
+        cert = [aComp certificateFromOwner:aPlayer];
+    }
     [aComp sellCertificate:cert To:self.bank];
     [aPlayer.soldCompanies addObject:aComp];
-    return [NSString stringWithFormat:@"%@ sells %@ of %@ to Bank", aPlayer.name, cert.type, aComp.shortName];
+    return [NSString stringWithFormat:@"%@ sells %@ of %@ to Bank\n%@", aPlayer.name, cert.type, aComp.shortName, msg];
+}
+
+- (void) updateStock {
+    if ([self.round isEqualToString:@"Operating Round"]) {
+        Company *comp = [self.companyTurnOrder firstObject];
+        if (comp.lastIncome==0 && comp.isOperating) {
+            [self decreaseStockPrice:comp];
+        }
+        if (comp.paidDividend) {
+            [self increaseStockPrice:comp];
+        }
+        if (comp.boughtBrandNewTrain) {
+            [self increaseStockPrice:comp];
+        }
+    }
+    NSArray *stack = [self.companyStack copy]; // Need to copy as we are changing the stack within the loop!
+    for (Company* comp in stack) {
+        [comp updatePresident];
+        while (comp.presidentSoldShares) {
+            [self decreaseStockPrice:comp];
+            comp.presidentSoldShares--;
+        }
+    }
+}
+
+- (NSString*) swapPresidentForCompany:(Company *)aComp {
+    // President tries to sell his presidential share, and needs to exchange it with two normal shares
+    // For his turn during the stock round, he still counts as the president, even though he lost the presidential share
+    NSMutableDictionary *shares = [[NSMutableDictionary alloc] initWithCapacity:4];
+    int maxShares = 0;
+    for (Player* player in self.player) {
+        int share = [aComp getShareByOwner:player];
+        shares[player.name] = [NSNumber numberWithInt:share];
+        if (share > maxShares) maxShares = share;
+    }
+    NSUInteger index = [self.player indexOfObject:aComp.president];
+    for (NSUInteger i=1; i<[self.player count]-1; i++) {
+        NSUInteger playerIndex = (index + i) % [self.player count];
+        Player *newPres = self.player[playerIndex];
+        int sh = [shares[newPres.name] intValue];
+        if (sh == maxShares) {
+            Certificate *cert = [aComp certificateFromOwner:newPres];
+            cert.owner = aComp.president;
+            cert = [aComp certificateFromOwner:newPres];
+            cert.owner = aComp.president;
+            cert = aComp.certificates[0];
+            cert.owner = newPres;
+            aComp.president.numCertificates++;
+            newPres.numCertificates--;
+            return [NSString stringWithFormat:@"Presidency of %@ changes from %@ to %@", aComp.shortName, aComp.president.name, newPres.name];
+        }
+    }
+    return @"Error: Could not swap president's share with anyone else. This should not happen...";
 }
 
 @end

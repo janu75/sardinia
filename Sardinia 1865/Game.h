@@ -64,9 +64,9 @@
 
 - (void) decreaseStockPrice:(Company*)aComp;
 
-- (NSArray*) getTrainsForPurchaseForCompany:(Company*)aComp;
+- (Train*) getTrainForPurchaseForCompany:(Company*)aComp WithText:(NSString*)aKey;
 
-- (NSArray*) getTrainTextFromTrainList:(NSArray*)trainList ForCompany:(Company*)aComp;
+- (NSArray*) getTrainTextForCompany:(Company*)aComp;
 
 - (NSArray*) companyCanAbsorb:(Company*)aComp;
 
@@ -74,7 +74,7 @@
 
 - (BOOL) companyCanBuyTrain:(Company*)aComp;
 
-- (NSString*) company:(Company*)aCompany BuysTrain:(NSUInteger)num AtCost:(int)aPrice;
+- (NSString*) company:(Company*)aCompany BuysTrain:(NSString*)key AtCost:(int)aPrice;
 
 - (NSString*) presidentHandsOverMaritimeCompanyTo:(Company*)aComp;
 
@@ -89,5 +89,9 @@
 - (NSString*) player:(Player*)aPlayer BuysDragonShare:(Company*)aComp;
 
 - (NSString*) player:(Player*)aPlayer SellsShare:(Company*)aComp;
+
+- (void) updateStock;
+
+- (NSString*) swapPresidentForCompany:(Company*)aComp;
 
 @end

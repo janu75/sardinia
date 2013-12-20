@@ -23,7 +23,7 @@
 @property BOOL canBuildStation;
 @property BOOL boughtBrandNewTrain;
 @property BOOL paidDividend;
-@property BOOL presidentSoldShares;
+@property int presidentSoldShares;
 
 @property int numStationMarkers;
 @property int builtStations;
@@ -90,6 +90,8 @@
 - (Certificate*) certificateFromOwner:(Shareholder*)anOwner;
 
 - (void) setDragonRowWithPhase:(int)phase;
+
+- (void) updateDragonRowInPhase:(int)phase;
 
 - (void) cleanFlagsForOperatingRound;
 

@@ -118,8 +118,8 @@
 
 // Tested
 - (void) sellTrain:(Train *)aTrain ForMoney:(int)price {
-    [self.trains removeObject:aTrain];
-    self.money += price;
+//    [self.trains removeObject:aTrain];
+//    self.money += price;
     self.trainCapacity -= aTrain.capacity;
 }
 
@@ -191,7 +191,6 @@
             [self setDragonRowWithPhase:self.settings.phase];
         }
     }
-    [self updatePresident];
 }
 
 // Tested
@@ -298,6 +297,12 @@
         self.dragonRow = @2;
     } else {
         self.dragonRow = @1;
+    }
+}
+
+- (void) updateDragonRowInPhase:(int)phase {
+    if ([self.dragonRow intValue]+1 < phase) {
+        self.dragonRow = [NSNumber numberWithInt:[self.dragonRow intValue]+1];
     }
 }
 

@@ -102,7 +102,7 @@ GameSetupWindowController *setupWindow;
         stockPrice = [self.game.settings getDragonPriceWithStockPrice:stockPrice AndGrade:@"Neutral"];
     }
     if (stockPrice > 0) {
-        return [NSString stringWithFormat:@"L. %d", comp.stockPrice];
+        return [NSString stringWithFormat:@"L. %d", stockPrice];
     }
     return @"N/A";
 }
@@ -130,6 +130,7 @@ GameSetupWindowController *setupWindow;
     for (NSButton *button in self.dragonBuyButton) {
         Company *comp = self.game.companies[i];
         [button setTitle:[self formatStockPriceForDragon:comp]];
+        NSLog(@"Dragon price for %@ is %@", comp.shortName, [self formatStockPriceForDragon:comp]);
         [button setEnabled:[self.game player:aPlayer CanBuyFromDragon:i++]];
     }
     i=0;
@@ -190,11 +191,11 @@ GameSetupWindowController *setupWindow;
         self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d",MIN(comp.traffic, comp.trainCapacity)*10];
     }
     if ([self.game companyCanBuyTrain:comp]) {
-        NSArray *trains = [self.game getTrainTextFromTrainList:[self.game getTrainsForPurchaseForCompany:comp] ForCompany:comp];
+        NSArray *trainLabels = [self.game getTrainTextForCompany:comp];
         [self.or_buttonBuyTrain setEnabled:YES];
         [self.or_popupTrain setEnabled:YES];
         [self.or_popupTrain removeAllItems];
-        [self.or_popupTrain addItemsWithTitles:trains];
+        [self.or_popupTrain addItemsWithTitles:trainLabels];
     } else {
         [self.or_buttonBuyTrain setEnabled:NO];
         [self.or_popupTrain setEnabled:NO];
@@ -393,8 +394,10 @@ GameSetupWindowController *setupWindow;
 - (IBAction)actionPlaceStationToken:(NSButton *)sender {
     Company *comp = [self.game.companyTurnOrder firstObject];
     int cost = [self.or_textfieldStationCost.stringValue intValue];
-    [comp placeStationMarkerForCost:cost];
-    [self refreshView];
+    if (cost <= comp.money) {
+        [comp placeStationMarkerForCost:cost];
+        [self refreshView];
+    }
 }
 
 - (IBAction)actionAddTraffic:(NSButton *)sender {
@@ -414,9 +417,9 @@ GameSetupWindowController *setupWindow;
 - (IBAction)actionBuyTrain:(NSButton *)sender {
     Company *comp = [self.game.companyTurnOrder firstObject];
     if (self.or_popupTrain) {
-        NSUInteger trainNum = [self.or_popupTrain indexOfSelectedItem];
+        NSString *key = [[self.or_popupTrain selectedItem] title];
         int cost = self.or_textfieldTrainCost.stringValue.intValue;
-        [self printLog:[self.game company:comp BuysTrain:trainNum AtCost:cost]];
+        [self printLog:[self.game company:comp BuysTrain:key AtCost:cost]];
     }
     [self refreshView];
 }
