@@ -453,6 +453,7 @@ GameSetupWindowController *setupWindow;
     NSString *key = [[sender selectedItem] title];
     NSString *path = self.game.saveGames[key];
     self.game = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+    self.companyTable.game = self.game;
     [self refreshView];
 }
 

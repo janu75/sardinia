@@ -869,6 +869,7 @@ Game *game;
     
     trainKeys = [game getTrainTextForCompany:compB];
     [game company:compB BuysTrain:trainKeys[1] AtCost:10];
+    [self checkSaving];
     trainKeys = [game getTrainTextForCompany:compB];
     [game company:compB BuysTrain:trainKeys[1] AtCost:10];
     
@@ -886,6 +887,7 @@ Game *game;
     XCTAssertEqual([compA.trains count], (NSUInteger) 1, @"stock price test");
     XCTAssertEqual([compB.trains count], (NSUInteger) 2, @"stock price test");
 
+    [self checkSaving];
     trainKeys = [game getTrainTextForCompany:compB];
     [game company:compB BuysTrain:trainKeys[1] AtCost:10];
     
@@ -905,6 +907,7 @@ Game *game;
 
     [game dragonTurn];
     game.companyTurnOrder = [@[compA, compB] mutableCopy];
+    [self checkSaving];
     [game advancePlayersDidPass:NO];
     
     // dragon sells all his stock => stock price drops by two steps
@@ -920,6 +923,38 @@ Game *game;
     XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 0, @"stock price test");
     XCTAssertEqual([compA.trains count], (NSUInteger) 0, @"stock price test");
     XCTAssertEqual([compB.trains count], (NSUInteger) 3, @"stock price test");
+    
+    [self checkSaving];
+}
+
+
+- (void) checkSaving {
+    NSString *path = @"savetest-Game.plist";
+    XCTAssertTrue([NSKeyedArchiver archiveRootObject:game toFile:path], @"coding test");
+    
+    Game *copy = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
+
+    XCTAssertEqual([game.companies count], [copy.companies count], @"check saving");
+    XCTAssertEqual([game.player count], [copy.player count], @"check saving");
+    for (NSUInteger i=0; i<[game.companies count]; i++) {
+        Company *comp  = game.companies[i];
+        Company *ccomp = copy.companies[i];
+        XCTAssertEqualObjects(comp.name, ccomp.name, @"check saving");
+        XCTAssertEqual(comp.money, ccomp.money, @"check saving");
+        XCTAssertEqual([comp.certificates count], [ccomp.certificates count], @"check saving");
+        XCTAssertEqual([comp.trains count], [ccomp.trains count], @"check saving");
+        XCTAssertEqual(comp.stockPrice, ccomp.stockPrice, @"check saving");
+        XCTAssertEqual(comp.trainCapacity, ccomp.trainCapacity, @"check saving");
+        XCTAssertEqual(comp.traffic, ccomp.traffic, @"check saving");
+    }
+    for (NSUInteger i=0; i<[game.player count]; i++) {
+        Player *player = game.player[i];
+        Player *cplayer = copy.player[i];
+        XCTAssertEqualObjects(player.name, cplayer.name, @"Check saving");
+        XCTAssertEqual(player.money, cplayer.money, @"Check saving");
+        XCTAssertEqual(player.numCertificates, cplayer.numCertificates, @"Check saving");
+        XCTAssertEqual(player.numShares, cplayer.numShares, @"Check saving");
+    }
 }
 
 - (void) testCoding {
@@ -931,6 +966,7 @@ Game *game;
     game.dragon.name = @"Drache";
     Train *train = game.trains[18];
     train.techLevel = 42;
+    game.settings.trainLimit = 23;
     
     NSString *path = @"savetest";
     XCTAssertTrue([NSKeyedArchiver archiveRootObject:game toFile:path], @"coding test");
@@ -947,6 +983,10 @@ Game *game;
     XCTAssertEqualObjects(copyOfGame.bank.name, @"Banco", @"coding test");
     XCTAssertEqualObjects(copyOfGame.dragon.name, @"Drache", @"coding test");
     XCTAssertEqual(ctrain.techLevel, 42, @"coding test");
+    XCTAssertEqual(copyOfGame.settings.trainLimit, 23, @"coding test");
+    
+    XCTAssertEqualObjects(game.settings.pref, ccomp.settings.pref, @"coding test");
+    XCTAssertEqualObjects(game.settings.trainSpec, ccomp.settings.trainSpec, @"coding test");
 }
 
 @end

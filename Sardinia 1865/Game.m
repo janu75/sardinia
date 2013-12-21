@@ -670,11 +670,11 @@
     if ([NSKeyedArchiver archiveRootObject:self toFile:path]) {
         NSString *key;
         if ([self.round isEqualToString:@"Stock Round"]) {
-            key = [NSString stringWithFormat:@"Load %d: Stock Round - Start of turn for %@", self.turnCount, self.currentPlayer.name];
+            key = [NSString stringWithFormat:@"Load %03d: Stock Round - Start of turn for %@", self.turnCount, self.currentPlayer.name];
         } else if ([self.round isEqualToString:@"Operating Round"]) {
-            key = [NSString stringWithFormat:@"Load %d: Operating Round - Start of turn for %@", self.turnCount, self.currentPlayer.name];
+            key = [NSString stringWithFormat:@"Load %03d: Operating Round - Start of turn for %@", self.turnCount, self.currentPlayer.name];
         } else {
-            key = [NSString stringWithFormat:@"Load %d: %@", self.turnCount, self.round];
+            key = [NSString stringWithFormat:@"Load %03d: %@", self.turnCount, self.round];
         }
         self.saveGames[key] = path;
     }

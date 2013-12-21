@@ -2462,7 +2462,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="zKm-FA-9fF">
-                        <rect key="frame" x="1048" y="515" width="88" height="17"/>
+                        <rect key="frame" x="1048" y="515" width="145" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Train Phase 2" id="COb-f7-OK2">
                             <font key="font" metaFont="system"/>
@@ -2471,7 +2471,7 @@
                         </textFieldCell>
                     </textField>
                     <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="2Ue-Zm-GN1">
-                        <rect key="frame" x="1050" y="490" width="97" height="17"/>
+                        <rect key="frame" x="1050" y="490" width="138" height="17"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Player Turns: 0" id="SZZ-K2-rfC">
                             <font key="font" metaFont="system"/>

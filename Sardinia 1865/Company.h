@@ -39,6 +39,7 @@
 @property (strong) NSMutableArray *maritimeCompanies; // of MaritimeCompany
 //@property (strong) NSMutableArray *certificates;// of Certificate
 @property (weak) Shareholder* president;
+@property (strong) GameSettings *settings;
 
 - (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor AndSettings:(GameSettings*)settings;
 

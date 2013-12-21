@@ -10,7 +10,6 @@
 
 @interface Company ()
 
-@property GameSettings *settings;
 
 @end
 
@@ -336,6 +335,7 @@
     [aCoder encodeObject:self.shortName forKey:@"Company ShortName"];
     [aCoder encodeObject:self.trains forKey:@"Company Trains"];
     [aCoder encodeObject:self.maritimeCompanies forKey:@"Company MaritimeCompanies"];
+    [aCoder encodeObject:self.settings forKey:@"Company Settings"];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder {
@@ -361,6 +361,7 @@
         self.shortName           = [aDecoder decodeObjectForKey:@"Company ShortName"];
         self.trains              = [aDecoder decodeObjectForKey:@"Company Trains"];
         self.maritimeCompanies   = [aDecoder decodeObjectForKey:@"Company MaritimeCompanies"];
+        self.settings            = [aDecoder decodeObjectForKey:@"Company Settings"];
         [self updatePresident];  // This sets self.president
     }
     return self;
