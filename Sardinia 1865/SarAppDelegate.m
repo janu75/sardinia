@@ -384,7 +384,8 @@ GameSetupWindowController *setupWindow;
     self.textFieldTurnMarker.stringValue = [NSString stringWithFormat:@"Player turns: %d", self.game.turnCount];
     NSArray *list = [self.game.saveGames allKeys];
     [self.popupLoadGames removeAllItems];
-    [self.popupLoadGames addItemsWithTitles:[list sortedArrayUsingSelector:@selector(compare:)]];
+    list = [list sortedArrayUsingSelector:@selector(compare:)];
+    [self.popupLoadGames addItemsWithTitles:list];
 }
 
 - (IBAction)actionAbsorbAnotherCompany:(NSButton *)sender {

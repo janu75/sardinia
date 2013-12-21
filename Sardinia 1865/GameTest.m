@@ -250,7 +250,6 @@ Game *game;
     
 }
 
-
 - (void) testCompanyCanBuyTrain {
     Company *comp = [game.companies firstObject];
     Train *train = [game.trains firstObject];
@@ -927,7 +926,6 @@ Game *game;
     [self checkSaving];
 }
 
-
 - (void) checkSaving {
     NSString *path = @"savetest-Game.plist";
     XCTAssertTrue([NSKeyedArchiver archiveRootObject:game toFile:path], @"coding test");
@@ -987,6 +985,49 @@ Game *game;
     
     XCTAssertEqualObjects(game.settings.pref, ccomp.settings.pref, @"coding test");
     XCTAssertEqualObjects(game.settings.trainSpec, ccomp.settings.trainSpec, @"coding test");
+}
+
+- (void) testCanAbsorb {
+    Player *player[4];
+    Company *comp[8];
+    int pMoney[4];
+    int cMoney[8];
+    for (int i=0; i<4; i++) {
+        player[i] = game.player[i];
+        pMoney[i] = player[i].money;
+    }
+    for (int i=0; i<8; i++) {
+        comp[i] = game.companies[i];
+        cMoney[i] = comp[i].money;
+    }
+    
+    [game player:game.currentPlayer BuysIpoShare:comp[0] AtPrice:60];   pMoney[0] -= 120;   cMoney[0] += 120;
+    [game advancePlayersDidPass:NO];
+    [game player:game.currentPlayer BuysIpoShare:comp[1] AtPrice:100];  pMoney[1] -= 200;   cMoney[1] += 200;
+    [game advancePlayersDidPass:NO];
+    [game player:game.currentPlayer BuysIpoShare:comp[2] AtPrice:60];   pMoney[2] -= 120;   cMoney[2] += 120;
+    [game advancePlayersDidPass:NO];
+    [game player:game.currentPlayer BuysIpoShare:comp[3] AtPrice:60];   pMoney[3] -= 120;   cMoney[3] += 120;
+    [game advancePlayersDidPass:NO];
+    
+    [game player:game.currentPlayer BuysIpoShare:comp[0] AtPrice:60];   pMoney[0] -=  60;   cMoney[0] +=  60;
+    [game advancePlayersDidPass:NO];
+    [game player:game.currentPlayer BuysIpoShare:comp[1] AtPrice:100];  pMoney[1] -= 100;   cMoney[1] += 100;
+    [game advancePlayersDidPass:NO];
+    [game player:game.currentPlayer BuysIpoShare:comp[2] AtPrice:60];   pMoney[2] -=  60;   cMoney[2] +=  60;
+    [game advancePlayersDidPass:NO];
+    [game player:game.currentPlayer BuysIpoShare:comp[3] AtPrice:60];   pMoney[3] -=  60;   cMoney[3] +=  60;
+    [game advancePlayersDidPass:NO];
+    
+    [game player:game.currentPlayer BuysIpoShare:comp[4] AtPrice:60];   pMoney[0] -=  60;   cMoney[0] +=  60;
+    [game advancePlayersDidPass:NO];
+    [game player:game.currentPlayer BuysIpoShare:comp[1] AtPrice:100];  pMoney[1] -= 100;   cMoney[1] += 100;
+    [game advancePlayersDidPass:NO];
+    [game player:game.currentPlayer BuysIpoShare:comp[2] AtPrice:60];   pMoney[2] -=  60;   cMoney[2] +=  60;
+    [game advancePlayersDidPass:NO];
+    [game player:game.currentPlayer BuysIpoShare:comp[3] AtPrice:60];   pMoney[3] -=  60;   cMoney[3] +=  60;
+    [game advancePlayersDidPass:NO];
+    
 }
 
 @end
