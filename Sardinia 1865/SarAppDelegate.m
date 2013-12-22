@@ -149,6 +149,11 @@ GameSetupWindowController *setupWindow;
     for (NSTextField* label in self.stockCompanyLabel) {
         label.stringValue = self.game.compNames[i++];
     }
+    if (aPlayer.numLoans > 0 && aPlayer.money>=500) {
+        [self.buttonPlayerPayBackLoan setEnabled:YES];
+    } else {
+        [self.buttonPlayerPayBackLoan setEnabled:NO];
+    }
 }
 
 - (NSArray*) buildAbsorbItemsList:(NSArray*)comps {
@@ -219,6 +224,25 @@ GameSetupWindowController *setupWindow;
         [self.or_buttonOperateDone setEnabled:YES];
     } else {
         [self.or_buttonOperateDone setEnabled:NO];
+    }
+    if (president.money < 0) {
+        [self.or_buttonOperateDone setEnabled:NO];
+        [self.or_popupPresidentSellCompanies removeAllItems];
+        [self.or_popupPresidentSellCompanies addItemWithTitle:[NSString stringWithFormat:@"%@ has to sell shares", president.name]];
+        NSArray* list = [self.game getListOfCertificatesForSaleForPresident:comp];
+        if ([list count]) {
+            [self.or_popupPresidentSellCompanies addItemsWithTitles:list];
+        } else {
+            [self.or_popupPresidentSellCompanies addItemWithTitle:@"Take loan for L.500"];
+        }
+        [self.or_popupPresidentSellCompanies setEnabled:YES];
+    } else {
+        [self.or_popupPresidentSellCompanies setEnabled:NO];
+    }
+    if (comp.numLoans > 0 && comp.money>=500) {
+        [self.or_buttonCompanyPayBackLoan setEnabled:YES];
+    } else {
+        [self.or_buttonCompanyPayBackLoan setEnabled:NO];
     }
 }
 
@@ -343,14 +367,17 @@ GameSetupWindowController *setupWindow;
     NSMutableArray *player = [@[@"Bank", @"Dragon"] mutableCopy];
     NSMutableArray *money = [@[[NSNumber numberWithInt:self.game.bank.money], [NSNumber numberWithInt:self.game.dragon.money]] mutableCopy];
     NSMutableArray *cert = [@[[NSNumber numberWithInt:self.game.bank.numCertificates], [NSNumber numberWithInt:self.game.dragon.numCertificates]] mutableCopy];
+    NSMutableArray *loans = [@[[NSNumber numberWithInt:0], [NSNumber numberWithInt:0]] mutableCopy];
     for (Player *guy in self.game.player) {
         [player addObject:guy.name];
         [money addObject:[NSNumber numberWithInt:guy.money]];
         [cert addObject:[NSString stringWithFormat:@"%luM + %d", (unsigned long)[guy.maritimeCompany count], guy.numCertificates]];
+        [loans addObject:[NSNumber numberWithInt:guy.numLoans]];
     }
     NSMutableDictionary *dict = [@{@"Player"       : player,
-                                  @"Money"        : money,
-                                  @"Certificates" : cert} mutableCopy];
+                                   @"Money"        : money,
+                                   @"Certificates" : cert,
+                                   @"Loans"        : loans} mutableCopy];
     for (Company *comp in self.game.companies) {
         NSMutableArray *array = [[NSMutableArray alloc] initWithCapacity:6];
         [array addObject:[NSString stringWithFormat:@"%d%%", [comp getShareByOwner:self.game.bank]]];
@@ -455,6 +482,29 @@ GameSetupWindowController *setupWindow;
     NSString *path = self.game.saveGames[key];
     self.game = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     self.companyTable.game = self.game;
+    [self refreshView];
+}
+
+- (IBAction)companyPayBackLoan:(NSButton *)sender {
+    [self printLog:[self.game shareholderPaysBackLoan:[self.game.companyTurnOrder firstObject]]];
+    [self refreshView];
+}
+
+- (IBAction)presidentSellStock:(NSPopUpButton *)sender {
+    NSString *key = sender.titleOfSelectedItem;
+    Company *currentComp = [self.game.companyTurnOrder firstObject];
+    Player *president = (Player *) currentComp.president;
+    Company *comp = [self.game getCompanyForSaleWithKey:key];
+    if (comp) {
+        [self printLog:[self.game player:president SellsShare:comp]];
+    } else if ([key isEqualToString:@"Take loan for L.500"]) {
+        [self printLog:[self.game shareholderTakesLoan:president]];
+    }
+    [self refreshView];
+}
+
+- (IBAction)playerPayBackLoan:(NSButton *)sender {
+    [self printLog:[self.game shareholderPaysBackLoan:self.game.currentPlayer]];
     [self refreshView];
 }
 

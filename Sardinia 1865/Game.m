@@ -679,4 +679,60 @@
     }
 }
 
+- (NSString*) shareholderTakesLoan:(Shareholder *)shareholder {
+    shareholder.money += 500;
+    self.bank.money -= 500;
+    shareholder.numLoans++;
+    return [NSString stringWithFormat:@"%@ takes loan of L.500", shareholder.name];
+}
+
+- (NSString*) shareholderPaysBackLoan:(Shareholder *)shareholder {
+    shareholder.money -= 500;
+    self.bank.money += 500;
+    shareholder.numLoans--;
+    return [NSString stringWithFormat:@"%@ pays back loan of L.500", shareholder.name];
+}
+
+- (NSDictionary*) getDictionaryOfCertificatesForSaleForPresident:(Company*)aComp {
+    NSMutableDictionary *dict = [[NSMutableDictionary alloc] initWithCapacity:18];
+    Player *pres = (Player*) aComp.president;
+    int i=1;
+    NSUInteger index = 0;
+    for (Company* comp in self.companies) {
+        if (comp != aComp) {
+            if ([self player:pres CanSell:index]) {
+                NSString *key = [NSString stringWithFormat:@"%02d: Sell share of %@", i, comp.shortName];
+                dict[key] = comp;
+                i++;
+            }
+        } else {
+            int maxShare = 0;
+            int presShare = [aComp getShareByOwner:pres];
+            for (Player *player in self.player) {
+                if (player != pres) {
+                    int share = [aComp getShareByOwner:player];
+                    if (maxShare < share) maxShare = share;
+                }
+            }
+            if (presShare > maxShare && [self player:pres CanSell:index]) {
+                NSString *key = [NSString stringWithFormat:@"%02d: Sell share of %@", i, aComp.shortName];
+                dict[key] = aComp;
+                i++;
+            }
+        }
+        index++;
+    }
+    return dict;
+}
+
+- (NSArray*) getListOfCertificatesForSaleForPresident:(Company *)aComp {
+    NSDictionary *dict = [self getDictionaryOfCertificatesForSaleForPresident:aComp];
+    return [[dict allKeys] sortedArrayUsingSelector:@selector(compare:)];
+}
+
+- (Company*) getCompanyForSaleWithKey:(NSString *)key {
+    NSDictionary *dict = [self getDictionaryOfCertificatesForSaleForPresident:[self.companyTurnOrder firstObject]];
+    return dict[key];
+}
+
 @end

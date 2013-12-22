@@ -18,11 +18,8 @@
 @property (strong) NSString* name;
 @property int numCertificates;
 @property int numShares;
+@property int numLoans;
 
 - (id) initWithName:(NSString*) aName;
-
-//- (void) buyCertificate:(Certificate*)aCertificate atPrice:(int)price;
-//
-//- (void) sellCertificate:(Certificate*)aCertificate atPrice:(int)price;
 
 @end

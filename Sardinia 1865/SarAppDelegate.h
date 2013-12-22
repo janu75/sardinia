@@ -75,6 +75,8 @@
 @property (weak) IBOutlet NSButton *buttonDragon7;
 @property (weak) IBOutlet NSButton *buttonDragon8;
 
+@property (weak) IBOutlet NSButton *buttonPlayerPayBackLoan;
+
 // Stock market labels
 @property (weak) IBOutlet NSTextField *stockLabelComp1;
 @property (weak) IBOutlet NSTextField *stockLabelComp2;
@@ -116,6 +118,8 @@
 @property (weak) IBOutlet NSTextField *or_textfieldOperateText;
 @property (weak) IBOutlet NSButton *or_buttonConnectMaritime;
 @property (weak) IBOutlet NSButton *or_buttonOperateDone;
+@property (weak) IBOutlet NSPopUpButton *or_popupPresidentSellCompanies;
+@property (weak) IBOutlet NSButton *or_buttonCompanyPayBackLoan;
 
 
 

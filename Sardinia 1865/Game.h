@@ -98,4 +98,12 @@
 
 - (void) saveGame;
 
+- (NSArray*) getListOfCertificatesForSaleForPresident:(Company*)aComp;
+
+- (Company*) getCompanyForSaleWithKey:(NSString*)key;
+
+- (NSString*) shareholderTakesLoan:(Shareholder*)shareholder;
+
+- (NSString*) shareholderPaysBackLoan:(Shareholder*)shareholder;
+
 @end
