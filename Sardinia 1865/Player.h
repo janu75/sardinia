@@ -18,4 +18,6 @@
 
 - (id) initWithName:(NSString*)aName AndMoney:(int)money;
 
+- (NSString*) incomeFromMaritimeCompanies;
+
 @end

@@ -92,11 +92,11 @@
         [shares addObject:[NSString stringWithFormat:@"%d", [comp getShareByOwner:comp]]];
         [income addObject:[NSString stringWithFormat:@"%d", comp.lastIncome]];
         if ([comp isDragonBuy]) {
-            [dragon addObject:@"Buy"];
+            [dragon addObject:[NSString stringWithFormat:@"Buy (%@,%d)", comp.dragonRow, [comp rank]]];
         } else if ([comp isDragonSell]) {
-            [dragon addObject:@"Sell"];
+            [dragon addObject:[NSString stringWithFormat:@"Sell (%@,%d)", comp.dragonRow, [comp rank]]];
         } else {
-            [dragon addObject:@"Keep"];
+            [dragon addObject:[NSString stringWithFormat:@"Keep (%@,%d)", comp.dragonRow, [comp rank]]];
         }
     }
     self.overviewTableData = @{@"Company"    : compName,

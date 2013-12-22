@@ -171,6 +171,7 @@
             self.round = @"Operating Round";
             for (Player *player in self.player) {
                 [player.soldCompanies removeAllObjects];
+                msg = [NSString stringWithFormat:@"%@%@", [player incomeFromMaritimeCompanies], msg];
             }
             [self buildCompanyOrder];
             Company *comp = [self.companyTurnOrder firstObject];
@@ -365,7 +366,7 @@
     }
     for (Company* comp in self.companyStack) {
         if (comp != aComp && comp.isOperating && aComp.president == comp.president) {
-            return NO;
+            return YES;
             // Todo: Add share price check!
             NSLog(@"Todo: Need to check if companies have enough money for this!");
         }
@@ -440,18 +441,6 @@
     return (Train*) dict[aKey];
 }
 
-//- (NSArray*) getTrainsForPurchaseForCompany:(Company *)aComp FromText:(NSString*)key {
-//    NSMutableArray *trainList = [[NSMutableArray alloc] initWithCapacity:20];
-//    [trainList addObject:[self.trains firstObject]];
-//    [trainList addObjectsFromArray:self.bank.trains];
-//    for (Company *comp in self.companies) {
-//        if (aComp != comp) {
-//            [trainList addObjectsFromArray:comp.trains];
-//        }
-//    }
-//    return trainList;
-//}
-
 - (BOOL) companyCanBuyTrain:(Company *)aComp {
     if (!aComp.didOperateThisTurn) {
         return NO;
@@ -471,7 +460,17 @@
     NSString *transaction;
     if (train.owner==nil || train.owner==self.bank) {
         if (aCompany.money < train.cost) {
-            transaction = @"FIXME: President has to help out, not implemented yet";
+            Player *president = (Player*) aCompany.president;
+            int diff = train.cost - aCompany.money;
+            if (train.owner==nil) {
+                transaction = [NSString stringWithFormat:@"%@ buys a new Train with capacity %d for %d. %@ adds %d.", aCompany.shortName, train.capacity, aPrice, president.name, diff];
+            } else {
+                transaction = [NSString stringWithFormat:@"%@ buys a Train with capacity %d for %d from the bank. %@ adds %d.", aCompany.shortName, train.capacity, aPrice, president.name, diff];
+            }
+            [self sellTrain:train To:aCompany];
+            [aCompany buyTrain:train];
+            aCompany.money += diff;
+            president.money -= diff;
         } else {
             if (train.owner==nil) {
                 transaction = [NSString stringWithFormat:@"%@ buys a new Train with capacity %d for %d", aCompany.shortName, train.capacity, aPrice];

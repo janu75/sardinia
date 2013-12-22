@@ -192,6 +192,23 @@ Company *compC;
     XCTAssertTrue(!compA.canBuildStation, @"Place station marker test");
     XCTAssertTrue(!compB.canBuildStation, @"Place station marker test");
     XCTAssertTrue(compC.canBuildStation, @"Place station marker test");
+
+    compA.money += 100;
+    compB.money += 100;
+    compC.money += 100;
+    [compA cleanFlagsForOperatingRound];
+    [compB cleanFlagsForOperatingRound];
+    [compC cleanFlagsForOperatingRound];
+
+    XCTAssertEqual(compA.builtStations, 3, @"Place station marker test");
+    XCTAssertEqual(compB.builtStations, 2, @"Place station marker test");
+    XCTAssertEqual(compC.builtStations, 1, @"Place station marker test");
+    XCTAssertEqual(compA.money, 100, @"Place station marker test");
+    XCTAssertEqual(compB.money, 210, @"Place station marker test");
+    XCTAssertEqual(compC.money, 300, @"Place station marker test");
+    XCTAssertTrue(!compA.canBuildStation, @"Place station marker test");
+    XCTAssertTrue(compB.canBuildStation, @"Place station marker test");
+    XCTAssertTrue(compC.canBuildStation, @"Place station marker test");
 }
  
 - (void) testLayTrack {
@@ -883,7 +900,7 @@ Company *compC;
     XCTAssertEqual(compA.isMajor, NO, @"company action tests");
     XCTAssertEqual(compA.didOperateThisTurn, NO, @"company action tests");
     XCTAssertEqual(compA.canLay2ndTrack, NO, @"company action tests");
-    XCTAssertEqual(compA.canBuildStation, YES, @"company action tests");
+    XCTAssertEqual(compA.canBuildStation, NO, @"company action tests");
     XCTAssertEqual(compA.boughtBrandNewTrain, NO, @"company action tests");
     XCTAssertEqual(compA.paidDividend, NO, @"company action tests");
     XCTAssertEqual(compA.presidentSoldShares, 0, @"company action tests");

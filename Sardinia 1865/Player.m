@@ -24,4 +24,13 @@
     return self;
 }
 
+- (NSString*) incomeFromMaritimeCompanies {
+    NSUInteger mCount = [self.maritimeCompany count];
+    if (mCount > 0) {
+        self.money += mCount * 20;
+        return [NSString stringWithFormat:@"%@ receives L.%lu from maritime companies\n", self.name, mCount*20];
+    }
+    return @"";
+}
+
 @end

@@ -309,7 +309,7 @@
     self.didOperateThisTurn = NO;
     self.boughtBrandNewTrain = NO;
     self.paidDividend = NO;
-    self.canBuildStation = (self.money>=10) ? YES : NO;
+    self.canBuildStation = (self.money>=10 && self.builtStations<self.numStationMarkers) ? YES : NO;
     self.canLay2ndTrack  = (self.money>=20) ? YES : NO;
 }
 

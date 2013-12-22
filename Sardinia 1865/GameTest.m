@@ -1000,6 +1000,7 @@ Game *game;
         comp[i] = game.companies[i];
         cMoney[i] = comp[i].money;
     }
+    NSArray *trainKeys;
     
     [game player:game.currentPlayer BuysIpoShare:comp[0] AtPrice:60];   pMoney[0] -= 120;   cMoney[0] += 120;
     [game advancePlayersDidPass:NO];
@@ -1019,14 +1020,73 @@ Game *game;
     [game player:game.currentPlayer BuysIpoShare:comp[3] AtPrice:60];   pMoney[3] -=  60;   cMoney[3] +=  60;
     [game advancePlayersDidPass:NO];
     
-    [game player:game.currentPlayer BuysIpoShare:comp[4] AtPrice:60];   pMoney[0] -=  60;   cMoney[0] +=  60;
+    [game player:game.currentPlayer BuysIpoShare:comp[4] AtPrice:60];   pMoney[0] -= 120;   cMoney[0] += 120;
     [game advancePlayersDidPass:NO];
-    [game player:game.currentPlayer BuysIpoShare:comp[1] AtPrice:100];  pMoney[1] -= 100;   cMoney[1] += 100;
+//    [game player:game.currentPlayer BuysIpoShare:comp[1] AtPrice:100];  pMoney[1] -= 100;   cMoney[1] += 100;
+    [game advancePlayersDidPass:YES];
+    [game player:game.currentPlayer BuysIpoShare:comp[5] AtPrice:60];   pMoney[2] -= 120;   cMoney[2] += 120;
     [game advancePlayersDidPass:NO];
-    [game player:game.currentPlayer BuysIpoShare:comp[2] AtPrice:60];   pMoney[2] -=  60;   cMoney[2] +=  60;
+    [game player:game.currentPlayer BuysIpoShare:comp[4] AtPrice:60];   pMoney[3] -=  60;   cMoney[3] +=  60;
     [game advancePlayersDidPass:NO];
-    [game player:game.currentPlayer BuysIpoShare:comp[3] AtPrice:60];   pMoney[3] -=  60;   cMoney[3] +=  60;
+    
+//    [game player:game.currentPlayer BuysIpoShare:comp[0] AtPrice:60];   pMoney[0] -=  60;   cMoney[0] +=  60;
+    [game advancePlayersDidPass:YES];
+//    [game player:game.currentPlayer BuysIpoShare:comp[1] AtPrice:100];  pMoney[1] -= 100;   cMoney[1] += 100;
+    [game advancePlayersDidPass:YES];
+//    [game player:game.currentPlayer BuysIpoShare:comp[2] AtPrice:60];   pMoney[2] -=  60;   cMoney[2] +=  60;
+    [game advancePlayersDidPass:YES];
+    [game player:game.currentPlayer BuysIpoShare:comp[5] AtPrice:60];   pMoney[3] -=  60;   cMoney[3] +=  60;
     [game advancePlayersDidPass:NO];
+    
+    [game advancePlayersDidPass:YES];
+    [game advancePlayersDidPass:YES];
+    [game advancePlayersDidPass:YES];
+    [game advancePlayersDidPass:YES];
+    
+    // No Absorbtion as companies haven't operated yet
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[0]], NO, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[1]], NO, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[2]], NO, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[3]], NO, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[4]], NO, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[5]], NO, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[6]], NO, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[7]], NO, @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[0]], nil, @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[1]], nil, @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[2]], nil, @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[3]], nil, @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[4]], nil, @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[5]], nil, @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[6]], nil, @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[7]], nil, @"can absorb test");
+    
+    for (int i=0; i<6; i++) {
+        [comp[i] cleanFlagsForOperatingRound];
+        [game presidentHandsOverMaritimeCompanyTo:comp[i]];
+        [comp[i] operateTrainsAndPayDividend:NO];
+        trainKeys = [game getTrainTextForCompany:comp[i]];
+        [game company:comp[i] BuysTrain:trainKeys[0] AtCost:99];        cMoney[i] -= 100;
+        [game advancePlayersDidPass:NO];
+    }
+    
+    // First 6 have operated - those with presidents owning multiple companies can get absorbed now
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[0]], YES, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[1]], NO, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[2]], YES, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[3]], NO, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[4]], YES, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[5]], YES, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[6]], NO, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[7]], NO, @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[0]], @[comp[4]], @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[1]], @[], @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[2]], @[comp[5]], @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[3]], @[], @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[4]], @[comp[0]], @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[5]], @[comp[2]], @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[6]], nil, @"can absorb test");
+    XCTAssertEqualObjects([game companyCanAbsorb:comp[7]], nil, @"can absorb test");
     
 }
 
