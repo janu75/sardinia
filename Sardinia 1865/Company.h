@@ -95,4 +95,6 @@
 
 - (void) cleanFlagsForOperatingRound;
 
+- (int) getCompanyCost;
+
 @end

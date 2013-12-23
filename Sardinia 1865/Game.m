@@ -352,9 +352,13 @@
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:7];
     for (Company* comp in self.companyStack) {
         if (comp != aComp && comp.isOperating && aComp.president == comp.president) {
-            // Todo: Add share price check!
-            NSLog(@"Todo: Need to check if companies have enough money for this!");
-            [list addObject:comp];
+            int cost = [comp getCompanyCost];
+            int ipoMoney = [aComp getShareByOwner:aComp] * aComp.stockPrice;
+            int totalMoney = aComp.money + comp.money + ipoMoney - 500*(aComp.numLoans + comp.numLoans);
+            // Absorbing company may hold max of three loans after merger
+            if (totalMoney - cost >= -1500) {
+                [list addObject:comp];
+            }
         }
     }
     return list;
@@ -367,8 +371,6 @@
     for (Company* comp in self.companyStack) {
         if (comp != aComp && comp.isOperating && aComp.president == comp.president) {
             return YES;
-            // Todo: Add share price check!
-            NSLog(@"Todo: Need to check if companies have enough money for this!");
         }
     }
     return NO;

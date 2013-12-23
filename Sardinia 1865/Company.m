@@ -367,4 +367,21 @@
     return self;
 }
 
+- (int) getCompanyCost {
+    int cost = 0;
+    int marketPrice;
+    if ([self isDragonBuy]) {
+        marketPrice = [self.settings getDragonPriceWithStockPrice:self.stockPrice AndGrade:@"Buy"];
+    } else if ([self isDragonSell]) {
+        marketPrice = [self.settings getDragonPriceWithStockPrice:self.stockPrice AndGrade:@"Sell"];
+    } else {
+        marketPrice = [self.settings getDragonPriceWithStockPrice:self.stockPrice AndGrade:@"Neutral"];
+    }
+    for (Certificate* cert in self.certificates) {
+        
+        cost += cert.share * marketPrice / 10;
+    }
+    return cost;
+}
+
 @end
