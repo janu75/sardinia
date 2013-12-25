@@ -97,4 +97,6 @@
 
 - (int) getCompanyCost;
 
+- (int) getShareMarketPrice;
+
 @end

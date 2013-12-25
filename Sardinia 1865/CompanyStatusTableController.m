@@ -63,6 +63,7 @@
     NSMutableArray *shares = [[NSMutableArray alloc] initWithCapacity:8];
     NSMutableArray *income = [[NSMutableArray alloc] initWithCapacity:8];
     NSMutableArray *dragon = [[NSMutableArray alloc] initWithCapacity:8];
+    NSMutableArray *loans  = [[NSMutableArray alloc] initWithCapacity:8];
     for (Company *comp in self.game.companyStack) {
         [compName addObject:comp.name];
         [shortName addObject:comp.shortName];
@@ -98,6 +99,7 @@
         } else {
             [dragon addObject:[NSString stringWithFormat:@"Keep (%@,%d)", comp.dragonRow, [comp rank]]];
         }
+        [loans addObject:[NSString stringWithFormat:@"%d", comp.numLoans]];
     }
     self.overviewTableData = @{@"Company"    : compName,
                                @"Short"      : shortName,
@@ -113,7 +115,8 @@
                                @"Stockprice" : stockPrice,
                                @"Shares"     : shares,
                                @"Income"     : income,
-                               @"Dragon"     : dragon
+                               @"Dragon"     : dragon,
+                               @"Loans"      : loans
                                };
     [self.statusTable reloadData];
     NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];

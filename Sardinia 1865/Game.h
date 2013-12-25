@@ -106,4 +106,6 @@
 
 - (NSString*) shareholderPaysBackLoan:(Shareholder*)shareholder;
 
+- (NSString*) company:(Company*)comp absorbsCompany:(Company*)target;
+
 @end

@@ -159,7 +159,7 @@ GameSetupWindowController *setupWindow;
 - (NSArray*) buildAbsorbItemsList:(NSArray*)comps {
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:7];
     for (Company* comp in comps) {
-        [list addObject:comp.shortName];
+        [list addObject:[NSString stringWithFormat:@"%@ for L.%d", comp.shortName, [comp getCompanyCost]]];
     }
     return list;
 }
@@ -416,11 +416,18 @@ GameSetupWindowController *setupWindow;
 }
 
 - (IBAction)actionAbsorbAnotherCompany:(NSButton *)sender {
-    NSLog(@"Todo: Implementation of absorbtion");
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    NSArray *absorbCandidates = [self.game companyCanAbsorb:comp];
+    NSString *key = [[self.or_popupAbsorb selectedItem] title];
+    NSUInteger index = [[self buildAbsorbItemsList:absorbCandidates] indexOfObject:key];
+    Company *absorbedComp = absorbCandidates[index];
+    [self printLog:[self.game company:comp absorbsCompany:absorbedComp]];
+    [self refreshView];
 }
 
 - (IBAction)actionAbsorbThisCompany:(NSButton *)sender {
-    NSLog(@"Todo: Implementation of absorbtion");
+    [self printLog:[self.game advancePlayersDidPass:NO]];
+    [self refreshView];
 }
 
 - (IBAction)actionLay2ndTrack:(NSButton *)sender {

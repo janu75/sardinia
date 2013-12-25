@@ -161,13 +161,7 @@
     aCertificate.owner = newOwner;
     int stockPrice = self.stockPrice;
     if ([oldOwner.name isEqualToString:@"Dragon"]) {
-        if ([self isDragonBuy]) {
-            stockPrice = [self.settings getDragonPriceWithStockPrice:stockPrice AndGrade:@"Buy"];
-        } else if ([self isDragonSell]) {
-            stockPrice = [self.settings getDragonPriceWithStockPrice:stockPrice AndGrade:@"Sell"];
-        } else {
-            stockPrice = [self.settings getDragonPriceWithStockPrice:stockPrice AndGrade:@"Neutral"];
-        }
+        stockPrice = [self getShareMarketPrice];
     }
     oldOwner.money += self.stockPrice;
     newOwner.money -= self.stockPrice;
@@ -369,19 +363,27 @@
 
 - (int) getCompanyCost {
     int cost = 0;
-    int marketPrice;
-    if ([self isDragonBuy]) {
-        marketPrice = [self.settings getDragonPriceWithStockPrice:self.stockPrice AndGrade:@"Buy"];
-    } else if ([self isDragonSell]) {
-        marketPrice = [self.settings getDragonPriceWithStockPrice:self.stockPrice AndGrade:@"Sell"];
-    } else {
-        marketPrice = [self.settings getDragonPriceWithStockPrice:self.stockPrice AndGrade:@"Neutral"];
-    }
+    int marketPrice = [self getShareMarketPrice];
     for (Certificate* cert in self.certificates) {
-        
-        cost += cert.share * marketPrice / 10;
+        if (cert.owner != self) {
+            if (self.isMajor) {
+                cost += cert.share * marketPrice / 10;
+            } else {
+                cost += cert.share * marketPrice / 20;
+            }
+        }
     }
     return cost;
+}
+
+- (int) getShareMarketPrice {
+    if ([self isDragonBuy]) {
+        return [self.settings getDragonPriceWithStockPrice:self.stockPrice AndGrade:@"Buy"];
+    } else if ([self isDragonSell]) {
+        return [self.settings getDragonPriceWithStockPrice:self.stockPrice AndGrade:@"Sell"];
+    } else {
+        return [self.settings getDragonPriceWithStockPrice:self.stockPrice AndGrade:@"Neutral"];
+    }    
 }
 
 @end

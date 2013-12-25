@@ -143,7 +143,7 @@
 }
 
 - (NSString*) advancePlayersDidPass:(BOOL)didPass {
-    NSString *msg;
+    NSString *msg = @"";
     self.turnCount++;
     [self updateStock];
     if ([self.round isEqualToString:@"Maritime Companies"]) {
@@ -349,9 +349,12 @@
     if (!aComp.isOperating) {
         return nil;
     }
+    if (aComp.didOperateThisTurn) {
+        return nil;
+    }
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:7];
     for (Company* comp in self.companyStack) {
-        if (comp != aComp && comp.isOperating && aComp.president == comp.president) {
+        if (comp != aComp && comp.isOperating && aComp.president == comp.president && !comp.didOperateThisTurn) {
             int cost = [comp getCompanyCost];
             int ipoMoney = [aComp getShareByOwner:aComp] * aComp.stockPrice;
             int totalMoney = aComp.money + comp.money + ipoMoney - 500*(aComp.numLoans + comp.numLoans);
@@ -366,6 +369,9 @@
 
 - (BOOL) companyCanGetAbsorbed:(Company *)aComp {
     if (!aComp.isOperating) {
+        return NO;
+    }
+    if (aComp.didOperateThisTurn) {
         return NO;
     }
     for (Company* comp in self.companyStack) {
@@ -685,7 +691,7 @@
     shareholder.money += 500;
     self.bank.money -= 500;
     shareholder.numLoans++;
-    return [NSString stringWithFormat:@"%@ takes loan of L.500", shareholder.name];
+    return [NSString stringWithFormat:@"%@ takes loan of L.500\n", shareholder.name];
 }
 
 - (NSString*) shareholderPaysBackLoan:(Shareholder *)shareholder {
@@ -735,6 +741,52 @@
 - (Company*) getCompanyForSaleWithKey:(NSString *)key {
     NSDictionary *dict = [self getDictionaryOfCertificatesForSaleForPresident:[self.companyTurnOrder firstObject]];
     return dict[key];
+}
+
+- (NSString*) company:(Company *)comp absorbsCompany:(Company *)target {
+    NSString *msg = @"";
+    int price = [target getShareMarketPrice];
+    for (Certificate *cert in target.certificates) {
+        Shareholder *owner = cert.owner;
+        int cost = cert.share * price / 20;
+        if (target.isMajor) {
+            cost = cert.share * price / 10;
+        }
+        owner.money += cost;
+        comp.money  -= cost;
+        owner.numCertificates--;
+        owner.numShares -= cert.share;
+        if (owner != target) {
+            msg = [NSString stringWithFormat:@"%@ pays %@ L.%d for %@\n%@", comp.shortName, owner.name, cost, cert.type, msg];
+        }
+    }
+    comp.numStationMarkers = 7;
+    comp.traffic       += target.traffic;
+    comp.trainCapacity += target.trainCapacity;
+    comp.money         += target.money;
+    comp.numLoans      += target.numLoans;
+    [comp.trains addObjectsFromArray:target.trains];
+    [comp.maritimeCompanies addObjectsFromArray:target.maritimeCompanies];
+    while ((comp.money - comp.numLoans*500 < -1500) && [self player:comp CanSell:[self.companies indexOfObject:comp]]) {
+        Certificate *cert = [comp certificateFromOwner:comp];
+        [comp sellCertificate:cert To:self.bank];
+        int cost = cert.share * price / 20;
+        if (target.isMajor) {
+            cost = cert.share * price / 10;
+        }
+        msg = [NSString stringWithFormat:@"%@ sells %@ to bank for L.%d to raise money\n%@", comp.shortName, cert.type, cost, msg];
+    }
+    while (comp.money<0) {
+        msg = [NSString stringWithFormat:@"%@%@", [self shareholderTakesLoan:comp], msg];
+    }
+    // Remove old company and re-generate as new major company
+    [self.companyStack removeObject:target];
+    [self.companyTurnOrder removeObject:target];
+    NSUInteger index = [self.companies indexOfObject:target];
+    NSMutableArray *tmp = [self.companies mutableCopy];
+    tmp[index] = [[Company alloc] initWithName:target.shortName IsMajor:YES AndSettings:self.settings];
+    self.companies = tmp;
+    return msg;
 }
 
 @end
