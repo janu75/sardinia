@@ -57,4 +57,8 @@
     return self;
 }
 
+- (NSString*) description {
+    return [NSString stringWithFormat:@"\nCertificate '%@'\n  %d%% share\n  owned by %@\n", self.type, self.share, self.owner];
+}
+
 @end

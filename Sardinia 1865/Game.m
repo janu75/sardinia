@@ -174,9 +174,10 @@
                 msg = [NSString stringWithFormat:@"%@%@", [player incomeFromMaritimeCompanies], msg];
             }
             [self buildCompanyOrder];
-            Company *comp = [self.companyTurnOrder firstObject];
-            [comp cleanFlagsForOperatingRound];
             self.operatingRoundNum = 1;
+            for (Company *c in self.companyTurnOrder) {
+                [c cleanFlagsForOperatingRound];
+            }
         }
     } else if ([self.round isEqualToString:@"Operating Round"]) {
         Company *comp = [self.companyTurnOrder firstObject];
@@ -187,6 +188,9 @@
                 self.operatingRoundNum=2;
                 [self buildCompanyOrder];
                 comp = [self.companyTurnOrder firstObject];
+                for (Company *c in self.companyTurnOrder) {
+                    [c cleanFlagsForOperatingRound];
+                }
             } else {
                 self.round = @"Stock Round";
                 self.passCount = 0;
@@ -200,7 +204,6 @@
                 msg = [self dragonTurn];
             }
         }
-        [comp cleanFlagsForOperatingRound];
     }
     [self saveGame];
     return msg;
@@ -631,7 +634,6 @@
 }
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeObject:self.companies forKey:@"Game Companies"];
     [aCoder encodeObject:self.player forKey:@"Game Player"];
     [aCoder encodeObject:self.settings forKey:@"Game Settings"];
     [aCoder encodeObject:self.compNames forKey:@"Game CompNames"];
@@ -643,10 +645,11 @@
     [aCoder encodeObject:self.companyTurnOrder forKey:@"Game CompanyTurnOrder"];
     [aCoder encodeObject:self.trains forKey:@"Game Trains"];
     [aCoder encodeObject:self.round forKey:@"Game Round"];
-    [aCoder encodeObject:[NSNumber numberWithInt:self.passCount] forKey:@"Game PassCount"];
-    [aCoder encodeObject:[NSNumber numberWithInt:self.operatingRoundNum] forKey:@"Game OperatingRoundNum"];
+    [aCoder encodeInt:self.passCount forKey:@"Game PassCount"];
+    [aCoder encodeInt:self.operatingRoundNum forKey:@"Game OperatingRoundNum"];
     [aCoder encodeInt:self.turnCount forKey:@"Game TurnCount"];
     [aCoder encodeObject:self.saveGames forKey:@"Game SaveGames"];
+    [aCoder encodeObject:self.companies forKey:@"Game Companies"];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder {
@@ -664,8 +667,8 @@
         self.companyTurnOrder = [aDecoder decodeObjectForKey:@"Game CompanyTurnOrder"];
         self.trains = [aDecoder decodeObjectForKey:@"Game Trains"];
         self.round = [aDecoder decodeObjectForKey:@"Game Round"];
-        self.passCount = [[aDecoder decodeObjectForKey:@"Game PassCount"] intValue];
-        self.operatingRoundNum = [[aDecoder decodeObjectForKey:@"Game OperatingRoundNum"] intValue];
+        self.passCount         = [aDecoder decodeIntForKey:@"Game PassCount"];
+        self.operatingRoundNum = [aDecoder decodeIntForKey:@"Game OperatingRoundNum"];
         self.turnCount         = [aDecoder decodeIntForKey:@"Game TurnCount"];
         self.saveGames         = [aDecoder decodeObjectForKey:@"Game SaveGames"];
     }
@@ -676,10 +679,11 @@
     NSString *path = [NSString stringWithFormat:@"savegame-%03d", self.turnCount];
     if ([NSKeyedArchiver archiveRootObject:self toFile:path]) {
         NSString *key;
+        Company *comp = [self.companyTurnOrder firstObject];
         if ([self.round isEqualToString:@"Stock Round"]) {
             key = [NSString stringWithFormat:@"Load %03d: Stock Round - Start of turn for %@", self.turnCount, self.currentPlayer.name];
         } else if ([self.round isEqualToString:@"Operating Round"]) {
-            key = [NSString stringWithFormat:@"Load %03d: Operating Round - Start of turn for %@", self.turnCount, self.currentPlayer.name];
+            key = [NSString stringWithFormat:@"Load %03d: Operating Round - Start of turn for %@", self.turnCount, comp.shortName];
         } else {
             key = [NSString stringWithFormat:@"Load %03d: %@", self.turnCount, self.round];
         }

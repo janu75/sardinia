@@ -110,15 +110,11 @@
 
 // Tested
 - (void) buyTrain:(Train *)aTrain ForMoney:(int)price {
-//    [self.trains addObject:aTrain];
-//    self.money -= price;
     self.trainCapacity += aTrain.capacity;
 }
 
 // Tested
 - (void) sellTrain:(Train *)aTrain ForMoney:(int)price {
-//    [self.trains removeObject:aTrain];
-//    self.money += price;
     self.trainCapacity -= aTrain.capacity;
 }
 
@@ -309,6 +305,7 @@
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
     [super encodeWithCoder:aCoder];
+    [aCoder encodeObject:self.certificates forKey:@"Company Certificates"];
     [aCoder encodeObject:[NSNumber numberWithBool:self.isOperating] forKey:@"Company IsOperating"];
     [aCoder encodeObject:[NSNumber numberWithBool:self.isFloating] forKey:@"Company IsFloating"];
     [aCoder encodeObject:[NSNumber numberWithBool:self.isMajor] forKey:@"Company IsMajor"];
@@ -330,6 +327,7 @@
     [aCoder encodeObject:self.trains forKey:@"Company Trains"];
     [aCoder encodeObject:self.maritimeCompanies forKey:@"Company MaritimeCompanies"];
     [aCoder encodeObject:self.settings forKey:@"Company Settings"];
+    [aCoder encodeObject:self.president forKey:@"Company President"];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder {
@@ -356,7 +354,8 @@
         self.trains              = [aDecoder decodeObjectForKey:@"Company Trains"];
         self.maritimeCompanies   = [aDecoder decodeObjectForKey:@"Company MaritimeCompanies"];
         self.settings            = [aDecoder decodeObjectForKey:@"Company Settings"];
-        [self updatePresident];  // This sets self.president
+        self.certificates        = [aDecoder decodeObjectForKey:@"Company Certificates"];
+        self.president           = [aDecoder decodeObjectForKey:@"Company President"];
     }
     return self;
 }
@@ -384,6 +383,18 @@
     } else {
         return [self.settings getDragonPriceWithStockPrice:self.stockPrice AndGrade:@"Neutral"];
     }    
+}
+
+- (BOOL) isEqual:(id)object {
+    BOOL equal = YES;
+    if (object == self) {
+        return YES;
+    }
+    Company *other = object;
+    if (![self.name isEqualToString:other.name]) equal = NO;
+    if (self.money != other.money) equal = NO;
+    if ([self getShareByOwner:self] != [other getShareByOwner:other]) equal = NO;
+    return equal;
 }
 
 @end

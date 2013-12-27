@@ -917,16 +917,30 @@ Company *compC;
 
 - (void) testCoding {
     NSString *path = @"savetest-Company";
+    Shareholder *somebody = [[Shareholder alloc] initWithName:@"Some Guy"];
+    compA.president = somebody;
     XCTAssertTrue([NSKeyedArchiver archiveRootObject:compA toFile:path], @"coding test");
     
     Company *copyOfComp = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    XCTAssertNotEqualObjects(compA, copyOfComp, @"coding test");
+    XCTAssertEqualObjects(compA, copyOfComp, @"coding test");
     
     NSString *path2 = @"savetest-Company2";
     XCTAssertTrue([NSKeyedArchiver archiveRootObject:copyOfComp toFile:path2], @"coding test");
     
     Company *copy2 = [NSKeyedUnarchiver unarchiveObjectWithFile:path2];
-    XCTAssertNotEqualObjects(compA, copy2, @"coding test");
+    XCTAssertEqualObjects(compA, copy2, @"coding test");
+    XCTAssertEqualObjects(compA.president.name, copy2.president.name, @"coding test");
+    int i = 0;
+    for (Certificate *cert in compA.certificates) {
+        Certificate *ccert = copy2.certificates[i++];
+//        XCTAssertEqualObjects(cert, ccert, @"%@ != %@", cert, ccert);
+        XCTAssertEqualObjects(cert.owner.name, ccert.owner.name, @"coding test");
+        XCTAssertEqualObjects(cert.type, ccert.type, @"coding test");
+        XCTAssertEqualObjects(cert.owner, ccert.owner, @"coding test");
+        NSLog(@"%@ == %@\n", cert.type, ccert.type);
+        NSLog(@"%d == %d\n", cert.share, ccert.share);
+        NSLog(@"%@ == %@\n", cert.owner.name, ccert.owner.name);
+    }
 }
 
 

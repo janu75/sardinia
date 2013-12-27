@@ -10,6 +10,7 @@
 #import "Shareholder.h"
 #import "Train.h"
 #import "GameSettings.h"
+#import "Certificate.h"
 
 @interface Company : Shareholder<NSCoding>
 
@@ -37,8 +38,8 @@
 @property (strong) NSString *shortName;
 @property (strong) NSMutableArray *trains; // of Train
 @property (strong) NSMutableArray *maritimeCompanies; // of MaritimeCompany
-//@property (strong) NSMutableArray *certificates;// of Certificate
-@property (weak) Shareholder* president;
+@property (strong) NSMutableArray *certificates;// of Certificate
+@property (strong) Shareholder* president;
 @property (strong) GameSettings *settings;
 
 - (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor AndSettings:(GameSettings*)settings;

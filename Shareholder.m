@@ -14,7 +14,6 @@
     self = [super init];
     if (self) {
         self.money = 0;
-        self.certificates = [[NSMutableArray alloc] initWithCapacity:10];
         self.name = aName;
         self.isPlayer = NO;
         self.numLoans = 0;
@@ -27,7 +26,6 @@
 - (void) encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeInt:self.money forKey:@"Shareholder Money"];
     [aCoder encodeBool:self.isPlayer forKey:@"Shareholder IsPlayer"];
-    [aCoder encodeObject:self.certificates forKey:@"Shareholder Certificates"];
     [aCoder encodeObject:self.trains forKey:@"Shareholder Trains"];
     [aCoder encodeObject:self.name forKey:@"Shareholder Name"];
     [aCoder encodeInt:self.numCertificates forKey:@"Shareholder NumCertificates"];
@@ -38,14 +36,13 @@
 - (id) initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
     if (self) {
-        self.money = [aDecoder decodeIntForKey:@"Shareholder Money"];
-        self.isPlayer = [aDecoder decodeBoolForKey:@"Shareholder IsPlayer"];
-        self.certificates = [aDecoder decodeObjectForKey:@"Shareholder Certificates"];
-        self.trains = [aDecoder decodeObjectForKey:@"Shareholder Trains"];
-        self.name = [aDecoder decodeObjectForKey:@"Shareholder Name"];
+        self.money =           [aDecoder decodeIntForKey:@"Shareholder Money"];
+        self.isPlayer =        [aDecoder decodeBoolForKey:@"Shareholder IsPlayer"];
+        self.trains =          [aDecoder decodeObjectForKey:@"Shareholder Trains"];
+        self.name =            [aDecoder decodeObjectForKey:@"Shareholder Name"];
         self.numCertificates = [aDecoder decodeIntForKey:@"Shareholder NumCertificates"];
-        self.numShares = [aDecoder decodeIntForKey:@"Shareholder NumShares"];
-        self.numLoans = [aDecoder decodeIntForKey:@"Shareholder Loans"];
+        self.numShares =       [aDecoder decodeIntForKey:@"Shareholder NumShares"];
+        self.numLoans =        [aDecoder decodeIntForKey:@"Shareholder Loans"];
     }
     return self;
 }

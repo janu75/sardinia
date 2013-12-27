@@ -22,8 +22,8 @@
 @property (strong) NSArray *compNames; // of NSString
 @property (strong) Bank* bank;
 @property (strong) Dragon* dragon;
-@property (weak) Player* currentPlayer;
-@property (weak) Player* startPlayer;
+@property (strong) Player* currentPlayer;
+@property (strong) Player* startPlayer;
 @property (strong) NSMutableArray *companyStack;
 @property (strong) NSMutableArray *companyTurnOrder;
 @property (strong) NSMutableArray *trains;
@@ -51,10 +51,6 @@
 - (BOOL) isStockRound;
 
 - (NSString*) dragonTurn;
-
-- (void) sellTrain:(Train*)aTrain To:(id)newOwner;
-
-- (void) sellTrain:(Train*)aTrain To:(id)newOwner AtCost:(int)price;
 
 - (int) getMaxInitialStockPrice;
 

@@ -7,13 +7,11 @@
 //
 
 #import <Foundation/Foundation.h>
-#import "Certificate.h"
 
 @interface Shareholder : NSObject<NSCoding>
 
 @property int money;
 @property BOOL isPlayer;
-@property (strong) NSMutableArray *certificates; // of Certificate
 @property (strong) NSMutableArray *trains;       // of Train
 @property (strong) NSString* name;
 @property int numCertificates;

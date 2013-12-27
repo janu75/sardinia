@@ -8,6 +8,7 @@
 
 #import <XCTest/XCTest.h>
 #import "Certificate.h"
+#import "Shareholder.h"
 
 @interface CertificateTest : XCTestCase
 
@@ -69,6 +70,9 @@
 
 - (void) testCoding {
     Certificate *cert = [[Certificate alloc] initWithType:@"President Major"];
+    Shareholder *owner = [[Shareholder alloc] initWithName:@"Some guy"];
+    cert.owner = owner;
+
     NSString *path = @"savetest-Certificate";
     XCTAssertTrue([NSKeyedArchiver archiveRootObject:cert toFile:path], @"coding test");
     

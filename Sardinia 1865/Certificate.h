@@ -7,13 +7,13 @@
 //
 
 #import <Foundation/Foundation.h>
-//#import "Shareholder.h"
+#import "Shareholder.h"
 
 @interface Certificate : NSObject<NSCoding>
 
 @property int share;
 @property (strong) NSString *type;
-@property (weak) id owner;
+@property (strong) Shareholder* owner;
 
 - (id) initWithType:(NSString*)type;
 
