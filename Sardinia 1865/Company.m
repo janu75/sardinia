@@ -15,7 +15,7 @@
 
 @implementation Company
 
-- (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor AndSettings:(GameSettings *)settings {
+- (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor AndSettings:(GameSettings *)settings AndBank:(Shareholder*) aBank {
     self = [super initWithName:aName];
     if (self) {
         self.shortName = aName;
@@ -31,6 +31,7 @@
         self.maritimeCompanies = [[NSMutableArray alloc] initWithCapacity:2];
         self.settings = settings;
         self.name = [self.settings companyLongName:aName];
+        self.bank = aBank;
         
         if (isMajor) {
             [self equipCertificate:[[Certificate alloc] initWithType:@"President Major"]];
@@ -89,6 +90,7 @@
 // Tested
 - (void) placeStationMarkerForCost:(int)cost{
     self.money -= cost;
+    self.bank.money += cost;
     self.builtStations++;
     self.canBuildStation = NO;
     self.canLay2ndTrack = NO;
@@ -126,11 +128,13 @@
             self.paidDividend = YES;
             for (Certificate *cert in self.certificates) {
                 Shareholder *owner = (Shareholder*) cert.owner;
-                owner.money += (cert.share * income) / 100;
+                int amount = (cert.share * income) / 100;
+                owner.money += amount;
             }
         } else {
             self.money += income;
         }
+        self.bank.money -= income;
     }
     self.isOperating = YES;
     self.didOperateThisTurn = YES;
@@ -328,6 +332,7 @@
     [aCoder encodeObject:self.maritimeCompanies forKey:@"Company MaritimeCompanies"];
     [aCoder encodeObject:self.settings forKey:@"Company Settings"];
     [aCoder encodeObject:self.president forKey:@"Company President"];
+    [aCoder encodeObject:self.bank forKey:@"Company Bank"];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder {
@@ -356,6 +361,7 @@
         self.settings            = [aDecoder decodeObjectForKey:@"Company Settings"];
         self.certificates        = [aDecoder decodeObjectForKey:@"Company Certificates"];
         self.president           = [aDecoder decodeObjectForKey:@"Company President"];
+        self.bank                = [aDecoder decodeObjectForKey:@"Company Bank"];
     }
     return self;
 }

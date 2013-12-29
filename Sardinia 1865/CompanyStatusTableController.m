@@ -135,4 +135,9 @@
     [self.statusTable selectRowIndexes:indexSet byExtendingSelection:NO];
 }
 
+- (void) loadNewGame:(Game *)aGame {
+    self.game = aGame;
+    [self updateTableData];
+}
+
 @end

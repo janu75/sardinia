@@ -33,6 +33,17 @@ Game *game;
     [super tearDown];
 }
 
+- (int) sumUpAllMoney:(Game *)aGame {
+    int money = aGame.bank.money + aGame.dragon.money;
+    for (Player *player in aGame.player) {
+        money += player.money;
+    }
+    for (Company *comp in aGame.companies) {
+        money += comp.money;
+    }
+    return money;
+}
+
 - (void) testInit {
     Game *gameA = [[Game alloc] initWithPlayers:@[@"PlayerA", @"PlayerB"] AndShortMode:YES];
     
@@ -40,6 +51,7 @@ Game *game;
     for (Company *comp in gameA.companies) {
         XCTAssertFalse([comp.shortName isEqualToString:@"CFC"], @"Init test");
         XCTAssertFalse([comp.shortName isEqualToString:@"CFD"], @"Init test");
+        XCTAssertNotNil(comp.bank, @"Init test");
     }
     XCTAssertEqual([gameA.player count],     (NSUInteger)2, @"Init test");
     XCTAssertEqual([gameA.trains count], (NSUInteger)30, @"Init test");
@@ -66,6 +78,7 @@ Game *game;
     for (Player *player in gameA.player) {
         XCTAssertEqual(player.money, 360, @"Init test");
     }
+    XCTAssertEqual([self sumUpAllMoney:gameA], 6000, @"Check that money always is constant");
 
     gameA = [[Game alloc] initWithPlayers:@[@"PlayerA", @"PlayerB", @"PlayerC"] AndShortMode:NO];
     
@@ -96,6 +109,7 @@ Game *game;
     for (Player *player in gameA.player) {
         XCTAssertEqual(player.money, 330, @"Init test");
     }
+    XCTAssertEqual([self sumUpAllMoney:gameA], 8000, @"Check that money always is constant");
 
     gameA = [[Game alloc] initWithPlayers:@[@"PlayerA", @"PlayerB", @"PlayerC", @"PlayerD"] AndShortMode:NO];
     
@@ -127,6 +141,7 @@ Game *game;
     for (Player *player in gameA.player) {
         XCTAssertEqual(player.money, 300, @"Init test");
     }
+    XCTAssertEqual([self sumUpAllMoney:gameA], 8000, @"Check that money always is constant");
 }
 
 - (void) testPlayerCanSellStuff {
@@ -161,6 +176,7 @@ Game *game;
     [compA updatePresident];
 
     // PlayerA cannot sell, as compA has not operated yet!
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     for (Player *player in game.player) {
         NSUInteger i=0;
         XCTAssert(![game player:player CanBuyFromIpo:i], @"%@ - %lu", player.name, (unsigned long)i);
@@ -215,6 +231,7 @@ Game *game;
         [comp setDragonRowWithPhase:2];
     }
     XCTAssertEqualObjects([game dragonTurn], @"", @"dragon turn test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     Company *compA = game.companies[0];
     Player *playerA = game.player[0];
@@ -226,12 +243,14 @@ Game *game;
     XCTAssert(![compA isDragonBuy], @"dragon turn test");
     XCTAssert([compA isDragonSell], @"dragon turn test");
     XCTAssertEqual([compA rank], 1, @"dragon turn test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [compA placeStationMarkerForCost:50];
     XCTAssertEqual(compA.money, 250, @"dragon turn test");
     XCTAssert(![compA isDragonBuy], @"dragon turn test");
     XCTAssert([compA isDragonSell], @"dragon turn test");
     XCTAssertEqual([compA rank], 2, @"dragon turn test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     NSArray* trainKeys = [game getTrainTextForCompany:compA];
     [game company:compA BuysTrain:trainKeys[0] AtCost:99];
@@ -240,6 +259,7 @@ Game *game;
     XCTAssert(![compA isDragonSell], @"dragon turn test");
     XCTAssertEqual([compA rank], 4, @"dragon turn test");
     XCTAssertEqual([game.trains count], (NSUInteger)33, @"Init test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     trainKeys = [game getTrainTextForCompany:compA];
     [game company:compA BuysTrain:trainKeys[0] AtCost:99];
@@ -248,6 +268,7 @@ Game *game;
     XCTAssert(![compA isDragonSell], @"dragon turn test");
     XCTAssertEqual([compA rank], 6, @"dragon turn test");
     XCTAssertEqual([game.trains count], (NSUInteger)32, @"Init test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
 }
 
@@ -302,8 +323,8 @@ Game *game;
 - (void) testSellTrain {
     Company *compA = game.companies[0];
     Company *compB = game.companies[1];
-    compA.money = 500;
-    compB.money = 500;
+    compA.money = 500;      game.bank.money -= 500;
+    compB.money = 500;      game.bank.money -= 500;
     int moneyCompA = compA.money;
     int moneyCompB = compB.money;
     int capA = 0;
@@ -317,6 +338,7 @@ Game *game;
     XCTAssertEqual(compB.money, moneyCompB, @"sell train test");
     XCTAssertEqual(compA.trainCapacity, capA, @"sell train test");
     XCTAssertEqual(compB.trainCapacity, capB, @"sell train test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     NSArray *trainKeys = [game getTrainTextForCompany:compA];
     [game company:compA BuysTrain:trainKeys[0] AtCost:99];     moneyCompA -= 100;    capA += 8;
@@ -329,6 +351,7 @@ Game *game;
     XCTAssertEqual(compB.money, moneyCompB, @"sell train test");
     XCTAssertEqual(compA.trainCapacity, capA, @"sell train test");
     XCTAssertEqual(compB.trainCapacity, capB, @"sell train test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     trainKeys = [game getTrainTextForCompany:compA];
     [game company:compA BuysTrain:trainKeys[0] AtCost:99];     moneyCompA -= 100;    capA += 8;
@@ -341,6 +364,7 @@ Game *game;
     XCTAssertEqual(compB.money, moneyCompB, @"sell train test");
     XCTAssertEqual(compA.trainCapacity, capA, @"sell train test");
     XCTAssertEqual(compB.trainCapacity, capB, @"sell train test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     trainKeys = [game getTrainTextForCompany:compA];
     [game company:compA BuysTrain:trainKeys[0] AtCost:99];     moneyCompA -= 100;    capA += 8;
@@ -353,6 +377,7 @@ Game *game;
     XCTAssertEqual(compB.money, moneyCompB, @"sell train test");
     XCTAssertEqual(compA.trainCapacity, capA, @"sell train test");
     XCTAssertEqual(compB.trainCapacity, capB, @"sell train test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     trainKeys = [game getTrainTextForCompany:compA];
     [game company:compA BuysTrain:trainKeys[0] AtCost:99];     moneyCompA -= 100;    capA += 8;
@@ -365,6 +390,7 @@ Game *game;
     XCTAssertEqual(compB.money, moneyCompB, @"sell train test");
     XCTAssertEqual(compA.trainCapacity, capA, @"sell train test");
     XCTAssertEqual(compB.trainCapacity, capB, @"sell train test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     trainKeys = [game getTrainTextForCompany:compB];
     [game company:compB BuysTrain:trainKeys[0] AtCost:99];     moneyCompB -= 100;    capB += 8;
@@ -377,9 +403,13 @@ Game *game;
     XCTAssertEqual(compB.money, moneyCompB, @"sell train test");
     XCTAssertEqual(compA.trainCapacity, capA, @"sell train test");
     XCTAssertEqual(compB.trainCapacity, capB, @"sell train test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     trainKeys = [game getTrainTextForCompany:compB];
     [game company:compB BuysTrain:trainKeys[0] AtCost:99];     moneyCompB -= 70;     capB += 8;
+
+    [compA operateTrainsAndPayDividend:YES];
+    [compB operateTrainsAndPayDividend:YES];
     
     XCTAssertEqual([game.trains count], (NSUInteger) 28, @"sell train test");
     XCTAssertEqual([game.bank.trains count], (NSUInteger) 0, @"sell train test");
@@ -389,6 +419,9 @@ Game *game;
     XCTAssertEqual(compB.money, moneyCompB, @"sell train test");
     XCTAssertEqual(compA.trainCapacity, capA, @"sell train test");
     XCTAssertEqual(compB.trainCapacity, capB, @"sell train test");
+    XCTAssertTrue(![game companyCanBuyTrain:compA], @"sell train test");
+    XCTAssertTrue( [game companyCanBuyTrain:compB], @"sell train test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     trainKeys = [game getTrainTextForCompany:compB];
     [game company:compB BuysTrain:trainKeys[0] AtCost:200]; moneyCompB -= 200;   capB += 14;
@@ -402,6 +435,9 @@ Game *game;
     XCTAssertEqual(game.settings.phase, 3, @"sell train test");
     XCTAssertEqual(compA.trainCapacity, capA, @"sell train test");
     XCTAssertEqual(compB.trainCapacity, capB, @"sell train test");
+    XCTAssertTrue(![game companyCanBuyTrain:compA], @"sell train test");
+    XCTAssertTrue(![game companyCanBuyTrain:compB], @"sell train test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 }
 
 - (void) testPlayerCanBuy {
@@ -414,6 +450,7 @@ Game *game;
     XCTAssertEqual([game player:playerA CanBuyFromDragon:0], NO, @"play can buy/sell test");
     XCTAssertEqual([game player:playerA CanSell:0], NO, @"play can buy/sell test");
     XCTAssertEqual(playerA.money, moneyA, @"player can buy/sell test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game player:playerA BuysIpoShare:compA AtPrice:60];        moneyA -= 2*60;
     [game updateStock];
@@ -424,6 +461,7 @@ Game *game;
     XCTAssertEqual([game player:playerA CanSell:0], NO, @"play can buy/sell test");
     XCTAssertEqual(playerA.money, moneyA, @"player can buy/sell test");
     XCTAssertEqual(compA.stockPrice, 60, @"player can buy/sell test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     [game player:playerA BuysIpoShare:compA AtPrice:99];        moneyA -= 60;
     [game updateStock];
@@ -436,6 +474,7 @@ Game *game;
     XCTAssertEqual(playerA.money, moneyA, @"player can buy/sell test");
     XCTAssertEqual(compA.stockPrice, 60, @"player can buy/sell test");
     XCTAssertEqual(compA.presidentSoldShares, 0, @"player can buy/sell test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     compA.isOperating = YES;
     
@@ -446,6 +485,7 @@ Game *game;
     XCTAssertEqual(playerA.money, moneyA, @"player can buy/sell test");
     XCTAssertEqual(compA.stockPrice, 60, @"player can buy/sell test");
     XCTAssertEqual(compA.presidentSoldShares, 0, @"player can buy/sell test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game player:playerA SellsShare:compA];                     moneyA += 60;
     
@@ -458,10 +498,12 @@ Game *game;
     // Stock price only is decreased if playerA is done with his turn
     XCTAssertEqual(compA.stockPrice, 60, @"player can buy/sell test");
     XCTAssertEqual(compA.presidentSoldShares, 1, @"player can buy/sell test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     [game updateStock];
     XCTAssertEqual(compA.stockPrice, 50, @"player can buy/sell test");
     XCTAssertEqual(compA.presidentSoldShares, 0, @"player can buy/sell test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 }
 
 - (void) testStockRound {
@@ -487,6 +529,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game player:game.currentPlayer BuysIpoShare:comp[1] AtPrice:100];   pMoney[1] -= 200;   cMoney[1] += 200;
     [game advancePlayersDidPass:NO];
@@ -497,6 +540,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game player:game.currentPlayer BuysIpoShare:comp[2] AtPrice:90];   pMoney[2] -= 180;   cMoney[2] += 180;
     [game advancePlayersDidPass:NO];
@@ -507,6 +551,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game player:game.currentPlayer BuysIpoShare:comp[3] AtPrice:80];   pMoney[3] -= 160;   cMoney[3] += 160;
     [game advancePlayersDidPass:NO];
@@ -517,6 +562,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     NSArray *stack = @[comp[1], comp[2], comp[3], comp[0]];
     XCTAssertEqualObjects(game.companyStack, stack, @"stock round test");
@@ -547,6 +593,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game player:game.currentPlayer BuysIpoShare:comp[1] AtPrice:99];   pMoney[1] -= 100;   cMoney[1] += 100;
     [game advancePlayersDidPass:NO];
@@ -557,6 +604,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game player:game.currentPlayer BuysIpoShare:comp[2] AtPrice:99];   pMoney[2] -= 90;   cMoney[2] += 90;
     [game advancePlayersDidPass:NO];
@@ -567,6 +615,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game player:game.currentPlayer BuysIpoShare:comp[3] AtPrice:99];   pMoney[3] -= 80;   cMoney[3] += 80;
     [game advancePlayersDidPass:NO];
@@ -595,6 +644,7 @@ Game *game;
     XCTAssertEqual(comp[5].isFloating, NO, @"stock round test");
     XCTAssertEqual(comp[6].isFloating, NO, @"stock round test");
     XCTAssertEqual(comp[7].isFloating, NO, @"stock round test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     // Round 3
     [game player:game.currentPlayer BuysIpoShare:comp[4] AtPrice:60];   pMoney[0] -= 120;   cMoney[4] += 120;
@@ -606,6 +656,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game advancePlayersDidPass:YES];
     
@@ -615,6 +666,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game advancePlayersDidPass:YES];
     
@@ -624,6 +676,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game advancePlayersDidPass:YES];
     
@@ -651,6 +704,7 @@ Game *game;
     XCTAssertEqual(comp[5].isFloating, NO, @"stock round test");
     XCTAssertEqual(comp[6].isFloating, NO, @"stock round test");
     XCTAssertEqual(comp[7].isFloating, NO, @"stock round test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     // Round 4
     [game player:game.currentPlayer SellsShare:comp[0]];                pMoney[0] += 60;
@@ -663,6 +717,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game advancePlayersDidPass:YES];
     
@@ -672,6 +727,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game advancePlayersDidPass:YES];
     
@@ -681,6 +737,7 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(cMoney[i], comp[i].money, @"Loop %d", i);
     }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game advancePlayersDidPass:YES];
     
@@ -708,11 +765,13 @@ Game *game;
     XCTAssertEqual(comp[5].isFloating, NO, @"stock round test");
     XCTAssertEqual(comp[6].isFloating, NO, @"stock round test");
     XCTAssertEqual(comp[7].isFloating, NO, @"stock round test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     // End stock round
     XCTAssertEqualObjects(game.round, @"Stock Round", @"stock round test");
     [game advancePlayersDidPass:YES];
     XCTAssertEqualObjects(game.round, @"Operating Round", @"stock round test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 }
 
 - (void) testStockPriceMovement {
@@ -738,6 +797,7 @@ Game *game;
     XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
     XCTAssertEqual(compA.president, playerA, @"stock price test");
     XCTAssertEqual([compA isDragonBuy], NO, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [compA operateTrainsAndPayDividend:YES];
     game.companyTurnOrder = [@[compA, compB] mutableCopy];
@@ -751,6 +811,7 @@ Game *game;
     XCTAssertEqual(compA.stockPrice,  90, @"stock price test");
     XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
     XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     NSArray *trainKeys = [game getTrainTextForCompany:compA];
     [game company:compA BuysTrain:trainKeys[0] AtCost:99];
@@ -764,6 +825,7 @@ Game *game;
     XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
     XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
     XCTAssertEqual([compA isDragonBuy], NO, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [compA cleanFlagsForOperatingRound];
     [compA operateTrainsAndPayDividend:YES];
@@ -775,6 +837,7 @@ Game *game;
     XCTAssertEqual(compA.stockPrice, 100, @"stock price test");
     XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
     XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [compA cleanFlagsForOperatingRound];
     [compA operateTrainsAndPayDividend:NO];
@@ -786,6 +849,7 @@ Game *game;
     XCTAssertEqual(compA.stockPrice, 100, @"stock price test");
     XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
     XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [compA cleanFlagsForOperatingRound];
     trainKeys = [game getTrainTextForCompany:compA];
@@ -801,6 +865,7 @@ Game *game;
     XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
     XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
     XCTAssertEqual([compA isDragonBuy], YES, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [compA cleanFlagsForOperatingRound];
     [game player:playerB BuysIpoShare:compA AtPrice:99];
@@ -813,6 +878,7 @@ Game *game;
     XCTAssertEqual(compA.stockPrice, 110, @"stock price test");
     XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
     XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [compA cleanFlagsForOperatingRound];
     [game player:playerB SellsShare:compA];
@@ -826,6 +892,7 @@ Game *game;
     XCTAssertEqual(compA.president, playerA, @"stock price test");
     XCTAssertEqual([compA getShareByOwner:playerA], 60, @"stock price test");
     XCTAssertEqual([compA getCertificatesByOwner:playerA], 2, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     [compA cleanFlagsForOperatingRound];
     [game player:playerB BuysBankShare:compA];
@@ -842,6 +909,7 @@ Game *game;
     XCTAssertEqual([compA getCertificatesByOwner:playerA], 1, @"stock price test");
     XCTAssertEqual([compA getShareByOwner:playerB], 40, @"stock price test");
     XCTAssertEqual([compA getCertificatesByOwner:playerB], 2, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [compA cleanFlagsForOperatingRound];
     [game player:playerA BuysBankShare:compA];
@@ -862,6 +930,7 @@ Game *game;
     XCTAssertEqual([compA isDragonBuy], YES, @"stock price test");
     XCTAssertEqual([compA getShareByOwner:game.dragon], 0, @"stock price test");
     XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 0, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     [game dragonTurn];
     game.companyTurnOrder = [@[compA, compB] mutableCopy];
@@ -878,6 +947,7 @@ Game *game;
     XCTAssertEqual([compA isDragonBuy], YES, @"stock price test");
     XCTAssertEqual([compA getShareByOwner:game.dragon], 20, @"stock price test");
     XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 1, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     [game dragonTurn];
     game.companyTurnOrder = [@[compA, compB] mutableCopy];
@@ -899,6 +969,7 @@ Game *game;
     XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 2, @"stock price test");
     XCTAssertEqual([compA.trains count], (NSUInteger) 3, @"stock price test");
     XCTAssertEqual([compB.trains count], (NSUInteger) 0, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     trainKeys = [game getTrainTextForCompany:compB];
     [game company:compB BuysTrain:trainKeys[1] AtCost:10];
@@ -919,6 +990,7 @@ Game *game;
     XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 2, @"stock price test");
     XCTAssertEqual([compA.trains count], (NSUInteger) 1, @"stock price test");
     XCTAssertEqual([compB.trains count], (NSUInteger) 2, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     XCTAssertEqual([self checkSaving], 0, @"check saving game");
     trainKeys = [game getTrainTextForCompany:compB];
@@ -937,6 +1009,7 @@ Game *game;
     XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 2, @"stock price test");
     XCTAssertEqual([compA.trains count], (NSUInteger) 0, @"stock price test");
     XCTAssertEqual([compB.trains count], (NSUInteger) 3, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     [game dragonTurn];
     game.companyTurnOrder = [@[compA, compB] mutableCopy];
@@ -956,6 +1029,7 @@ Game *game;
     XCTAssertEqual([compA getCertificatesByOwner:game.dragon], 0, @"stock price test");
     XCTAssertEqual([compA.trains count], (NSUInteger) 0, @"stock price test");
     XCTAssertEqual([compB.trains count], (NSUInteger) 3, @"stock price test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     XCTAssertEqual([self checkSaving], 0, @"check saving game");
 }
@@ -978,6 +1052,7 @@ Game *game;
 
     XCTAssertEqual([game.companies count], [copy.companies count], @"check saving");
     XCTAssertEqual([game.player count], [copy.player count], @"check saving");
+    XCTAssertEqual([self sumUpAllMoney:game], [self sumUpAllMoney:copy], @"check saving");
     for (NSUInteger i=0; i<[game.companies count]; i++) {
         Company *comp  = game.companies[i];
         Company *ccomp = copy.companies[i];
@@ -996,10 +1071,15 @@ Game *game;
         for (Certificate *cert in ccomp.certificates) {
             NSLog(@" Type: %@ - %d%% => %@ (%@)\n", cert.type, cert.share, cert.owner.name, cert.owner);
         }
+        XCTAssertNotNil(comp.bank, @"check saving");
+        XCTAssertNotNil(ccomp.bank, @"check saving");
     }
     for (NSUInteger i=0; i<[game.player count]; i++) {
         Player *player = game.player[i];
         Player *cplayer = copy.player[i];
+        MyCheckEqual([player.maritimeCompany count], [cplayer.maritimeCompany count]);
+        XCTAssertEqual([player.maritimeCompany count], [cplayer.maritimeCompany count], @"check saving");
+        XCTAssertEqualObjects(player.soldCompanies, cplayer.soldCompanies, @"check saving");
         XCTAssertEqualObjects(player.name, cplayer.name, @"Check saving");
         MyCheckEqual(player.money, cplayer.money);
         XCTAssertEqual(player.money, cplayer.money, @"Check saving");
@@ -1015,6 +1095,12 @@ Game *game;
             MyCheckEqual([comp getShareByOwner:player], [ccomp getShareByOwner:cplayer]);
             XCTAssertEqual([comp getCertificatesByOwner:player], [ccomp getCertificatesByOwner:cplayer], @"Check saving");
         }
+    }
+    for (Train *train in game.trains) {
+        XCTAssertNotEqual(train.capacity, 0, @"check saving");
+    }
+    for (Train *train in copy.trains) {
+        XCTAssertNotEqual(train.capacity, 0, @"check saving");
     }
     return error;
 }
@@ -1125,6 +1211,7 @@ Game *game;
     XCTAssertEqualObjects([game companyCanAbsorb:comp[6]], nil, @"can absorb test");
     XCTAssertEqualObjects([game companyCanAbsorb:comp[7]], nil, @"can absorb test");
     XCTAssertEqual(comp[0].money, cMoney[0], @"can absorb test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     for (Company* comp in [game.companyTurnOrder copy]) {
         NSUInteger i = [game.companies indexOfObject:comp];
@@ -1154,6 +1241,7 @@ Game *game;
     XCTAssertEqualObjects([game companyCanAbsorb:comp[6]], nil, @"can absorb test");
     XCTAssertEqualObjects([game companyCanAbsorb:comp[7]], nil, @"can absorb test");
     XCTAssertEqual(comp[0].money, cMoney[0], @"can absorb test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     for (int i=0; i<6; i++) {
         [comp[i] cleanFlagsForOperatingRound];
@@ -1184,6 +1272,7 @@ Game *game;
     XCTAssertEqual([comp[5] getCompanyCost], 3* 65, @"can absorb test");
     XCTAssertEqual([comp[6] getCompanyCost], 3*  0, @"can absorb test");
     XCTAssertEqual([comp[7] getCompanyCost], 3*  0, @"can absorb test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 
     [comp[5] operateTrainsAndPayDividend:YES];
     
@@ -1204,6 +1293,14 @@ Game *game;
     XCTAssertEqualObjects([game companyCanAbsorb:comp[5]], nil, @"can absorb test");
     XCTAssertEqualObjects([game companyCanAbsorb:comp[6]], nil, @"can absorb test");
     XCTAssertEqualObjects([game companyCanAbsorb:comp[7]], nil, @"can absorb test");
+    XCTAssertEqual([comp[0] getShareMarketPrice],  65, @"can absorb test");
+    XCTAssertEqual([comp[1] getShareMarketPrice], 110, @"can absorb test");
+    XCTAssertEqual([comp[2] getShareMarketPrice],  65, @"can absorb test");
+    XCTAssertEqual([comp[3] getShareMarketPrice],  65, @"can absorb test");
+    XCTAssertEqual([comp[4] getShareMarketPrice],  65, @"can absorb test");
+    XCTAssertEqual([comp[5] getShareMarketPrice],  65, @"can absorb test");
+    XCTAssertEqual([comp[6] getShareMarketPrice],   0, @"can absorb test");
+    XCTAssertEqual([comp[7] getShareMarketPrice],   0, @"can absorb test");
     XCTAssertEqual([comp[0] getCompanyCost], 3* 65, @"can absorb test");
     XCTAssertEqual([comp[1] getCompanyCost], 3*110, @"can absorb test");
     XCTAssertEqual([comp[2] getCompanyCost], 3* 65, @"can absorb test");
@@ -1220,8 +1317,14 @@ Game *game;
     XCTAssertEqual(comp[4].money, cMoney[4], @"can absorb test");
     XCTAssertEqual(comp[4].numLoans, 0, @"can absorb test");
     XCTAssertEqual([comp[4] getShareByOwner:comp[4]], 40, @"can absorb test");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
-    [game company:comp[0] absorbsCompany:comp[4]];      cMoney[0] += cMoney[4] - 3*65 + 500;
+    comp[4].money += 150;    cMoney[4] += 150;      game.bank.money -= 150;
+    trainKeys = [game getTrainTextForCompany:comp[4]];
+    [game company:comp[4] BuysTrain:trainKeys[0] AtCost:99];        cMoney[4] -= 200;
+    XCTAssertEqual([comp[4] getShareMarketPrice],  80, @"can absorb test");
+   
+    [game company:comp[0] absorbsCompany:comp[4]];      cMoney[0] += cMoney[4] - 3*80 + 500;
     for (int i=0; i<8; i++) {
         comp[i] = game.companies[i];
     }
@@ -1245,6 +1348,14 @@ Game *game;
     XCTAssertEqualObjects([game companyCanAbsorb:comp[5]], nil, @"can absorb test");
     XCTAssertEqualObjects([game companyCanAbsorb:comp[6]], nil, @"can absorb test");
     XCTAssertEqualObjects([game companyCanAbsorb:comp[7]], nil, @"can absorb test");
+    XCTAssertEqual([comp[0] getShareMarketPrice],  80, @"can absorb test");
+    XCTAssertEqual([comp[1] getShareMarketPrice], 110, @"can absorb test");
+    XCTAssertEqual([comp[2] getShareMarketPrice],  65, @"can absorb test");
+    XCTAssertEqual([comp[3] getShareMarketPrice],  65, @"can absorb test");
+    XCTAssertEqual([comp[4] getShareMarketPrice],   0, @"can absorb test");
+    XCTAssertEqual([comp[5] getShareMarketPrice],  65, @"can absorb test");
+    XCTAssertEqual([comp[6] getShareMarketPrice],   0, @"can absorb test");
+    XCTAssertEqual([comp[7] getShareMarketPrice],   0, @"can absorb test");
     XCTAssertEqual([comp[0] getCompanyCost], 3* 80, @"can absorb test");
     XCTAssertEqual([comp[1] getCompanyCost], 3*110, @"can absorb test");
     XCTAssertEqual([comp[2] getCompanyCost], 3* 65, @"can absorb test");
@@ -1261,8 +1372,14 @@ Game *game;
     XCTAssertEqual(comp[4].money, 0, @"can absorb test");
     XCTAssertEqual(comp[4].numLoans, 0, @"can absorb test");
     XCTAssertEqual([comp[4] getShareByOwner:comp[4]], 100, @"can absorb test");
-
-    
+    for (Company *aComp in game.companies) {
+        int cap = 0;
+        for (Train *train in aComp.trains) {
+            cap += train.capacity;
+        }
+        XCTAssertEqual(aComp.trainCapacity, cap, @"can absorb test");
+    }
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 }
 
 @end

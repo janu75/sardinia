@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3DE32ED7187048770022D3C6 /* PlayerRankingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE32ED6187048770022D3C6 /* PlayerRankingController.m */; };
 		6320878118578C11007A1704 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320878018578C11007A1704 /* Cocoa.framework */; };
 		6320878B18578C11007A1704 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6320878918578C11007A1704 /* InfoPlist.strings */; };
 		6320878D18578C11007A1704 /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 6320878C18578C11007A1704 /* main.m */; };
@@ -65,6 +66,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3DE32ED5187048770022D3C6 /* PlayerRankingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerRankingController.h; path = ../PlayerRankingController.h; sourceTree = "<group>"; };
+		3DE32ED6187048770022D3C6 /* PlayerRankingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerRankingController.m; path = ../PlayerRankingController.m; sourceTree = "<group>"; };
 		6320877D18578C11007A1704 /* Sardinia 1865.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sardinia 1865.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6320878018578C11007A1704 /* Cocoa.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Cocoa.framework; path = System/Library/Frameworks/Cocoa.framework; sourceTree = SDKROOT; };
 		6320878318578C11007A1704 /* AppKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = AppKit.framework; path = System/Library/Frameworks/AppKit.framework; sourceTree = SDKROOT; };
@@ -185,6 +188,8 @@
 		6320878618578C11007A1704 /* Sardinia 1865 */ = {
 			isa = PBXGroup;
 			children = (
+				3DE32ED5187048770022D3C6 /* PlayerRankingController.h */,
+				3DE32ED6187048770022D3C6 /* PlayerRankingController.m */,
 				6320879218578C11007A1704 /* SarAppDelegate.h */,
 				6320879318578C11007A1704 /* SarAppDelegate.m */,
 				63562261185F1B8100D8776E /* CompanyStatusTableController.h */,
@@ -383,6 +388,7 @@
 				632087E11857BC25007A1704 /* GameSettings.m in Sources */,
 				638FD29D185B0AD400DA445A /* Shareholder.m in Sources */,
 				632087D218578CC4007A1704 /* MaritimeCompany.m in Sources */,
+				3DE32ED7187048770022D3C6 /* PlayerRankingController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -49,7 +49,7 @@
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeInt:self.cost forKey:@"Train Cost"];
-    [aCoder encodeInt:self.capacity forKey:@"Train Capactiy"];
+    [aCoder encodeInt:self.capacity forKey:@"Train Capacity"];
     [aCoder encodeInt:self.techLevel forKey:@"Train TechLevel"];
     [aCoder encodeObject:self.rustsAt forKey:@"Train RustsAt"];
     [aCoder encodeObject:self.owner forKey:@"Train Owner"];

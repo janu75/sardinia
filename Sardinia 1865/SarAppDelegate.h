@@ -9,6 +9,7 @@
 #import <Cocoa/Cocoa.h>
 #import "Game.h"
 #import "CompanyStatusTableController.h"
+#import "PlayerRankingController.h"
 
 @interface SarAppDelegate : NSObject <NSApplicationDelegate,NSTableViewDataSource,NSTableViewDelegate>
 
@@ -96,6 +97,7 @@
 - (void) setPlayers:(NSArray*)players AndGameMode:(BOOL)isShort;
 
 @property (weak) IBOutlet CompanyStatusTableController *companyTable;
+@property (weak) IBOutlet PlayerRankingController *playerRanking;
 
 // Operating Round
 @property (weak) IBOutlet NSButton *or_buttonAbsorbOther;

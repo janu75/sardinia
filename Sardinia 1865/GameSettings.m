@@ -29,6 +29,7 @@
         }
         self.trainSpec = [self.pref objectForKey:@"Train Spec"];
         self.phase = 2;
+        [self adjustTrainLimit];
     }
     return self;
 }

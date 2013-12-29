@@ -34,6 +34,7 @@
 @property int money;
 @property int lastIncome;
 @property (strong) NSNumber *dragonRow;
+@property (strong) Shareholder* bank;
 
 @property (strong) NSString *shortName;
 @property (strong) NSMutableArray *trains; // of Train
@@ -42,7 +43,7 @@
 @property (strong) Shareholder* president;
 @property (strong) GameSettings *settings;
 
-- (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor AndSettings:(GameSettings*)settings;
+- (id) initWithName:(NSString *)aName IsMajor:(BOOL)isMajor AndSettings:(GameSettings*)settings AndBank:(Shareholder*) aBank;
 
 - (int) rank;
 

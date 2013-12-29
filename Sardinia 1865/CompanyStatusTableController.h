@@ -19,4 +19,6 @@
 
 - (void) updateTableData;
 
+- (void) loadNewGame:(Game*)aGame;
+
 @end

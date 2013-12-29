@@ -28,9 +28,10 @@ Company *compC;
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
     GameSettings *settings = [[GameSettings alloc] init];
-    compA = [[Company alloc] initWithName:@"FMS" IsMajor:NO AndSettings:settings];
-    compB = [[Company alloc] initWithName:@"FCS" IsMajor:NO AndSettings:settings];
-    compC = [[Company alloc] initWithName:@"SFS" IsMajor:YES AndSettings:settings];
+    Bank *bank = [[Bank alloc] initWithMoney:8000];
+    compA = [[Company alloc] initWithName:@"FMS" IsMajor:NO AndSettings:settings AndBank:bank];
+    compB = [[Company alloc] initWithName:@"FCS" IsMajor:NO AndSettings:settings AndBank:bank];
+    compC = [[Company alloc] initWithName:@"SFS" IsMajor:YES AndSettings:settings AndBank:bank];
 }
 
 - (void)tearDown
@@ -43,8 +44,9 @@ Company *compC;
     NSArray *names = [NSArray arrayWithObjects:@"FMS", @"RCSF", @"SFSS", @"FCS", @"SFS", @"FA", @"CFC", @"CFD", nil];
     NSMutableArray *companies = [[NSMutableArray alloc] initWithCapacity:8];
     GameSettings *settings = [[GameSettings alloc] init];
+    Bank *bank = [[Bank alloc] initWithMoney:8000];
     for (NSString *name in names) {
-        [companies addObject:[[Company alloc] initWithName:name IsMajor:NO AndSettings:settings]];
+        [companies addObject:[[Company alloc] initWithName:name IsMajor:NO AndSettings:settings AndBank:bank]];
     }
     
     NSDictionary *longNames = [NSDictionary dictionaryWithObjectsAndKeys:
@@ -388,7 +390,8 @@ Company *compC;
     XCTAssertEqual(compB.stockPrice, 120, @"operate trains test");
     XCTAssertEqual(compC.stockPrice, 120, @"operate trains test");
 
-    Player *aPlayer = [[Player alloc] initWithName:@"Paul" AndMoney:0];
+    Bank *bank = [[Bank alloc] initWithMoney:8000];
+    Player *aPlayer = [[Player alloc] initWithName:@"Paul" AndMoney:0 AndBank:bank];
     int moneyPlayer = 0;
     
     [compA sellCertificate:compA.certificates[0] To:aPlayer];  moneyA += 2*80;  moneyPlayer -= 2*80;
@@ -575,10 +578,11 @@ Company *compC;
 }
 
 - (void) testUpdatePresident {
-    Player *playerA = [[Player alloc] initWithName:@"Peter" AndMoney:300];
-    Player *playerB = [[Player alloc] initWithName:@"Paul" AndMoney:300];
-    Player *playerC = [[Player alloc] initWithName:@"Günther" AndMoney:300];
-    Player *playerD = [[Player alloc] initWithName:@"Rudi" AndMoney:300];
+    Bank *bank = [[Bank alloc] initWithMoney:8000];
+    Player *playerA = [[Player alloc] initWithName:@"Peter" AndMoney:300 AndBank:bank];
+    Player *playerB = [[Player alloc] initWithName:@"Paul" AndMoney:300 AndBank:bank];
+    Player *playerC = [[Player alloc] initWithName:@"Günther" AndMoney:300 AndBank:bank];
+    Player *playerD = [[Player alloc] initWithName:@"Rudi" AndMoney:300 AndBank:bank];
     
     XCTAssertNil(compA.president, @"update president test");
     XCTAssertNil(compB.president, @"update president test");
@@ -604,7 +608,6 @@ Company *compC;
     XCTAssertEqualObjects(compB.president, playerD, @"update president test");
     XCTAssertNil(compC.president, @"update president test");
 
-    Bank *bank = [[Bank alloc] initWithName:@"Bank"];
     [compB sellCertificate:compB.certificates[1] To:bank];
     [compB sellCertificate:compB.certificates[2] To:bank];
 
@@ -685,10 +688,11 @@ Company *compC;
 }
 
 - (void) testCompanyActions {
+    Bank *bank = [[Bank alloc] initWithMoney:8000];
     compA.money = 1000;
     Train *trainA = [[Train alloc] initWithTech:2 AndDiscount:NO];
     Train *trainB = [[Train alloc] initWithTech:2 AndDiscount:NO];
-    Player *playerA = [[Player alloc] initWithName:@"Paul" AndMoney:330];
+    Player *playerA = [[Player alloc] initWithName:@"Paul" AndMoney:330 AndBank:bank];
     int moneyA = compA.money;
     [compA setInitialStockPrice:100];
     [compA sellCertificate:compA.certificates[0] To:playerA];   moneyA += 2*100;

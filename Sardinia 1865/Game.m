@@ -18,27 +18,27 @@
         self.settings = [[GameSettings alloc] init];
         self.settings.isShortGame = isShort;
         self.settings.numPlayers = [playerNames count];
+        int bankMoney = (isShort) ? 6000 : 8000;
+        self.bank   = [[Bank alloc] initWithMoney:bankMoney];
         NSMutableArray *companies = [[NSMutableArray alloc] initWithCapacity:8];
         self.compNames = [self.settings companyShortNames];
         for (NSString* name in self.compNames) {
             if (isShort) {
                 if (!([name isEqualToString:@"CFC"] || [name isEqualToString:@"CFD"])) {
-                    [companies addObject:[[Company alloc] initWithName:name IsMajor:NO AndSettings:self.settings]];
+                    [companies addObject:[[Company alloc] initWithName:name IsMajor:NO AndSettings:self.settings AndBank:self.bank]];
                 }
             } else {
-                [companies addObject:[[Company alloc] initWithName:name IsMajor:NO AndSettings:self.settings]];
+                [companies addObject:[[Company alloc] initWithName:name IsMajor:NO AndSettings:self.settings AndBank:self.bank]];
             }
         }
         self.companies = companies;
         self.companyStack = [[NSMutableArray alloc] initWithCapacity:8];
-        int bankMoney = (isShort) ? 6000 : 8000;
-        self.bank   = [[Bank alloc] initWithMoney:bankMoney];
         int playerMoney = 300;
         if ([playerNames count] == 3) playerMoney = 330;
         if ([playerNames count] == 2) playerMoney = 360;
         NSMutableArray *players = [[NSMutableArray alloc] initWithCapacity:4];
         for (NSString* name in playerNames) {
-            [players addObject:[[Player alloc] initWithName:name AndMoney:playerMoney]];
+            [players addObject:[[Player alloc] initWithName:name AndMoney:playerMoney AndBank:self.bank]];
             self.bank.money -= playerMoney;
         }
         self.trains = [self.settings generateTrains];
@@ -459,6 +459,9 @@
     if ([aComp.trains count] == 0) {
         return YES;
     }
+    if ([aComp.trains count] == self.settings.trainLimit) {
+        return NO;
+    }
     if (aComp.money > 0) {
         return YES;
     }
@@ -484,9 +487,9 @@
             president.money -= diff;
         } else {
             if (train.owner==nil) {
-                transaction = [NSString stringWithFormat:@"%@ buys a new Train with capacity %d for %d", aCompany.shortName, train.capacity, aPrice];
+                transaction = [NSString stringWithFormat:@"%@ buys a new Train with capacity %d for %d", aCompany.shortName, train.capacity, train.cost];
             } else {
-                transaction = [NSString stringWithFormat:@"%@ buys a Train with capacity %d for %d from the bank", aCompany.shortName, train.capacity, aPrice];
+                transaction = [NSString stringWithFormat:@"%@ buys a Train with capacity %d for %d from the bank", aCompany.shortName, train.capacity, train.cost];
             }
             [self sellTrain:train To:aCompany];
             [aCompany buyTrain:train];
@@ -788,7 +791,7 @@
     [self.companyTurnOrder removeObject:target];
     NSUInteger index = [self.companies indexOfObject:target];
     NSMutableArray *tmp = [self.companies mutableCopy];
-    tmp[index] = [[Company alloc] initWithName:target.shortName IsMajor:YES AndSettings:self.settings];
+    tmp[index] = [[Company alloc] initWithName:target.shortName IsMajor:YES AndSettings:self.settings AndBank:self.bank];
     self.companies = tmp;
     return msg;
 }

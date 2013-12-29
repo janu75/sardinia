@@ -252,15 +252,6 @@ GameSetupWindowController *setupWindow;
     [self refreshView];
 }
 
-- (IBAction)stockInitialPrice:(NSTextField *)sender {
-    int price = [sender.stringValue intValue];
-    price = price/10;
-    price = price*10;
-    price = MIN(price, [self.game getMaxInitialStockPrice]);
-    price = MAX(price, 60);
-    [sender setStringValue:[NSString stringWithFormat:@"%d", price]];
-}
-
 - (IBAction)buyIpoButton:(NSButton *)sender {
     NSUInteger index = [self.ipoBuyButton indexOfObject:sender];
     Company *comp = self.game.companies[index];
@@ -324,7 +315,8 @@ GameSetupWindowController *setupWindow;
     setupWindow = nil;
     NSLog(@"Got Players %@", self.playerNames);
     self.game = [[Game alloc] initWithPlayers:players AndShortMode:isShort];
-    self.companyTable.game = self.game;
+    [self.companyTable loadNewGame:self.game];
+    [self.playerRanking loadNewGame:self.game];
     [self setupPlayerOverviewLabels];
     [self setupStockMarketButtons];
     [self printLog:@"Game started"];
@@ -402,6 +394,7 @@ GameSetupWindowController *setupWindow;
     }
     [self.companyTableView selectRowIndexes:indexSet byExtendingSelection:NO];
     [self.companyTable updateTableData];
+    [self.playerRanking updateTableData];
     if ([self.game.round isEqualToString:@"Operating Round"]) {
         self.textFieldOperatingRound.stringValue = [NSString stringWithFormat:@"Operating Round - %d", self.game.operatingRoundNum];
     } else {
@@ -488,7 +481,8 @@ GameSetupWindowController *setupWindow;
     NSString *key = [[sender selectedItem] title];
     NSString *path = self.game.saveGames[key];
     self.game = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
-    self.companyTable.game = self.game;
+    [self.companyTable loadNewGame:self.game];
+    [self.playerRanking loadNewGame:self.game];
     [self refreshView];
 }
 

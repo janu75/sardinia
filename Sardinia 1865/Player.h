@@ -12,11 +12,12 @@
 
 @interface Player : Shareholder
 
-@property (strong) NSString* name;
+//@property (strong) NSString* name;
 @property (strong) NSMutableArray* maritimeCompany;
 @property (strong) NSMutableArray* soldCompanies;
+@property (strong) Shareholder* bank;
 
-- (id) initWithName:(NSString*)aName AndMoney:(int)money;
+- (id) initWithName:(NSString*)aName AndMoney:(int)money AndBank:(Shareholder*)aBank;
 
 - (NSString*) incomeFromMaritimeCompanies;
 
