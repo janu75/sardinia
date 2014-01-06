@@ -69,6 +69,15 @@ GameSetupWindowController *setupWindow;
         self.dragonBuyButton = [self.dragonBuyButton arrayByAddingObjectsFromArray:@[self.buttonDragon7, self.buttonDragon8]];
         self.sellButton = [self.sellButton arrayByAddingObjectsFromArray:@[self.buttonSell7, self.buttonSell8]];
         self.stockCompanyLabel = [self.stockCompanyLabel arrayByAddingObjectsFromArray:@[self.stockLabelComp7, self.stockLabelComp8]];
+        self.conversionButtons = @{@"FMS"  : self.bu_buttonConvertFMS,
+                                   @"RCSF" : self.bu_buttonConvertRCSF,
+                                   @"SFSS" : self.bu_buttonConvertSFSS,
+                                   @"FCS"  : self.bu_buttonConvertFCS,
+                                   @"SFS"  : self.bu_buttonConvertSFS,
+                                   @"FA"   : self.bu_buttonConvertFA,
+                                   @"CFC"  : self.bu_buttonConvertCFC,
+                                   @"CFD"  : self.bu_buttonConvertCFD
+                                   };
     } else {
         [self.buttonIPO7 setTransparent:YES];
         [self.buttonIPO8 setTransparent:YES];
@@ -80,6 +89,13 @@ GameSetupWindowController *setupWindow;
         [self.buttonSell8 setTransparent:YES];
         [self.stockLabelComp7 setStringValue:@""];
         [self.stockLabelComp8 setStringValue:@""];
+        self.conversionButtons = @{@"FMS"  : self.bu_buttonConvertFMS,
+                                   @"RCSF" : self.bu_buttonConvertRCSF,
+                                   @"SFSS" : self.bu_buttonConvertSFSS,
+                                   @"FCS"  : self.bu_buttonConvertFCS,
+                                   @"SFS"  : self.bu_buttonConvertSFS,
+                                   @"FA"   : self.bu_buttonConvertFA
+                                   };
     }
 }
 
@@ -168,32 +184,40 @@ GameSetupWindowController *setupWindow;
     NSArray *absorbCandidates = [self.game companyCanAbsorb:comp];
     if ([absorbCandidates count]) {
         [self.or_buttonAbsorbOther setEnabled:YES];
+        [self.or_buttonAbsorbOther setTransparent:NO];
         [self.or_popupAbsorb removeAllItems];
         [self.or_popupAbsorb addItemsWithTitles:[self buildAbsorbItemsList:absorbCandidates]];
         [self.or_popupAbsorb setEnabled:YES];
+        [self.or_popupAbsorb setTransparent:NO];
     } else {
         [self.or_buttonAbsorbOther setEnabled:NO];
+        [self.or_buttonAbsorbOther setTransparent:YES];
         [self.or_popupAbsorb setEnabled:NO];
+        [self.or_popupAbsorb setTransparent:YES];
     }
     if ([self.game companyCanGetAbsorbed:comp]) {
         [self.or_buttonAbsorbThis setEnabled:YES];
+        [self.or_buttonAbsorbThis setTransparent:NO];
     } else {
         [self.or_buttonAbsorbThis setEnabled:NO];
+        [self.or_buttonAbsorbThis setTransparent:YES];
     }
-//    if ([absorbCandidates count] && [comp canGetAbsorbed]) {
-//        self.or_textAbsorbOr.stringValue = @"or";
-//    } else {
-//        self.or_textAbsorbOr.stringValue = @"";
-//    }
+    if ([absorbCandidates count] && [self.game companyCanGetAbsorbed:comp]) {
+        self.or_textAbsorbOr.stringValue = @"or";
+    } else {
+        self.or_textAbsorbOr.stringValue = @"";
+    }
     [self.or_buttonLay2ndTrack setEnabled:comp.canLay2ndTrack];
     [self.or_buttonPlaceStation setEnabled:comp.canBuildStation];
     [self.or_textfieldStationCost setEnabled:comp.canBuildStation];
     if (comp.didOperateThisTurn) {
         [self.or_buttonOperateTrains setEnabled:NO];
         self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d",comp.lastIncome];
+        [self.or_buttonAddTraffic setEnabled:NO];
     } else {
         [self.or_buttonOperateTrains setEnabled:YES];
         self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d",MIN(comp.traffic, comp.trainCapacity)*10];
+        [self.or_buttonAddTraffic setEnabled:YES];
     }
     if ([self.game companyCanBuyTrain:comp]) {
         NSArray *trainLabels = [self.game getTrainTextForCompany:comp];
@@ -243,6 +267,25 @@ GameSetupWindowController *setupWindow;
         [self.or_buttonCompanyPayBackLoan setEnabled:YES];
     } else {
         [self.or_buttonCompanyPayBackLoan setEnabled:NO];
+    }
+}
+
+- (void) updateButtonsForBureaucracy {
+    for (Company *comp in self.game.companies) {
+        NSButton *button = self.conversionButtons[comp.shortName];
+        if ([comp canConvertToMajor]) {
+            [button setEnabled:YES];
+            [button setTransparent:NO];
+        } else {
+            [button setEnabled:NO];
+            [button setTransparent:YES];
+        }
+    }
+    NSString *msg = [self.game downgradeMinesSentence];
+    if (msg) {
+        [self.bu_labelDownGradeMines setStringValue:msg];
+    } else {
+        [self.bu_labelDownGradeMines setStringValue:@""];
     }
 }
 
@@ -325,12 +368,35 @@ GameSetupWindowController *setupWindow;
 
 - (void) refreshView {
     [self updateTableData];
+    // Initial call, clean up tab view
+    if ([self.actionTabView numberOfTabViewItems] > 3) {
+        self.tabViewItemStockRound     = [self.actionTabView tabViewItemAtIndex:0];
+        self.tabViewItemOperatingRound = [self.actionTabView tabViewItemAtIndex:1];
+        self.tabViewItemBureaucracy    = [self.actionTabView tabViewItemAtIndex:2];
+        [self.actionTabView removeTabViewItem:self.tabViewItemStockRound];
+        [self.actionTabView removeTabViewItem:self.tabViewItemOperatingRound];
+    }
     if ([self.game.round isEqualToString:@"Stock Round"]) {
-        [self.actionTabView selectTabViewItemAtIndex:0];
+        if ([self.actionTabView indexOfTabViewItem:self.tabViewItemStockRound] == NSNotFound) {
+            [self.actionTabView removeTabViewItem:self.tabViewItemBureaucracy];
+            [self.actionTabView insertTabViewItem:self.tabViewItemStockRound atIndex:0];
+            [self.actionTabView selectTabViewItemAtIndex:0];
+        }
         [self updateButtonsForPlayer:self.game.currentPlayer];
-    } else {
-        [self.actionTabView selectTabViewItemAtIndex:1];
+    } else if ([self.game.round isEqualToString:@"Operating Round"]) {
+        if ([self.actionTabView indexOfTabViewItem:self.tabViewItemOperatingRound] == NSNotFound) {
+            [self.actionTabView removeTabViewItem:self.tabViewItemStockRound];
+            [self.actionTabView insertTabViewItem:self.tabViewItemOperatingRound atIndex:0];
+            [self.actionTabView selectTabViewItemAtIndex:0];
+        }
         [self updateButtonsForCompany:[self.game.companyTurnOrder firstObject]];
+    } else {
+        if ([self.actionTabView indexOfTabViewItem:self.tabViewItemBureaucracy] == NSNotFound) {
+            [self.actionTabView removeTabViewItem:self.tabViewItemOperatingRound];
+            [self.actionTabView insertTabViewItem:self.tabViewItemBureaucracy atIndex:0];
+            [self.actionTabView selectTabViewItemAtIndex:0];
+        }
+        [self updateButtonsForBureaucracy];
     }
 }
 
@@ -358,12 +424,13 @@ GameSetupWindowController *setupWindow;
 - (void) updateTableData {
     NSMutableArray *player = [@[@"Bank", @"Dragon"] mutableCopy];
     NSMutableArray *money = [@[[NSNumber numberWithInt:self.game.bank.money], [NSNumber numberWithInt:self.game.dragon.money]] mutableCopy];
-    NSMutableArray *cert = [@[[NSNumber numberWithInt:self.game.bank.numCertificates], [NSNumber numberWithInt:self.game.dragon.numCertificates]] mutableCopy];
+    NSMutableArray *cert = [@[[NSNumber numberWithInt:self.game.bank.numCertificates], [NSString stringWithFormat:@"%d/%d", self.game.dragon.numCertificates, [self.game.settings certificateLimit:@"Dragon"]]] mutableCopy];
     NSMutableArray *loans = [@[[NSNumber numberWithInt:0], [NSNumber numberWithInt:0]] mutableCopy];
     for (Player *guy in self.game.player) {
         [player addObject:guy.name];
         [money addObject:[NSNumber numberWithInt:guy.money]];
-        [cert addObject:[NSString stringWithFormat:@"%luM + %d", (unsigned long)[guy.maritimeCompany count], guy.numCertificates]];
+        int limit = [self.game.settings certificateLimit:guy.name];
+        [cert addObject:[NSString stringWithFormat:@"%luM + %d/%d", (unsigned long)[guy.maritimeCompany count], guy.numCertificates, limit]];
         [loans addObject:[NSNumber numberWithInt:guy.numLoans]];
     }
     NSMutableDictionary *dict = [@{@"Player"       : player,
@@ -388,11 +455,12 @@ GameSetupWindowController *setupWindow;
     NSIndexSet *indexSet;
     if ([self.game.round isEqualToString:@"Stock Round"]) {
         indexSet = [NSIndexSet indexSetWithIndex:[self.game.player indexOfObject:self.game.currentPlayer]+2];
-    } else {
+        [self.companyTableView selectRowIndexes:indexSet byExtendingSelection:NO];
+    } else if ([self.game.round isEqualToString:@"Operating Round"]) {
         Company *comp = [self.game.companyTurnOrder firstObject];
         indexSet = [NSIndexSet indexSetWithIndex:[self.game.player indexOfObject:comp.president]+2];
+        [self.companyTableView selectRowIndexes:indexSet byExtendingSelection:NO];
     }
-    [self.companyTableView selectRowIndexes:indexSet byExtendingSelection:NO];
     [self.companyTable updateTableData];
     [self.playerRanking updateTableData];
     if ([self.game.round isEqualToString:@"Operating Round"]) {
@@ -402,6 +470,7 @@ GameSetupWindowController *setupWindow;
     }
     self.textFieldTrainPhase.stringValue = [NSString stringWithFormat:@"Phase: %d", self.game.settings.phase];
     self.textFieldTurnMarker.stringValue = [NSString stringWithFormat:@"Player turns: %d", self.game.turnCount];
+    self.textFieldTrainLimit.stringValue = [NSString stringWithFormat:@"Train Limit: %d", self.game.settings.trainLimit];
     NSArray *list = [self.game.saveGames allKeys];
     [self.popupLoadGames removeAllItems];
     list = [list sortedArrayUsingSelector:@selector(compare:)];
@@ -511,17 +580,34 @@ GameSetupWindowController *setupWindow;
 
 - (IBAction)actionAbsorbtionDone:(NSButton *)sender {
     NSLog(@"Todo: Implement me");
-    assert(1);
+    assert(0);
 }
 
 - (IBAction)actionConvertCompanyToMajor:(NSButton *)sender {
-    NSLog(@"Todo: Implement me");
-    assert(1);
+    NSString *name = [[self.conversionButtons allKeysForObject:sender] firstObject];
+    for (Company *comp in self.game.companies) {
+        if ([comp.shortName isEqualToString:name]) {
+            [comp convertToMajorInPhase:self.game.settings.phase];
+            [self printLog:[NSString stringWithFormat:@"Converting %@ to major company", name]];
+        }
+    }
+    [self refreshView];
 }
 
 - (IBAction)actionBureaucracyDone:(NSButton *)sender {
-    NSLog(@"Todo: Implement me");
-    assert(1);
+    [self printLog:[self.game advancePlayersDidPass:NO]];
+    [self refreshView];
+}
+
+- (IBAction)actionTrainSelected:(NSPopUpButton *)sender {
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    NSString *key = [[self.or_popupTrain selectedItem] title];
+    Train *train = [self.game getTrainForPurchaseForCompany:comp WithText:key];
+    int cost = comp.money;
+    if (train.owner == nil || train.owner==self.game.bank) {
+        cost = train.cost;
+    }
+    [self.or_textfieldTrainCost setStringValue:[NSString stringWithFormat:@"%d", cost]];
 }
 
 @end

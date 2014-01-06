@@ -101,4 +101,6 @@
 
 - (int) getShareMarketPrice;
 
+- (BOOL) canConvertToMajor;
+
 @end

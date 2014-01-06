@@ -148,6 +148,7 @@
     [self updateStock];
     if ([self.round isEqualToString:@"Maritime Companies"]) {
         if ([self.startPlayer.maritimeCompany count] < 2) {
+            // Dead code?
             NSUInteger i = [self.player indexOfObject:self.currentPlayer];
             self.currentPlayer = self.player[(i+1) % [self.player count]];
         } else {
@@ -192,18 +193,37 @@
                     [c cleanFlagsForOperatingRound];
                 }
             } else {
-                self.round = @"Stock Round";
-                self.passCount = 0;
-                for (Company *comp in self.companies) {
-                    if (comp.isFloating) {
-                        [comp updateDragonRowInPhase:self.settings.phase];
+                // Prepare for stock round => Bureaucracy
+                // Only needed if minor companies exist or phase is > 2
+                BOOL conversionPossible = NO;
+                for (Company *aComp in self.companies) {
+                    if ([aComp canConvertToMajor]) {
+                        conversionPossible = YES;
                     }
                 }
-                // FIXME: Add reminder to downgrade tokened mines here!
-                // FIXME: Add conversion minor => major here!
-                msg = [self dragonTurn];
+                if (self.settings.phase > 2 || conversionPossible) {
+                    self.round = @"Bureaucracy";
+                } else {
+                    self.round = @"Stock Round";
+                    self.passCount = 0;
+                    for (Company *comp in self.companies) {
+                        if (comp.isFloating) {
+                            [comp updateDragonRowInPhase:self.settings.phase];
+                        }
+                    }
+                    msg = [self dragonTurn];
+                }
             }
         }
+    } else if ([self.round isEqualToString:@"Bureaucracy"]) {
+        self.round = @"Stock Round";
+        self.passCount = 0;
+        for (Company *comp in self.companies) {
+            if (comp.isFloating) {
+                [comp updateDragonRowInPhase:self.settings.phase];
+            }
+        }
+        msg = [self dragonTurn];
     }
     [self saveGame];
     return msg;
@@ -534,6 +554,7 @@
             [comp.trains removeObject:train];
             [msg appendString:[NSString stringWithFormat:@"%@ has more trains than limit of %d! Train with capacity %d goes to bank", comp.shortName, self.settings.trainLimit, train.capacity]];
             [self.bank.trains addObject:train];
+            train.owner = self.bank;
         }
     }
     for (Train* train in self.bank.trains) {
@@ -778,7 +799,7 @@
         Certificate *cert = [comp certificateFromOwner:comp];
         [comp sellCertificate:cert To:self.bank];
         int cost = cert.share * price / 20;
-        if (target.isMajor) {
+        if (comp.isMajor) {
             cost = cert.share * price / 10;
         }
         msg = [NSString stringWithFormat:@"%@ sells %@ to bank for L.%d to raise money\n%@", comp.shortName, cert.type, cost, msg];
@@ -794,6 +815,16 @@
     tmp[index] = [[Company alloc] initWithName:target.shortName IsMajor:YES AndSettings:self.settings AndBank:self.bank];
     self.companies = tmp;
     return msg;
+}
+
+- (NSString*) downgradeMinesSentence {
+    if (self.settings.phase < 3) {
+        return @"";
+    }
+    if (self.settings.phase < 5) {
+        return @"Downgrade yellow tokened mines to green!";
+    }
+    return @"Downgrade tokened mines: yellow => green, green => brown";
 }
 
 @end

@@ -22,11 +22,7 @@
 @property (strong) NSArray* dragonBuyButton;
 @property (strong) NSArray* sellButton;
 @property (strong) NSArray* stockCompanyLabel;
-//@property (strong) NSArray* overviewPlayerLabel;
-//@property (strong) NSArray* moneyPlayer;
-//@property (strong) NSArray* certificiatesPlayer;
-//@property (strong) NSArray* sharesPlayer;
-//@property (strong) NSArray* maritimeCompPlayer;
+@property (strong) NSDictionary* conversionButtons;
 @property (strong) Game* game;
 @property (weak) IBOutlet NSTextField *stockRoundPlayerLabel;
 @property (weak) IBOutlet NSTextField *stockRoundMoneyLabel;
@@ -37,7 +33,12 @@
 @property (weak) IBOutlet NSTextField *textFieldOperatingRound;
 @property (weak) IBOutlet NSTextField *textFieldTrainPhase;
 @property (weak) IBOutlet NSTextField *textFieldTurnMarker;
+@property (weak) IBOutlet NSTextField *textFieldTrainLimit;
 @property (weak) IBOutlet NSPopUpButton *popupLoadGames;
+
+@property (strong) NSTabViewItem *tabViewItemStockRound;
+@property (strong) NSTabViewItem *tabViewItemOperatingRound;
+@property (strong) NSTabViewItem *tabViewItemBureaucracy;
 
 // Stock market buttons
 @property (weak) IBOutlet NSButton *buttonIPO1;
@@ -137,6 +138,7 @@
 @property (weak) IBOutlet NSButton *bu_buttonConvertSFSS;
 @property (weak) IBOutlet NSButton *bu_buttonConvertCFD;
 @property (weak) IBOutlet NSButton *bu_buttonDone;
+@property (weak) IBOutlet NSTextField *bu_labelDownGradeMines;
 
 
 @end

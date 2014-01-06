@@ -44,4 +44,6 @@
 
 - (int) maxInitialStockValue;
 
+- (int) dragonCertificateLimit;
+
 @end

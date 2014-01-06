@@ -104,4 +104,6 @@
 
 - (NSString*) company:(Company*)comp absorbsCompany:(Company*)target;
 
+- (NSString*) downgradeMinesSentence;
+
 @end

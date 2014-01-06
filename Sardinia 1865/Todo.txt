@@ -1,7 +1,22 @@
 Todo items:
 
+Checked:
+- Disable 'Add Traffic' after operating trains
+- Buy Trains: Set price input to meaningful value (cost of train or max money)
+- Make Absorb buttons disappear if not applicable
+- Make sure that the three action tabs are only visible when they match to the current round
+- List train limit in GUI
+- Add player certificate limit to table
+
+
+Need check:
+
+Open:
+
 - Load a game from start window
-- Implement minor->major conversion
 - Implement absorbtion effects (amount of station tokens, money from shared stations)
 - Fix size of fonts 
-- Enable full-screen
+- Add icon
+- Need to check absorbtion better. Currently, company can take unlimited amount of loans
+- Sort companies according to ranking of stock price on upper table, according to this turns turn order on lower turn
+- Test for dragon certificate limit. I don't think this is implemented

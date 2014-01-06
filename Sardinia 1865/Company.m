@@ -403,4 +403,11 @@
     return equal;
 }
 
+- (BOOL) canConvertToMajor {
+    if (self.isFloating && !self.isMajor) {
+        return YES;
+    }
+    return NO;
+}
+
 @end

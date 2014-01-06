@@ -80,7 +80,7 @@
 
 - (int) certificateLimit:(NSString *)playerName {
     if ([playerName isEqualToString:@"Dragon"]) {
-        NSLog(@"certificateLimit called for Dragon!");
+        return [self dragonCertificateLimit];
     }
     return [self certificateLimit:playerName InPhase:0];
 }
@@ -173,6 +173,12 @@
         self.trainSpec   = [aDecoder decodeObjectForKey:@"GameSettings TrainSpec"];
     }
     return self;
+}
+
+- (int) dragonCertificateLimit {
+	NSDictionary *limits = [self.pref objectForKey:@"Dragon Certificate Limit"];
+    NSString *key = [NSString stringWithFormat:@"%d", self.phase];
+    return [limits[key] intValue];    
 }
 
 @end

@@ -120,6 +120,7 @@
                                };
     [self.statusTable reloadData];
     NSMutableIndexSet *indexSet = [[NSMutableIndexSet alloc] init];
+    [self.statusTable deselectAll:self];
     if ([self.game.round isEqualToString:@"Stock Round"]) {
         NSUInteger i = 0;
         for (Company* comp in self.game.companyStack) {
@@ -128,11 +129,11 @@
             }
             i++;
         }
-    } else {
+        [self.statusTable selectRowIndexes:indexSet byExtendingSelection:NO];
+    } else  if ([self.game.round isEqualToString:@"Operating Round"]) {
         [indexSet addIndex:[self.game.companyStack indexOfObject:[self.game.companyTurnOrder firstObject]]];
+        [self.statusTable selectRowIndexes:indexSet byExtendingSelection:NO];
     }
-    [self.statusTable deselectAll:self];
-    [self.statusTable selectRowIndexes:indexSet byExtendingSelection:NO];
 }
 
 - (void) loadNewGame:(Game *)aGame {
