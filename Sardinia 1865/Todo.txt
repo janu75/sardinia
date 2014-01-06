@@ -1,0 +1,7 @@
+Todo items:
+
+- Load a game from start window
+- Implement minor->major conversion
+- Implement absorbtion effects (amount of station tokens, money from shared stations)
+- Fix size of fonts 
+- Enable full-screen
