@@ -1649,6 +1649,53 @@
                                                 <action selector="companyPayBackLoan:" target="494" id="yfQ-h6-0UT"/>
                                             </connections>
                                         </button>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="fuC-DV-Rot">
+                                            <rect key="frame" x="1309" y="241" width="43" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="bDm-Ly-w6T">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="dzW-pk-WhN">
+                                            <rect key="frame" x="1309" y="209" width="43" height="22"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" selectable="YES" editable="YES" sendsActionOnEndEditing="YES" state="on" borderStyle="bezel" drawsBackground="YES" id="ufU-Hz-ijT">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="textColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="textBackgroundColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="tQu-eU-mqD">
+                                            <rect key="frame" x="966" y="244" width="337" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Number of cities with stations of both RCSF and SFSS" id="0wf-SN-is5">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <textField horizontalHuggingPriority="251" verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="1mM-hL-i3s">
+                                            <rect key="frame" x="926" y="212" width="377" height="17"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <textFieldCell key="cell" scrollable="YES" lineBreakMode="clipping" sendsActionOnEndEditing="YES" title="Number of unused station tokens for RCSF after absorbtion" id="Dbr-Vb-rM8">
+                                                <font key="font" metaFont="system"/>
+                                                <color key="textColor" name="controlTextColor" catalog="System" colorSpace="catalog"/>
+                                                <color key="backgroundColor" name="controlColor" catalog="System" colorSpace="catalog"/>
+                                            </textFieldCell>
+                                        </textField>
+                                        <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="ztO-6r-Fmd">
+                                            <rect key="frame" x="1211" y="173" width="147" height="32"/>
+                                            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                                            <buttonCell key="cell" type="push" title="Absorbtion Done" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="Dun-Cp-yTB">
+                                                <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
+                                                <font key="font" metaFont="system"/>
+                                            </buttonCell>
+                                            <connections>
+                                                <action selector="actionAbsorbtionDone:" target="494" id="RTs-KW-KZ2"/>
+                                            </connections>
+                                        </button>
                                     </subviews>
                                     <constraints>
                                         <constraint firstItem="Hny-H6-zfa" firstAttribute="top" secondItem="T2A-nv-I3z" secondAttribute="bottom" constant="8" symbolic="YES" id="00a-TJ-Aw5"/>
@@ -1729,7 +1776,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="buyIpoButton:" target="494" id="hBc-s8-C4x"/>
+                                                <action selector="actionConvertCompanyToMajor:" target="494" id="Cq4-0G-SKu"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="7Si-tJ-lzL">
@@ -1740,7 +1787,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="buyIpoButton:" target="494" id="o0Z-JP-XVq"/>
+                                                <action selector="actionConvertCompanyToMajor:" target="494" id="oiB-EW-VEz"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="irb-ea-4Dn">
@@ -1751,7 +1798,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="buyIpoButton:" target="494" id="DZs-XQ-YO6"/>
+                                                <action selector="actionConvertCompanyToMajor:" target="494" id="Zqv-gK-Phs"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Pkn-ia-WRS">
@@ -1762,7 +1809,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="buyIpoButton:" target="494" id="mWu-nQ-k2y"/>
+                                                <action selector="actionConvertCompanyToMajor:" target="494" id="u3n-ab-8oV"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Wjc-yU-kYR">
@@ -1773,7 +1820,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="buyIpoButton:" target="494" id="1pD-OU-UGA"/>
+                                                <action selector="actionConvertCompanyToMajor:" target="494" id="zvP-lL-bT8"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="6bi-NJ-V4X">
@@ -1784,7 +1831,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="buyIpoButton:" target="494" id="Noq-Wn-zp6"/>
+                                                <action selector="actionConvertCompanyToMajor:" target="494" id="6be-fx-aFd"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="pZt-ne-fTr">
@@ -1795,7 +1842,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="buyIpoButton:" target="494" id="yfg-66-o8r"/>
+                                                <action selector="actionConvertCompanyToMajor:" target="494" id="bzc-Uh-GUM"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="wkl-0Q-TCh">
@@ -1806,7 +1853,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="buyIpoButton:" target="494" id="GfV-Yb-HqL"/>
+                                                <action selector="actionBureaucracyDone:" target="494" id="K6q-Lr-H0n"/>
                                             </connections>
                                         </button>
                                         <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="xgR-1P-CGO">
@@ -1817,7 +1864,7 @@
                                                 <font key="font" metaFont="system"/>
                                             </buttonCell>
                                             <connections>
-                                                <action selector="buyIpoButton:" target="494" id="kFS-bS-MVh"/>
+                                                <action selector="actionConvertCompanyToMajor:" target="494" id="PxB-bv-uiH"/>
                                             </connections>
                                         </button>
                                     </subviews>
@@ -3191,6 +3238,15 @@
         <customObject id="494" customClass="SarAppDelegate">
             <connections>
                 <outlet property="actionTabView" destination="gjs-7f-a4D" id="OCU-7X-uVu"/>
+                <outlet property="bu_buttonConvertCFC" destination="pZt-ne-fTr" id="GeT-4X-l8C"/>
+                <outlet property="bu_buttonConvertCFD" destination="xgR-1P-CGO" id="uik-8P-61T"/>
+                <outlet property="bu_buttonConvertFA" destination="Pkn-ia-WRS" id="Cgc-0W-h9H"/>
+                <outlet property="bu_buttonConvertFCS" destination="7Si-tJ-lzL" id="m9f-g8-Isy"/>
+                <outlet property="bu_buttonConvertFMS" destination="Wjc-yU-kYR" id="bpo-UD-JjC"/>
+                <outlet property="bu_buttonConvertRCSF" destination="irb-ea-4Dn" id="8er-mW-EZA"/>
+                <outlet property="bu_buttonConvertSFS" destination="jJq-FV-d6i" id="r9e-wh-3UN"/>
+                <outlet property="bu_buttonConvertSFSS" destination="6bi-NJ-V4X" id="lYq-Ka-DAg"/>
+                <outlet property="bu_buttonDone" destination="wkl-0Q-TCh" id="bLP-cm-j2E"/>
                 <outlet property="buttonBank1" destination="SCx-Uj-eP7" id="4tT-ae-707"/>
                 <outlet property="buttonBank2" destination="mu1-Xt-wht" id="d4J-nz-Iku"/>
                 <outlet property="buttonBank3" destination="XNP-Fb-SNU" id="Ipm-da-dMK"/>
@@ -3241,11 +3297,15 @@
                 <outlet property="or_buttonOperateTrains" destination="bZ3-bq-QPf" id="xij-1E-pSM"/>
                 <outlet property="or_buttonPayDividend" destination="iIn-1q-iLR" id="IgX-w8-zua"/>
                 <outlet property="or_buttonPlaceStation" destination="cfi-rc-L2w" id="Sgu-AY-82y"/>
+                <outlet property="or_labelAbsorbCities" destination="tQu-eU-mqD" id="sR1-pO-5Nr"/>
+                <outlet property="or_labelAbsorbTokens" destination="1mM-hL-i3s" id="ahA-6e-QhF"/>
                 <outlet property="or_popupAbsorb" destination="TS0-d1-bMh" id="yY9-PV-CJu"/>
                 <outlet property="or_popupPresidentSellCompanies" destination="lJp-EB-RyX" id="7A8-ha-oAh"/>
                 <outlet property="or_popupTrain" destination="LP3-Iy-eR8" id="Gst-EZ-yCv"/>
                 <outlet property="or_presidentName" destination="F6p-bw-Y9Z" id="1Nd-Ag-sbj"/>
                 <outlet property="or_textAbsorbOr" destination="ngz-3E-uML" id="3On-sk-HAs"/>
+                <outlet property="or_textfieldAbsorbCities" destination="fuC-DV-Rot" id="BiC-KW-ypw"/>
+                <outlet property="or_textfieldAbsorbTokens" destination="dzW-pk-WhN" id="RSA-D4-oGy"/>
                 <outlet property="or_textfieldOperateText" destination="ogv-BI-cXG" id="7hP-q1-I3p"/>
                 <outlet property="or_textfieldStationCost" destination="oqW-Ms-GwC" id="rJa-tq-h7r"/>
                 <outlet property="or_textfieldTraffic" destination="JZN-YH-qip" id="o6X-3i-srn"/>

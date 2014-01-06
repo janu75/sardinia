@@ -509,4 +509,19 @@ GameSetupWindowController *setupWindow;
     [self refreshView];
 }
 
+- (IBAction)actionAbsorbtionDone:(NSButton *)sender {
+    NSLog(@"Todo: Implement me");
+    assert(1);
+}
+
+- (IBAction)actionConvertCompanyToMajor:(NSButton *)sender {
+    NSLog(@"Todo: Implement me");
+    assert(1);
+}
+
+- (IBAction)actionBureaucracyDone:(NSButton *)sender {
+    NSLog(@"Todo: Implement me");
+    assert(1);
+}
+
 @end

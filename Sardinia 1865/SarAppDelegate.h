@@ -122,7 +122,21 @@
 @property (weak) IBOutlet NSButton *or_buttonOperateDone;
 @property (weak) IBOutlet NSPopUpButton *or_popupPresidentSellCompanies;
 @property (weak) IBOutlet NSButton *or_buttonCompanyPayBackLoan;
+@property (weak) IBOutlet NSTextField *or_labelAbsorbCities;
+@property (weak) IBOutlet NSTextField *or_textfieldAbsorbCities;
+@property (weak) IBOutlet NSTextField *or_labelAbsorbTokens;
+@property (weak) IBOutlet NSTextField *or_textfieldAbsorbTokens;
 
+// Bureaucracy
+@property (weak) IBOutlet NSButton *bu_buttonConvertSFS;
+@property (weak) IBOutlet NSButton *bu_buttonConvertFCS;
+@property (weak) IBOutlet NSButton *bu_buttonConvertRCSF;
+@property (weak) IBOutlet NSButton *bu_buttonConvertCFC;
+@property (weak) IBOutlet NSButton *bu_buttonConvertFA;
+@property (weak) IBOutlet NSButton *bu_buttonConvertFMS;
+@property (weak) IBOutlet NSButton *bu_buttonConvertSFSS;
+@property (weak) IBOutlet NSButton *bu_buttonConvertCFD;
+@property (weak) IBOutlet NSButton *bu_buttonDone;
 
 
 @end
