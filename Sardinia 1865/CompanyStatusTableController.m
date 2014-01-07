@@ -64,7 +64,7 @@
     NSMutableArray *income = [[NSMutableArray alloc] initWithCapacity:8];
     NSMutableArray *dragon = [[NSMutableArray alloc] initWithCapacity:8];
     NSMutableArray *loans  = [[NSMutableArray alloc] initWithCapacity:8];
-    for (Company *comp in self.game.companyStack) {
+    for (Company *comp in self.game.frozenTurnOrder) {
         [compName addObject:comp.name];
         [shortName addObject:comp.shortName];
         [president addObject:comp.president.name];
@@ -123,7 +123,7 @@
     [self.statusTable deselectAll:self];
     if ([self.game.round isEqualToString:@"Stock Round"]) {
         NSUInteger i = 0;
-        for (Company* comp in self.game.companyStack) {
+        for (Company* comp in self.game.frozenTurnOrder) {
             if (self.game.currentPlayer == comp.president) {
                 [indexSet addIndex:i];
             }
@@ -131,7 +131,7 @@
         }
         [self.statusTable selectRowIndexes:indexSet byExtendingSelection:NO];
     } else  if ([self.game.round isEqualToString:@"Operating Round"]) {
-        [indexSet addIndex:[self.game.companyStack indexOfObject:[self.game.companyTurnOrder firstObject]]];
+        [indexSet addIndex:[self.game.frozenTurnOrder indexOfObject:[self.game.companyTurnOrder firstObject]]];
         [self.statusTable selectRowIndexes:indexSet byExtendingSelection:NO];
     }
 }

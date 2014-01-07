@@ -378,6 +378,7 @@ GameSetupWindowController *setupWindow;
     }
     if ([self.game.round isEqualToString:@"Stock Round"]) {
         if ([self.actionTabView indexOfTabViewItem:self.tabViewItemStockRound] == NSNotFound) {
+            [self.actionTabView removeTabViewItem:self.tabViewItemOperatingRound];
             [self.actionTabView removeTabViewItem:self.tabViewItemBureaucracy];
             [self.actionTabView insertTabViewItem:self.tabViewItemStockRound atIndex:0];
             [self.actionTabView selectTabViewItemAtIndex:0];
@@ -386,6 +387,7 @@ GameSetupWindowController *setupWindow;
     } else if ([self.game.round isEqualToString:@"Operating Round"]) {
         if ([self.actionTabView indexOfTabViewItem:self.tabViewItemOperatingRound] == NSNotFound) {
             [self.actionTabView removeTabViewItem:self.tabViewItemStockRound];
+            [self.actionTabView removeTabViewItem:self.tabViewItemBureaucracy];
             [self.actionTabView insertTabViewItem:self.tabViewItemOperatingRound atIndex:0];
             [self.actionTabView selectTabViewItemAtIndex:0];
         }
@@ -393,6 +395,7 @@ GameSetupWindowController *setupWindow;
     } else {
         if ([self.actionTabView indexOfTabViewItem:self.tabViewItemBureaucracy] == NSNotFound) {
             [self.actionTabView removeTabViewItem:self.tabViewItemOperatingRound];
+            [self.actionTabView removeTabViewItem:self.tabViewItemStockRound];
             [self.actionTabView insertTabViewItem:self.tabViewItemBureaucracy atIndex:0];
             [self.actionTabView selectTabViewItemAtIndex:0];
         }
@@ -419,6 +422,25 @@ GameSetupWindowController *setupWindow;
 //        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
     }
     return nil;
+}
+
+- (void) reorderTableRows {
+    NSArray *cols = [self.companyTableView tableColumns];
+    NSMutableArray *newOrder = [NSMutableArray arrayWithCapacity:8];
+    for (int i=3; i<11; i++) {
+        NSTableColumn *col = cols[i];
+        [newOrder addObject:[col identifier]];
+    }
+    for (Company *comp in self.game.companyStack) {
+        NSString *name = comp.shortName;
+        [newOrder removeObject:name];
+        [newOrder insertObject:name atIndex:[self.game.companyStack indexOfObject:comp]];
+    }
+    for (NSString *name in newOrder) {
+        NSInteger from = [self.companyTableView columnWithIdentifier:name];
+        NSInteger to   = [newOrder indexOfObject:name] + 3;
+        [self.companyTableView moveColumn:from toColumn:to];
+    }
 }
 
 - (void) updateTableData {
@@ -451,6 +473,7 @@ GameSetupWindowController *setupWindow;
         [dict setObject:array forKey:comp.shortName];
     }
     self.overviewTableData = dict;
+    [self reorderTableRows];
     [self.companyTableView reloadData];
     NSIndexSet *indexSet;
     if ([self.game.round isEqualToString:@"Stock Round"]) {
@@ -552,6 +575,20 @@ GameSetupWindowController *setupWindow;
     self.game = [NSKeyedUnarchiver unarchiveObjectWithFile:path];
     [self.companyTable loadNewGame:self.game];
     [self.playerRanking loadNewGame:self.game];
+    [self refreshView];
+}
+
+- (void) loadSavedGameWithFile:(NSString *)file {
+    [setupWindow close];
+    setupWindow = nil;
+
+    self.game = [NSKeyedUnarchiver unarchiveObjectWithFile:file];
+    [self.companyTable loadNewGame:self.game];
+    [self.playerRanking loadNewGame:self.game];
+    
+    [self setupPlayerOverviewLabels];
+    [self setupStockMarketButtons];
+    [self printLog:@"Game loaded"];
     [self refreshView];
 }
 

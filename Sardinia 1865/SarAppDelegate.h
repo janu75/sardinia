@@ -140,5 +140,6 @@
 @property (weak) IBOutlet NSButton *bu_buttonDone;
 @property (weak) IBOutlet NSTextField *bu_labelDownGradeMines;
 
+- (void) loadSavedGameWithFile:(NSString*)file;
 
 @end

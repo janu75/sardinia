@@ -10,13 +10,13 @@ Checked:
 
 
 Need check:
+- Load a game from start window
+- Add icon
+- Sort companies according to ranking of stock price on upper table, according to this turns turn order on lower turn
 
 Open:
 
-- Load a game from start window
 - Implement absorbtion effects (amount of station tokens, money from shared stations)
 - Fix size of fonts 
-- Add icon
 - Need to check absorbtion better. Currently, company can take unlimited amount of loans
-- Sort companies according to ranking of stock price on upper table, according to this turns turn order on lower turn
 - Test for dragon certificate limit. I don't think this is implemented

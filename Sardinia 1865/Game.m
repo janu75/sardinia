@@ -37,10 +37,31 @@
         if ([playerNames count] == 3) playerMoney = 330;
         if ([playerNames count] == 2) playerMoney = 360;
         NSMutableArray *players = [[NSMutableArray alloc] initWithCapacity:4];
+        NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
+        [dateFormatter setDateFormat:@"yyyy-MM-dd HH-mm"];
+        NSDate *date = [NSDate date];
+        NSString *dateString = [dateFormatter stringFromDate:date];
+//        NSURL *myUrl = [NSURL URLWithString:@"Save Games"];
+//        NSBundle *appBundle = [NSBundle mainBundle];
+        NSMutableString *dirName = [NSMutableString stringWithString:@"Save Games/"];
+//        [dirName appendString:@"/"];
+        [dirName appendString:dateString];
         for (NSString* name in playerNames) {
             [players addObject:[[Player alloc] initWithName:name AndMoney:playerMoney AndBank:self.bank]];
             self.bank.money -= playerMoney;
+            [dirName appendString:[NSString stringWithFormat:@"-%@", name]];
         }
+        if (isShort) {
+            [dirName appendString:@"-short"];
+        }
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSError *error;
+        NSLog(@"Attempting to create %@", dirName);
+        [fm createDirectoryAtPath:dirName withIntermediateDirectories:YES attributes:nil error:&error];
+        if (error) {
+            NSLog(@"Creating directory failed: %@", error.localizedDescription);
+        }
+        self.dirName = dirName;
         self.trains = [self.settings generateTrains];
         self.dragon = [[Dragon alloc] initWithName:@"Dragon"];
         self.player = players;
@@ -140,6 +161,7 @@
 
 - (void) buildCompanyOrder {
     self.companyTurnOrder = [NSMutableArray arrayWithArray:self.companyStack];
+    self.frozenTurnOrder = [self.companyTurnOrder copy];
 }
 
 - (NSString*) advancePlayersDidPass:(BOOL)didPass {
@@ -674,6 +696,8 @@
     [aCoder encodeInt:self.turnCount forKey:@"Game TurnCount"];
     [aCoder encodeObject:self.saveGames forKey:@"Game SaveGames"];
     [aCoder encodeObject:self.companies forKey:@"Game Companies"];
+    [aCoder encodeObject:self.dirName forKey:@"Game DirName"];
+    [aCoder encodeObject:self.frozenTurnOrder forKey:@"Game FrozenTurnOrder"];
 }
 
 - (id) initWithCoder:(NSCoder *)aDecoder {
@@ -695,12 +719,14 @@
         self.operatingRoundNum = [aDecoder decodeIntForKey:@"Game OperatingRoundNum"];
         self.turnCount         = [aDecoder decodeIntForKey:@"Game TurnCount"];
         self.saveGames         = [aDecoder decodeObjectForKey:@"Game SaveGames"];
+        self.dirName           = [aDecoder decodeObjectForKey:@"Game DirName"];
+        self.frozenTurnOrder   = [aDecoder decodeObjectForKey:@"Game FrozenTurnOrder"];
     }
     return self;
 }
 
 - (void) saveGame {
-    NSString *path = [NSString stringWithFormat:@"savegame-%03d", self.turnCount];
+    NSString *path = [NSString stringWithFormat:@"%@/savegame-%03d.sav", self.dirName, self.turnCount];
     if ([NSKeyedArchiver archiveRootObject:self toFile:path]) {
         NSString *key;
         Company *comp = [self.companyTurnOrder firstObject];

@@ -26,12 +26,14 @@
 @property (strong) Player* startPlayer;
 @property (strong) NSMutableArray *companyStack;
 @property (strong) NSMutableArray *companyTurnOrder;
+@property (strong) NSArray *frozenTurnOrder;
 @property (strong) NSMutableArray *trains;
 @property (strong) NSString* round;
 @property int passCount;
 @property int operatingRoundNum;
 @property int turnCount;
 @property (strong) NSMutableDictionary* saveGames;
+@property (strong) NSString* dirName;
 
 
 - (id) initWithPlayers:(NSArray*)playerNames AndShortMode:(BOOL)isShort;

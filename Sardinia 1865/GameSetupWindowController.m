@@ -52,4 +52,26 @@ SarAppDelegate *myController;
     [myController setPlayers:playerNames AndGameMode:isShortGame];
 }
 
+- (IBAction)loadGame:(NSButton *)sender {
+    NSURL *myUrl = [NSURL URLWithString:@"Documents/1865 Sardinia/"];
+    NSOpenPanel *panel = [NSOpenPanel openPanel];
+    [panel setDirectoryURL:myUrl];
+    [panel setCanChooseDirectories:YES];
+    [panel setCanChooseFiles:NO];
+    [panel setCanCreateDirectories:NO];
+    [panel setAllowsMultipleSelection:NO];
+    [panel setResolvesAliases:YES];
+    
+    NSInteger clicked = [panel runModal];
+    if (clicked == NSFileHandlingPanelOKButton) {
+        NSURL *dir = [[panel URLs] firstObject];
+        NSFileManager *fm = [NSFileManager defaultManager];
+        NSArray *files = [fm contentsOfDirectoryAtURL:dir includingPropertiesForKeys:nil options:NSDirectoryEnumerationSkipsHiddenFiles error:nil];
+//        for (NSString *file in files) {
+//            NSLog(@"Found file '%@'", file);
+//        }
+        [myController loadSavedGameWithFile:[files lastObject]];
+    }
+}
+
 @end
