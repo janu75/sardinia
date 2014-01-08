@@ -152,7 +152,7 @@
 @property (weak) IBOutlet NSButton *bu_buttonDone;
 @property (weak) IBOutlet NSTextField *bu_labelDownGradeMines;
 
-@property BOOL absorbtionOngoing;
+@property BOOL absorptionOngoing;
 @property (strong) NSString* absorbee;
 @property (strong) NSString* absorber;
 

@@ -197,7 +197,7 @@ GameSetupWindowController *setupWindow;
 }
 
 - (void) updateButtonsForCompany:(Company*)comp {
-    if (self.absorbtionOngoing) {
+    if (self.absorptionOngoing) {
         [self.or_buttonAbsorbThis setEnabled:NO];
         [self.or_buttonAbsorbOther setEnabled:NO];
         [self.or_popupAbsorb setEnabled:NO];
@@ -206,7 +206,7 @@ GameSetupWindowController *setupWindow;
         [self.or_buttonOperateTrains setEnabled:NO];
         [self.or_buttonAddTraffic setEnabled:NO];
         [self.or_labelAbsorbCities setStringValue:[NSString stringWithFormat:@"Number of cities with stations of both %@ and %@", self.absorber, self.absorbee]];
-        [self.or_labelAbsorbTokens setStringValue:[NSString stringWithFormat:@"Number of unused tokens for %@ after absorbtion", self.absorber]];
+        [self.or_labelAbsorbTokens setStringValue:[NSString stringWithFormat:@"Number of unused tokens for %@ after absorption", self.absorber]];
         [self.or_textfieldAbsorbCities setEnabled:YES];
         [self.or_textfieldAbsorbCities setHidden:NO];
         [self.or_textfieldAbsorbTokens setEnabled:YES];
@@ -214,7 +214,7 @@ GameSetupWindowController *setupWindow;
         [self.or_buttonAbsorbDone setEnabled:YES];
         [self.or_buttonAbsorbDone setTransparent:NO];
     } else {
-        // Hide absorbtion stuff
+        // Hide absorption stuff
         [self.or_labelAbsorbCities setStringValue:@""];
         [self.or_labelAbsorbTokens setStringValue:@""];
         [self.or_textfieldAbsorbCities setEnabled:NO];
@@ -561,7 +561,7 @@ GameSetupWindowController *setupWindow;
     NSUInteger index = [[self buildAbsorbItemsList:absorbCandidates] indexOfObject:key];
     Company *absorbedComp = absorbCandidates[index];
     [self printLog:[self.game company:comp absorbsCompany:absorbedComp]];
-    self.absorbtionOngoing = YES;
+    self.absorptionOngoing = YES;
     self.absorber = comp.shortName;
     self.absorbee = absorbedComp.shortName;
     [self refreshView];
@@ -672,8 +672,8 @@ GameSetupWindowController *setupWindow;
     [self refreshView];
 }
 
-- (IBAction)actionAbsorbtionDone:(NSButton *)sender {
-    self.absorbtionOngoing = NO;
+- (IBAction)actionabsorptionDone:(NSButton *)sender {
+    self.absorptionOngoing = NO;
     Company *comp = [self.game.companyTurnOrder firstObject];
     comp.builtStations = 7 - self.or_textfieldAbsorbTokens.intValue;
     int bonus = 50 * self.or_textfieldAbsorbCities.intValue;
