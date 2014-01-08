@@ -127,6 +127,7 @@
 @property (weak) IBOutlet NSTextField *or_textfieldAbsorbCities;
 @property (weak) IBOutlet NSTextField *or_labelAbsorbTokens;
 @property (weak) IBOutlet NSTextField *or_textfieldAbsorbTokens;
+@property (weak) IBOutlet NSTextField *or_labelNewTrainInfo;
 
 // Bureaucracy
 @property (weak) IBOutlet NSButton *bu_buttonConvertSFS;

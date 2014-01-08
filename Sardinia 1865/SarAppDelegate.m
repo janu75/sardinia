@@ -268,6 +268,8 @@ GameSetupWindowController *setupWindow;
     } else {
         [self.or_buttonCompanyPayBackLoan setEnabled:NO];
     }
+    Train *nextTrain = [self.game.trains firstObject];
+    self.or_labelNewTrainInfo.stringValue = [NSString stringWithFormat:@"New train: Phase %d, Capacity %d, cost L.%d", nextTrain.techLevel, nextTrain.capacity, nextTrain.cost];
 }
 
 - (void) updateButtonsForBureaucracy {
@@ -376,14 +378,22 @@ GameSetupWindowController *setupWindow;
         [self.actionTabView removeTabViewItem:self.tabViewItemStockRound];
         [self.actionTabView removeTabViewItem:self.tabViewItemOperatingRound];
     }
+
     if ([self.game.round isEqualToString:@"Stock Round"]) {
-        if ([self.actionTabView indexOfTabViewItem:self.tabViewItemStockRound] == NSNotFound) {
+        if (self.game.bank.ranOutOfMoney) {
             [self.actionTabView removeTabViewItem:self.tabViewItemOperatingRound];
             [self.actionTabView removeTabViewItem:self.tabViewItemBureaucracy];
-            [self.actionTabView insertTabViewItem:self.tabViewItemStockRound atIndex:0];
+            [self.actionTabView removeTabViewItem:self.tabViewItemStockRound];
             [self.actionTabView selectTabViewItemAtIndex:0];
+        } else {
+            if ([self.actionTabView indexOfTabViewItem:self.tabViewItemStockRound] == NSNotFound) {
+                [self.actionTabView removeTabViewItem:self.tabViewItemOperatingRound];
+                [self.actionTabView removeTabViewItem:self.tabViewItemBureaucracy];
+                [self.actionTabView insertTabViewItem:self.tabViewItemStockRound atIndex:0];
+                [self.actionTabView selectTabViewItemAtIndex:0];
+            }
+            [self updateButtonsForPlayer:self.game.currentPlayer];
         }
-        [self updateButtonsForPlayer:self.game.currentPlayer];
     } else if ([self.game.round isEqualToString:@"Operating Round"]) {
         if ([self.actionTabView indexOfTabViewItem:self.tabViewItemOperatingRound] == NSNotFound) {
             [self.actionTabView removeTabViewItem:self.tabViewItemStockRound];
