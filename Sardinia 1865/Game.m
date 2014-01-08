@@ -101,7 +101,7 @@
     if (aPlayer.isPlayer && aPlayer.money < stockprice) {
         canBuy = NO;
     }
-    if ([comp getCertificatesByOwner:aPlayer] == [self.settings certificateLimit:aPlayer.name InPhase:self.settings.phase]) {
+    if (aPlayer.numCertificates >= [self.settings certificateLimit:aPlayer.name]) {
         canBuy = NO;
     }
     if (aPlayer.isPlayer) {

@@ -164,6 +164,9 @@ Game *game;
     }
 
     Company *compA = game.companies[0];
+    Company *compB = game.companies[1];
+    Company *compC = game.companies[2];
+//    Company *compD = game.companies[3];
     Player *playerA = game.player[0];
     Player *playerB = game.player[1];
     Player *playerC = game.player[2];
@@ -211,7 +214,6 @@ Game *game;
         }
     }
  
-    
     NSUInteger i = 0;
     XCTAssert(![game player:game.dragon CanBuyFromIpo:i], @"%lu", (unsigned long)i);
     XCTAssert(![game player:game.dragon CanBuyFromBank:i], @"Player can sell test");
@@ -223,6 +225,55 @@ Game *game;
         XCTAssert(![game player:game.dragon CanBuyFromDragon:i], @"Player can sell test");
         XCTAssert(![game player:game.dragon CanSell:i], @"Player can sell test");
     }
+    
+    // Check dragon certificate limit
+    XCTAssertEqual(game.settings.phase, 2, @"Dragon certificate limit");
+    XCTAssertEqual(game.dragon.numCertificates, 0, @"Dragon certificate limit");
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
+    
+    [game player:playerB SellsShare:compA];
+    [game player:playerC SellsShare:compA];
+    [game player:playerD SellsShare:compA];
+    [game player:playerB BuysIpoShare:compB AtPrice:100];
+    [game player:playerC BuysIpoShare:compC AtPrice:90];
+
+    XCTAssert(![game player:game.dragon CanBuyFromIpo:0], @"%lu", (unsigned long)i);
+    XCTAssert([game player:game.dragon CanBuyFromBank:0], @"Player can sell test");
+    XCTAssert([game player:game.dragon CanBuyFromIpo:1], @"%lu", (unsigned long)i);
+    XCTAssert(![game player:game.dragon CanBuyFromBank:1], @"Player can sell test");
+    XCTAssert([game player:game.dragon CanBuyFromIpo:2], @"%lu", (unsigned long)i);
+    XCTAssert(![game player:game.dragon CanBuyFromBank:2], @"Player can sell test");
+
+    Certificate *cert = compA.certificates[[compA getCertificatesByOwner:game.bank]];
+    [compA sellCertificate:cert To:game.dragon];
+    cert = compA.certificates[[compA getCertificatesByOwner:game.bank]];
+    [compA sellCertificate:cert To:game.dragon];
+    cert = compA.certificates[[compA getCertificatesByOwner:game.bank]];
+    [compA sellCertificate:cert To:game.dragon];
+    
+    XCTAssert(![game player:game.dragon CanBuyFromIpo:0], @"%lu", (unsigned long)i);
+    XCTAssert(![game player:game.dragon CanBuyFromBank:0], @"Player can sell test");
+    XCTAssert( [game player:game.dragon CanBuyFromIpo:3], @"%lu", (unsigned long)i);
+    XCTAssert(![game player:game.dragon CanBuyFromBank:3], @"Player can sell test");
+
+    cert = compB.certificates[[compB getCertificatesByOwner:compB]];
+    [compB sellCertificate:cert To:game.dragon];
+    cert = compB.certificates[[compB getCertificatesByOwner:compB]];
+    [compB sellCertificate:cert To:game.dragon];
+    
+    cert = compC.certificates[[compC getCertificatesByOwner:compC]];
+    [compC sellCertificate:cert To:game.dragon];
+    cert = compC.certificates[[compC getCertificatesByOwner:compC]];
+    [compC sellCertificate:cert To:game.dragon];
+    
+    XCTAssert(![game player:game.dragon CanBuyFromIpo:1], @"%lu", (unsigned long)i);  // Share limit (company)
+    XCTAssert(![game player:game.dragon CanBuyFromBank:1], @"Player can sell test");
+    XCTAssert(![game player:game.dragon CanBuyFromIpo:2], @"%lu", (unsigned long)i);  // Share limit (company)
+    XCTAssert(![game player:game.dragon CanBuyFromBank:2], @"Player can sell test");
+    XCTAssert(![game player:game.dragon CanBuyFromIpo:3], @"%lu", (unsigned long)i);  // Dragon certificate limit
+    XCTAssert(![game player:game.dragon CanBuyFromBank:3], @"Player can sell test");
+    
+    XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
 }
 
 - (void) testDragonTurn {

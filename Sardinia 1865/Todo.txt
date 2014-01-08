@@ -7,6 +7,7 @@ Checked:
 - Make sure that the three action tabs are only visible when they match to the current round
 - List train limit in GUI
 - Add player certificate limit to table
+- Test for dragon certificate limit. I don't think this is implemented
 
 
 Need check:
@@ -15,8 +16,6 @@ Need check:
 - Sort companies according to ranking of stock price on upper table, according to this turns turn order on lower turn
 
 Open:
-
 - Implement absorbtion effects (amount of station tokens, money from shared stations)
 - Fix size of fonts 
 - Need to check absorbtion better. Currently, company can take unlimited amount of loans
-- Test for dragon certificate limit. I don't think this is implemented
