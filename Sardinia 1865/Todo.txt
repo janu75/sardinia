@@ -14,8 +14,8 @@ Need check:
 - Load a game from start window
 - Add icon
 - Sort companies according to ranking of stock price on upper table, according to this turns turn order on lower turn
+- Implement absorbtion effects (amount of station tokens, money from shared stations)
 
 Open:
-- Implement absorbtion effects (amount of station tokens, money from shared stations)
-- Fix size of fonts 
+- Fix size of fonts
 - Need to check absorbtion better. Currently, company can take unlimited amount of loans

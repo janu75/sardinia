@@ -22,6 +22,7 @@
 @property (strong) NSArray* dragonBuyButton;
 @property (strong) NSArray* sellButton;
 @property (strong) NSArray* stockCompanyLabel;
+@property (strong) NSArray* companyTypeLabel;
 @property (strong) NSDictionary* conversionButtons;
 @property (strong) Game* game;
 @property (weak) IBOutlet NSTextField *stockRoundPlayerLabel;
@@ -77,6 +78,15 @@
 @property (weak) IBOutlet NSButton *buttonDragon7;
 @property (weak) IBOutlet NSButton *buttonDragon8;
 
+@property (weak) IBOutlet NSTextField *labelCompType1;
+@property (weak) IBOutlet NSTextField *labelCompType2;
+@property (weak) IBOutlet NSTextField *labelCompType3;
+@property (weak) IBOutlet NSTextField *labelCompType4;
+@property (weak) IBOutlet NSTextField *labelCompType5;
+@property (weak) IBOutlet NSTextField *labelCompType6;
+@property (weak) IBOutlet NSTextField *labelCompType7;
+@property (weak) IBOutlet NSTextField *labelCompType8;
+
 @property (weak) IBOutlet NSButton *buttonPlayerPayBackLoan;
 
 // Stock market labels
@@ -128,6 +138,7 @@
 @property (weak) IBOutlet NSTextField *or_labelAbsorbTokens;
 @property (weak) IBOutlet NSTextField *or_textfieldAbsorbTokens;
 @property (weak) IBOutlet NSTextField *or_labelNewTrainInfo;
+@property (weak) IBOutlet NSButton *or_buttonAbsorbDone;
 
 // Bureaucracy
 @property (weak) IBOutlet NSButton *bu_buttonConvertSFS;
@@ -140,6 +151,10 @@
 @property (weak) IBOutlet NSButton *bu_buttonConvertCFD;
 @property (weak) IBOutlet NSButton *bu_buttonDone;
 @property (weak) IBOutlet NSTextField *bu_labelDownGradeMines;
+
+@property BOOL absorbtionOngoing;
+@property (strong) NSString* absorbee;
+@property (strong) NSString* absorber;
 
 - (void) loadSavedGameWithFile:(NSString*)file;
 

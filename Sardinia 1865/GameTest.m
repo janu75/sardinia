@@ -476,6 +476,7 @@ Game *game;
 
     trainKeys = [game getTrainTextForCompany:compB];
     [game company:compB BuysTrain:trainKeys[0] AtCost:200]; moneyCompB -= 200;   capB += 14;
+    capA -= 8;  // Train limit reached, triggered buy compB buying new train
     
     XCTAssertEqual([game.trains count], (NSUInteger) 27, @"sell train test");
     XCTAssertEqual([game.bank.trains count], (NSUInteger) 1, @"sell train test");

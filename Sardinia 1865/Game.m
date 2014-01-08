@@ -161,6 +161,11 @@
 
 - (void) buildCompanyOrder {
     self.companyTurnOrder = [NSMutableArray arrayWithArray:self.companyStack];
+    for (Company *comp in self.companyStack) {
+        if (!comp.isFloating) {
+            [self.companyTurnOrder removeObject:comp];
+        }
+    }
     self.frozenTurnOrder = [self.companyTurnOrder copy];
 }
 
@@ -576,6 +581,7 @@
         }
         while ([comp.trains count]> self.settings.trainLimit) {
             Train *train = [comp.trains firstObject];
+            comp.trainCapacity -= train.capacity;
             [comp.trains removeObject:train];
             [msg appendString:[NSString stringWithFormat:@"%@ has more trains than limit of %d! Train with capacity %d goes to bank", comp.shortName, self.settings.trainLimit, train.capacity]];
             [self.bank.trains addObject:train];
@@ -824,6 +830,7 @@
     comp.money         += target.money;
     comp.numLoans      += target.numLoans;
     [comp.trains addObjectsFromArray:target.trains];
+    msg = [NSString stringWithFormat:@"%@%@", [self checkTrainLimits], msg];
     [comp.maritimeCompanies addObjectsFromArray:target.maritimeCompanies];
     while ((comp.money - comp.numLoans*500 < -1500) && [self player:comp CanSell:[self.companies indexOfObject:comp]]) {
         Certificate *cert = [comp certificateFromOwner:comp];

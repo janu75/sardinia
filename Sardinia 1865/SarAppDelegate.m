@@ -63,12 +63,19 @@ GameSetupWindowController *setupWindow;
                                self.stockLabelComp4,
                                self.stockLabelComp5,
                                self.stockLabelComp6];
+    self.companyTypeLabel = @[self.labelCompType1,
+                              self.labelCompType2,
+                              self.labelCompType3,
+                              self.labelCompType4,
+                              self.labelCompType5,
+                              self.labelCompType6];
     if (!self.game.settings.isShortGame) {
         self.ipoBuyButton = [self.ipoBuyButton arrayByAddingObjectsFromArray:@[self.buttonIPO7, self.buttonIPO8]];
         self.bankBuyButton = [self.bankBuyButton arrayByAddingObjectsFromArray:@[self.buttonBank7,self.buttonBank8]];
         self.dragonBuyButton = [self.dragonBuyButton arrayByAddingObjectsFromArray:@[self.buttonDragon7, self.buttonDragon8]];
         self.sellButton = [self.sellButton arrayByAddingObjectsFromArray:@[self.buttonSell7, self.buttonSell8]];
         self.stockCompanyLabel = [self.stockCompanyLabel arrayByAddingObjectsFromArray:@[self.stockLabelComp7, self.stockLabelComp8]];
+        self.companyTypeLabel = [self.companyTypeLabel arrayByAddingObjectsFromArray:@[self.labelCompType7, self.labelCompType8]];
         self.conversionButtons = @{@"FMS"  : self.bu_buttonConvertFMS,
                                    @"RCSF" : self.bu_buttonConvertRCSF,
                                    @"SFSS" : self.bu_buttonConvertSFSS,
@@ -162,6 +169,15 @@ GameSetupWindowController *setupWindow;
         [button setEnabled:[self.game player:aPlayer CanSell:i++]];
     }
     i=0;
+    for (NSTextField *field in self.companyTypeLabel) {
+        Company *comp = self.game.companies[i++];
+        if (comp.isMajor) {
+            [field setStringValue:@"Major"];
+        } else {
+            [field setStringValue:@"Minor"];
+        }
+    }
+    i=0;
     for (NSTextField* label in self.stockCompanyLabel) {
         label.stringValue = self.game.compNames[i++];
     }
@@ -181,92 +197,120 @@ GameSetupWindowController *setupWindow;
 }
 
 - (void) updateButtonsForCompany:(Company*)comp {
-    NSArray *absorbCandidates = [self.game companyCanAbsorb:comp];
-    if ([absorbCandidates count]) {
-        [self.or_buttonAbsorbOther setEnabled:YES];
-        [self.or_buttonAbsorbOther setTransparent:NO];
-        [self.or_popupAbsorb removeAllItems];
-        [self.or_popupAbsorb addItemsWithTitles:[self buildAbsorbItemsList:absorbCandidates]];
-        [self.or_popupAbsorb setEnabled:YES];
-        [self.or_popupAbsorb setTransparent:NO];
-    } else {
-        [self.or_buttonAbsorbOther setEnabled:NO];
-        [self.or_buttonAbsorbOther setTransparent:YES];
-        [self.or_popupAbsorb setEnabled:NO];
-        [self.or_popupAbsorb setTransparent:YES];
-    }
-    if ([self.game companyCanGetAbsorbed:comp]) {
-        [self.or_buttonAbsorbThis setEnabled:YES];
-        [self.or_buttonAbsorbThis setTransparent:NO];
-    } else {
+    if (self.absorbtionOngoing) {
         [self.or_buttonAbsorbThis setEnabled:NO];
-        [self.or_buttonAbsorbThis setTransparent:YES];
-    }
-    if ([absorbCandidates count] && [self.game companyCanGetAbsorbed:comp]) {
-        self.or_textAbsorbOr.stringValue = @"or";
-    } else {
-        self.or_textAbsorbOr.stringValue = @"";
-    }
-    [self.or_buttonLay2ndTrack setEnabled:comp.canLay2ndTrack];
-    [self.or_buttonPlaceStation setEnabled:comp.canBuildStation];
-    [self.or_textfieldStationCost setEnabled:comp.canBuildStation];
-    if (comp.didOperateThisTurn) {
+        [self.or_buttonAbsorbOther setEnabled:NO];
+        [self.or_popupAbsorb setEnabled:NO];
+        [self.or_buttonLay2ndTrack setEnabled:NO];
+        [self.or_buttonPlaceStation setEnabled:NO];
         [self.or_buttonOperateTrains setEnabled:NO];
-        self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d",comp.lastIncome];
         [self.or_buttonAddTraffic setEnabled:NO];
+        [self.or_labelAbsorbCities setStringValue:[NSString stringWithFormat:@"Number of cities with stations of both %@ and %@", self.absorber, self.absorbee]];
+        [self.or_labelAbsorbTokens setStringValue:[NSString stringWithFormat:@"Number of unused tokens for %@ after absorbtion", self.absorber]];
+        [self.or_textfieldAbsorbCities setEnabled:YES];
+        [self.or_textfieldAbsorbCities setHidden:NO];
+        [self.or_textfieldAbsorbTokens setEnabled:YES];
+        [self.or_textfieldAbsorbTokens setHidden:NO];
+        [self.or_buttonAbsorbDone setEnabled:YES];
+        [self.or_buttonAbsorbDone setTransparent:NO];
     } else {
-        [self.or_buttonOperateTrains setEnabled:YES];
-        self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d",MIN(comp.traffic, comp.trainCapacity)*10];
-        [self.or_buttonAddTraffic setEnabled:YES];
-    }
-    if ([self.game companyCanBuyTrain:comp]) {
-        NSArray *trainLabels = [self.game getTrainTextForCompany:comp];
-        [self.or_buttonBuyTrain setEnabled:YES];
-        [self.or_popupTrain setEnabled:YES];
-        [self.or_popupTrain removeAllItems];
-        [self.or_popupTrain addItemsWithTitles:trainLabels];
-    } else {
-        [self.or_buttonBuyTrain setEnabled:NO];
-        [self.or_popupTrain setEnabled:NO];
-        [self.or_popupTrain removeAllItems];
-    }
-
-    self.or_CompanyName.stringValue = [NSString stringWithFormat:@"%@: %@", comp.shortName, comp.name];
-    self.or_presidentName.stringValue = [NSString stringWithFormat:@"President: %@", comp.president.name];
-    Player *president = (Player*) comp.president;
-    if ([president.maritimeCompany count]) {
-        [self.or_buttonHandOverMaritime setEnabled:YES];
-    } else {
-        [self.or_buttonHandOverMaritime setEnabled:NO];
-    }
-    if ([comp.maritimeCompanies count]) {
-        [self.or_buttonConnectMaritime setEnabled:YES];
-    } else {
-        [self.or_buttonConnectMaritime setEnabled:NO];
-    }
-    if (comp.didOperateThisTurn && [comp.trains count]>0) {
-        [self.or_buttonOperateDone setEnabled:YES];
-    } else {
-        [self.or_buttonOperateDone setEnabled:NO];
-    }
-    if (president.money < 0) {
-        [self.or_buttonOperateDone setEnabled:NO];
-        [self.or_popupPresidentSellCompanies removeAllItems];
-        [self.or_popupPresidentSellCompanies addItemWithTitle:[NSString stringWithFormat:@"%@ has to sell shares", president.name]];
-        NSArray* list = [self.game getListOfCertificatesForSaleForPresident:comp];
-        if ([list count]) {
-            [self.or_popupPresidentSellCompanies addItemsWithTitles:list];
+        // Hide absorbtion stuff
+        [self.or_labelAbsorbCities setStringValue:@""];
+        [self.or_labelAbsorbTokens setStringValue:@""];
+        [self.or_textfieldAbsorbCities setEnabled:NO];
+        [self.or_textfieldAbsorbCities setHidden:YES];
+        [self.or_textfieldAbsorbTokens setEnabled:NO];
+        [self.or_textfieldAbsorbTokens setHidden:YES];
+        [self.or_buttonAbsorbDone setEnabled:NO];
+        [self.or_buttonAbsorbDone setTransparent:YES];
+        // Logic for other controls
+        NSArray *absorbCandidates = [self.game companyCanAbsorb:comp];
+        if ([absorbCandidates count]) {
+            [self.or_buttonAbsorbOther setEnabled:YES];
+            [self.or_buttonAbsorbOther setTransparent:NO];
+            [self.or_popupAbsorb removeAllItems];
+            [self.or_popupAbsorb addItemsWithTitles:[self buildAbsorbItemsList:absorbCandidates]];
+            [self.or_popupAbsorb setEnabled:YES];
+            [self.or_popupAbsorb setTransparent:NO];
         } else {
-            [self.or_popupPresidentSellCompanies addItemWithTitle:@"Take loan for L.500"];
+            [self.or_buttonAbsorbOther setEnabled:NO];
+            [self.or_buttonAbsorbOther setTransparent:YES];
+            [self.or_popupAbsorb setEnabled:NO];
+            [self.or_popupAbsorb setTransparent:YES];
         }
-        [self.or_popupPresidentSellCompanies setEnabled:YES];
-    } else {
-        [self.or_popupPresidentSellCompanies setEnabled:NO];
-    }
-    if (comp.numLoans > 0 && comp.money>=500) {
-        [self.or_buttonCompanyPayBackLoan setEnabled:YES];
-    } else {
-        [self.or_buttonCompanyPayBackLoan setEnabled:NO];
+        if ([self.game companyCanGetAbsorbed:comp]) {
+            [self.or_buttonAbsorbThis setEnabled:YES];
+            [self.or_buttonAbsorbThis setTransparent:NO];
+        } else {
+            [self.or_buttonAbsorbThis setEnabled:NO];
+            [self.or_buttonAbsorbThis setTransparent:YES];
+        }
+        if ([absorbCandidates count] && [self.game companyCanGetAbsorbed:comp]) {
+            self.or_textAbsorbOr.stringValue = @"or";
+        } else {
+            self.or_textAbsorbOr.stringValue = @"";
+        }
+        [self.or_buttonLay2ndTrack setEnabled:comp.canLay2ndTrack];
+        [self.or_buttonPlaceStation setEnabled:comp.canBuildStation];
+        [self.or_textfieldStationCost setEnabled:comp.canBuildStation];
+        if (comp.didOperateThisTurn) {
+            [self.or_buttonOperateTrains setEnabled:NO];
+            self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d",comp.lastIncome];
+            [self.or_buttonAddTraffic setEnabled:NO];
+        } else {
+            [self.or_buttonOperateTrains setEnabled:YES];
+            self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d",MIN(comp.traffic, comp.trainCapacity)*10];
+            [self.or_buttonAddTraffic setEnabled:YES];
+        }
+        if ([self.game companyCanBuyTrain:comp]) {
+            NSArray *trainLabels = [self.game getTrainTextForCompany:comp];
+            [self.or_buttonBuyTrain setEnabled:YES];
+            [self.or_popupTrain setEnabled:YES];
+            [self.or_popupTrain removeAllItems];
+            [self.or_popupTrain addItemsWithTitles:trainLabels];
+        } else {
+            [self.or_buttonBuyTrain setEnabled:NO];
+            [self.or_popupTrain setEnabled:NO];
+            [self.or_popupTrain removeAllItems];
+        }
+        
+        self.or_CompanyName.stringValue = [NSString stringWithFormat:@"%@: %@", comp.shortName, comp.name];
+        self.or_presidentName.stringValue = [NSString stringWithFormat:@"President: %@", comp.president.name];
+        Player *president = (Player*) comp.president;
+        if ([president.maritimeCompany count]) {
+            [self.or_buttonHandOverMaritime setEnabled:YES];
+        } else {
+            [self.or_buttonHandOverMaritime setEnabled:NO];
+        }
+        if ([comp.maritimeCompanies count]) {
+            [self.or_buttonConnectMaritime setEnabled:YES];
+        } else {
+            [self.or_buttonConnectMaritime setEnabled:NO];
+        }
+        if (comp.didOperateThisTurn && [comp.trains count]>0) {
+            [self.or_buttonOperateDone setEnabled:YES];
+        } else {
+            [self.or_buttonOperateDone setEnabled:NO];
+        }
+        if (president.money < 0) {
+            [self.or_buttonOperateDone setEnabled:NO];
+            [self.or_popupPresidentSellCompanies removeAllItems];
+            [self.or_popupPresidentSellCompanies addItemWithTitle:[NSString stringWithFormat:@"%@ has to sell shares", president.name]];
+            NSArray* list = [self.game getListOfCertificatesForSaleForPresident:comp];
+            if ([list count]) {
+                [self.or_popupPresidentSellCompanies addItemsWithTitles:list];
+            } else {
+                [self.or_popupPresidentSellCompanies addItemWithTitle:@"Take loan for L.500"];
+            }
+            [self.or_popupPresidentSellCompanies setEnabled:YES];
+        } else {
+            [self.or_popupPresidentSellCompanies setEnabled:NO];
+        }
+        if (comp.numLoans > 0 && comp.money>=500) {
+            [self.or_buttonCompanyPayBackLoan setEnabled:YES];
+        } else {
+            [self.or_buttonCompanyPayBackLoan setEnabled:NO];
+        }
     }
     Train *nextTrain = [self.game.trains firstObject];
     self.or_labelNewTrainInfo.stringValue = [NSString stringWithFormat:@"New train: Phase %d, Capacity %d, cost L.%d", nextTrain.techLevel, nextTrain.capacity, nextTrain.cost];
@@ -517,6 +561,9 @@ GameSetupWindowController *setupWindow;
     NSUInteger index = [[self buildAbsorbItemsList:absorbCandidates] indexOfObject:key];
     Company *absorbedComp = absorbCandidates[index];
     [self printLog:[self.game company:comp absorbsCompany:absorbedComp]];
+    self.absorbtionOngoing = YES;
+    self.absorber = comp.shortName;
+    self.absorbee = absorbedComp.shortName;
     [self refreshView];
 }
 
@@ -626,8 +673,14 @@ GameSetupWindowController *setupWindow;
 }
 
 - (IBAction)actionAbsorbtionDone:(NSButton *)sender {
-    NSLog(@"Todo: Implement me");
-    assert(0);
+    self.absorbtionOngoing = NO;
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    comp.builtStations = 7 - self.or_textfieldAbsorbTokens.intValue;
+    int bonus = 50 * self.or_textfieldAbsorbCities.intValue;
+    comp.money += bonus;
+    self.game.bank.money -= bonus;
+    [self printLog:[NSString stringWithFormat:@"%@ successfully absorbed %@", self.absorber, self.absorbee]];
+    [self refreshView];
 }
 
 - (IBAction)actionConvertCompanyToMajor:(NSButton *)sender {
