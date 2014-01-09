@@ -279,13 +279,17 @@ GameSetupWindowController *setupWindow;
         Player *president = (Player*) comp.president;
         if ([president.maritimeCompany count]) {
             [self.or_buttonHandOverMaritime setEnabled:YES];
+            [self.or_buttonHandOverMaritime setHidden:NO];
         } else {
             [self.or_buttonHandOverMaritime setEnabled:NO];
+            [self.or_buttonHandOverMaritime setHidden:YES];
         }
         if ([comp.maritimeCompanies count]) {
             [self.or_buttonConnectMaritime setEnabled:YES];
+            [self.or_buttonConnectMaritime setHidden:NO];
         } else {
             [self.or_buttonConnectMaritime setEnabled:NO];
+            [self.or_buttonConnectMaritime setHidden:YES];
         }
         if (comp.didOperateThisTurn && [comp.trains count]>0) {
             [self.or_buttonOperateDone setEnabled:YES];
@@ -308,8 +312,10 @@ GameSetupWindowController *setupWindow;
         }
         if (comp.numLoans > 0 && comp.money>=500) {
             [self.or_buttonCompanyPayBackLoan setEnabled:YES];
+            [self.or_buttonCompanyPayBackLoan setHidden:NO];
         } else {
             [self.or_buttonCompanyPayBackLoan setEnabled:NO];
+            [self.or_buttonCompanyPayBackLoan setHidden:YES];
         }
     }
     Train *nextTrain = [self.game.trains firstObject];
@@ -568,6 +574,8 @@ GameSetupWindowController *setupWindow;
 }
 
 - (IBAction)actionAbsorbThisCompany:(NSButton *)sender {
+    Company *comp = [self.game.companyTurnOrder firstObject];
+    comp.paidDividend = YES;
     [self printLog:[self.game advancePlayersDidPass:NO]];
     [self refreshView];
 }

@@ -405,11 +405,19 @@
     if (aComp.didOperateThisTurn) {
         return nil;
     }
+    int ipoMoney = [aComp getShareByOwner:aComp];
+    if (aComp.isMajor) {
+        ipoMoney = MIN(ipoMoney, 50-[aComp getShareByOwner:self.bank]);
+        ipoMoney = ipoMoney / 10 * aComp.stockPrice;
+    } else {
+        ipoMoney = MIN(ipoMoney, 40-[aComp getShareByOwner:self.bank]);
+        ipoMoney = ipoMoney / 20 * aComp.stockPrice;
+    }
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:7];
     for (Company* comp in self.companyStack) {
         if (comp != aComp && comp.isOperating && aComp.president == comp.president && !comp.didOperateThisTurn) {
             int cost = [comp getCompanyCost];
-            int ipoMoney = [aComp getShareByOwner:aComp] * aComp.stockPrice;
+//            int ipoMoney = [aComp getShareByOwner:aComp] * aComp.stockPrice;
             int totalMoney = aComp.money + comp.money + ipoMoney - 500*(aComp.numLoans + comp.numLoans);
             // Absorbing company may hold max of three loans after merger
             if (totalMoney - cost >= -1500) {
@@ -427,9 +435,15 @@
     if (aComp.didOperateThisTurn) {
         return NO;
     }
-    for (Company* comp in self.companyStack) {
-        if (comp != aComp && comp.isOperating && aComp.president == comp.president) {
-            return YES;
+    // Can only get absorbed if company later in stack can absorb
+    BOOL found = NO;
+    for (Company* comp in self.frozenTurnOrder) {
+        if (comp == aComp) {
+            found = YES;
+        } else {
+            if (found && comp.isOperating && aComp.president == comp.president && !comp.didOperateThisTurn) {
+                return YES;
+            }
         }
     }
     return NO;
@@ -816,11 +830,11 @@
         if (target.isMajor) {
             cost = cert.share * price / 10;
         }
-        owner.money += cost;
-        comp.money  -= cost;
-        owner.numCertificates--;
-        owner.numShares -= cert.share;
         if (owner != target) {
+            owner.money += cost;
+            comp.money  -= cost;
+            owner.numCertificates--;
+            owner.numShares -= cert.share;
             msg = [NSString stringWithFormat:@"%@ pays %@ L.%d for %@\n%@", comp.shortName, owner.name, cost, cert.type, msg];
         }
     }
@@ -832,12 +846,12 @@
     [comp.trains addObjectsFromArray:target.trains];
     msg = [NSString stringWithFormat:@"%@%@", [self checkTrainLimits], msg];
     [comp.maritimeCompanies addObjectsFromArray:target.maritimeCompanies];
-    while ((comp.money - comp.numLoans*500 < -1500) && [self player:comp CanSell:[self.companies indexOfObject:comp]]) {
+    while ((comp.money < 0) && [self player:comp CanSell:[self.companies indexOfObject:comp]]) {
         Certificate *cert = [comp certificateFromOwner:comp];
         [comp sellCertificate:cert To:self.bank];
-        int cost = cert.share * price / 20;
+        int cost = cert.share * comp.stockPrice / 20;
         if (comp.isMajor) {
-            cost = cert.share * price / 10;
+            cost = cert.share * comp.stockPrice / 10;
         }
         msg = [NSString stringWithFormat:@"%@ sells %@ to bank for L.%d to raise money\n%@", comp.shortName, cert.type, cost, msg];
     }
@@ -847,6 +861,9 @@
     // Remove old company and re-generate as new major company
     [self.companyStack removeObject:target];
     [self.companyTurnOrder removeObject:target];
+    NSMutableArray *frozen = [self.frozenTurnOrder mutableCopy];
+    [frozen removeObject:target];
+    self.frozenTurnOrder = frozen;
     NSUInteger index = [self.companies indexOfObject:target];
     NSMutableArray *tmp = [self.companies mutableCopy];
     tmp[index] = [[Company alloc] initWithName:target.shortName IsMajor:YES AndSettings:self.settings AndBank:self.bank];

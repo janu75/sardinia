@@ -1304,8 +1304,8 @@ Game *game;
     XCTAssertEqual([game companyCanGetAbsorbed:comp[1]], NO, @"can absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[2]], YES, @"can absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[3]], NO, @"can absorb test");
-    XCTAssertEqual([game companyCanGetAbsorbed:comp[4]], YES, @"can absorb test");
-    XCTAssertEqual([game companyCanGetAbsorbed:comp[5]], YES, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[4]], NO, @"can absorb test");  // Last in turn order, cannot be absorbed
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[5]], NO, @"can absorb test");  // Last in turn order, cannot be absorbed
     XCTAssertEqual([game companyCanGetAbsorbed:comp[6]], NO, @"can absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[7]], NO, @"can absorb test");
     XCTAssertEqualObjects([game companyCanAbsorb:comp[0]], @[comp[4]], @"can absorb test");
@@ -1329,11 +1329,19 @@ Game *game;
     [comp[5] operateTrainsAndPayDividend:YES];
     
     // Only companies which did not operate this round can be absorbed
+    XCTAssertEqual(comp[0].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[1].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[2].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[3].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[4].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[5].didOperateThisTurn, YES, @"absorb test");
+    XCTAssertEqual(comp[6].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[7].didOperateThisTurn, NO, @"absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[0]], YES, @"can absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[1]], NO, @"can absorb test");
-    XCTAssertEqual([game companyCanGetAbsorbed:comp[2]], YES, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[2]], NO, @"can absorb test");  // Comp 5 already took a turn
     XCTAssertEqual([game companyCanGetAbsorbed:comp[3]], NO, @"can absorb test");
-    XCTAssertEqual([game companyCanGetAbsorbed:comp[4]], YES, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[4]], NO, @"can absorb test");  // Last in turn order, cannot get absorbed
     XCTAssertEqual([game companyCanGetAbsorbed:comp[5]], NO, @"can absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[6]], NO, @"can absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[7]], NO, @"can absorb test");
@@ -1365,6 +1373,7 @@ Game *game;
     XCTAssertEqual(comp[0].money, cMoney[0], @"can absorb test");
     XCTAssertEqual(comp[0].numLoans, 0, @"can absorb test");
     XCTAssertEqual([comp[0] getShareByOwner:comp[0]], 40, @"can absorb test");
+    XCTAssertEqual(comp[0].stockPrice, 60, @"can absorb test");
     XCTAssertEqual(comp[4].isMajor, NO, @"can absorb test");
     XCTAssertEqual(comp[4].money, cMoney[4], @"can absorb test");
     XCTAssertEqual(comp[4].numLoans, 0, @"can absorb test");
@@ -1376,7 +1385,7 @@ Game *game;
     [game company:comp[4] BuysTrain:trainKeys[0] AtCost:99];        cMoney[4] -= 200;
     XCTAssertEqual([comp[4] getShareMarketPrice],  80, @"can absorb test");
    
-    [game company:comp[0] absorbsCompany:comp[4]];      cMoney[0] += cMoney[4] - 3*80 + 500;
+    [game company:comp[0] absorbsCompany:comp[4]];      cMoney[0] += cMoney[4] + 2*60 - 3*80 + 500;
     for (int i=0; i<8; i++) {
         comp[i] = game.companies[i];
     }
@@ -1384,9 +1393,17 @@ Game *game;
     // comp[0] now has all assets from comp[4], comp[4] now is new major company
     // comp[0] cannot absorb, as the president doesn't own any other company
     // stockprice of comp[0] rose to 80 due to additional train (dragon buy recommendation)
+    XCTAssertEqual(comp[0].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[1].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[2].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[3].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[4].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[5].didOperateThisTurn, YES, @"absorb test");
+    XCTAssertEqual(comp[6].didOperateThisTurn, NO, @"absorb test");
+    XCTAssertEqual(comp[7].didOperateThisTurn, NO, @"absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[0]], NO, @"can absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[1]], NO, @"can absorb test");
-    XCTAssertEqual([game companyCanGetAbsorbed:comp[2]], YES, @"can absorb test");
+    XCTAssertEqual([game companyCanGetAbsorbed:comp[2]], NO, @"can absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[3]], NO, @"can absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[4]], NO, @"can absorb test");
     XCTAssertEqual([game companyCanGetAbsorbed:comp[5]], NO, @"can absorb test");
@@ -1408,7 +1425,7 @@ Game *game;
     XCTAssertEqual([comp[5] getShareMarketPrice],  65, @"can absorb test");
     XCTAssertEqual([comp[6] getShareMarketPrice],   0, @"can absorb test");
     XCTAssertEqual([comp[7] getShareMarketPrice],   0, @"can absorb test");
-    XCTAssertEqual([comp[0] getCompanyCost], 3* 80, @"can absorb test");
+    XCTAssertEqual([comp[0] getCompanyCost], 5* 80, @"can absorb test");
     XCTAssertEqual([comp[1] getCompanyCost], 3*110, @"can absorb test");
     XCTAssertEqual([comp[2] getCompanyCost], 3* 65, @"can absorb test");
     XCTAssertEqual([comp[3] getCompanyCost], 3* 65, @"can absorb test");
@@ -1419,7 +1436,8 @@ Game *game;
     XCTAssertEqual(comp[0].isMajor, NO, @"can absorb test");
     XCTAssertEqual(comp[0].money, cMoney[0], @"can absorb test");
     XCTAssertEqual(comp[0].numLoans, 1, @"can absorb test");
-    XCTAssertEqual([comp[0] getShareByOwner:comp[0]], 40, @"can absorb test");
+    XCTAssertEqual([comp[0] getShareByOwner:comp[0]], 0, @"can absorb test");
+    XCTAssertEqual(comp[0].stockPrice, 60, @"can absorb test");
     XCTAssertEqual(comp[4].isMajor, YES, @"can absorb test");
     XCTAssertEqual(comp[4].money, 0, @"can absorb test");
     XCTAssertEqual(comp[4].numLoans, 0, @"can absorb test");
@@ -1432,6 +1450,13 @@ Game *game;
         XCTAssertEqual(aComp.trainCapacity, cap, @"can absorb test");
     }
     XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
+
+    for (int i=0; i<4; i++) {
+        XCTAssertEqual(player[i], game.player[i], @"%d", i);
+    }
+    for (int i=0; i<8; i++) {
+        XCTAssertEqual(comp[i], game.companies[i], @"%d", i);
+    }
 }
 
 @end
