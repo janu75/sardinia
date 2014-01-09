@@ -218,7 +218,6 @@
             if (self.operatingRoundNum==1) {
                 self.operatingRoundNum=2;
                 [self buildCompanyOrder];
-                comp = [self.companyTurnOrder firstObject];
                 for (Company *c in self.companyTurnOrder) {
                     [c cleanFlagsForOperatingRound];
                 }

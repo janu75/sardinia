@@ -163,16 +163,16 @@
     if ([oldOwner.name isEqualToString:@"Dragon"]) {
         stockPrice = [self getShareMarketPrice];
     }
-    oldOwner.money += self.stockPrice;
-    newOwner.money -= self.stockPrice;
+    oldOwner.money += stockPrice;
+    newOwner.money -= stockPrice;
     oldOwner.numCertificates--;
     newOwner.numCertificates++;
     oldOwner.numShares -= aCertificate.share;
     newOwner.numShares += aCertificate.share;
     NSRange range = [aCertificate.type rangeOfString:@"President"];
     if (range.location != NSNotFound ) {
-        oldOwner.money += self.stockPrice;
-        newOwner.money -= self.stockPrice;
+        oldOwner.money += stockPrice;
+        newOwner.money -= stockPrice;
     }
     int unsold_shares=0;
     for (Certificate *cert in self.certificates) {
@@ -226,8 +226,7 @@
         Shareholder *owner = cert.owner;
         if (owner.isPlayer) {
             ownerByName[owner.name] = owner;
-            NSNumber *num = [dict objectForKey:owner.name];
-            num = [NSNumber numberWithInt:[dict[owner.name] intValue] + cert.share];
+            NSNumber *num = [NSNumber numberWithInt:[dict[owner.name] intValue] + cert.share];
             dict[owner.name] = num;
         }
     }
