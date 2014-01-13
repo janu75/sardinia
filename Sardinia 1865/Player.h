@@ -16,8 +16,9 @@
 @property (strong) NSMutableArray* maritimeCompany;
 @property (strong) NSMutableArray* soldCompanies;
 @property (strong) Shareholder* bank;
+@property (strong) NSString* sound;
 
-- (id) initWithName:(NSString*)aName AndMoney:(int)money AndBank:(Shareholder*)aBank;
+- (id) initWithName:(NSString*)aName AndMoney:(int)money AndBank:(Shareholder*)aBank AndSound:(NSString*)sound;
 
 - (NSString*) incomeFromMaritimeCompanies;
 

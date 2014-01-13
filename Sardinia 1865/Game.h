@@ -35,7 +35,7 @@
 @property (strong) NSMutableDictionary* saveGames;
 @property (strong) NSString* dirName;
 
-- (id) initWithPlayers:(NSArray*)playerNames AndShortMode:(BOOL)isShort;
+- (id) initWithPlayers:(NSArray*)playerNames AndShortMode:(BOOL)isShort AndSounds:(NSArray*)sounds;
 
 - (BOOL) player:(Shareholder*)aPlayer CanBuyFromIpo:(NSUInteger)nComp;
 

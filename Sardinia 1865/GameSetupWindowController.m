@@ -13,24 +13,63 @@
 
 SarAppDelegate *myController;
 
+- (void) windowDidLoad {
+}
+
 - (void) useSettings:(id)mainController {
     myController = mainController;
+
+}
+
+- (void) loadSounds {
+    if (!self.soundSelect4) return;
+    self.soundSelectors = @[self.soundSelect1,
+                            self.soundSelect2,
+                            self.SoundSelect3,
+                            self.soundSelect4];
+    // Get system sounds
+    NSMutableArray *returnArr = [[NSMutableArray alloc] init];
+    NSEnumerator *librarySources = [NSSearchPathForDirectoriesInDomains(NSLibraryDirectory, NSAllDomainsMask, YES) objectEnumerator];
+    NSString *sourcePath;
+    while (sourcePath = [librarySources nextObject]) {
+        NSEnumerator *soundSource = [[NSFileManager defaultManager] enumeratorAtPath:[sourcePath stringByAppendingPathComponent:@"Sounds"]];
+        NSString *soundFile;
+        while (soundFile = [soundSource nextObject]) {
+            if ([NSSound soundNamed:[soundFile stringByDeletingPathExtension]]) {
+                [returnArr addObject:[soundFile stringByDeletingPathExtension]];
+            }
+        }
+    }
+    self.systemSounds = [NSArray arrayWithArray:returnArr];
+    NSInteger select = 0;
+    for (NSPopUpButton *pop in self.soundSelectors) {
+        [pop removeAllItems];
+        [pop addItemsWithTitles:self.systemSounds];
+        [pop selectItemAtIndex:select++];
+    }    
 }
 
 - (IBAction)playerNumButton:(NSMatrix *)sender {
+    [self loadSounds];
     if (sender.selectedRow == 2) {
         [self.shortGameButton setEnabled:NO];
         [self.shortGameButton setState:NSOffState];
         [self.playerCName setEnabled:YES];
         [self.playerDName setEnabled:YES];
+        [self.SoundSelect3 setEnabled:YES];
+        [self.soundSelect4 setEnabled:YES];
     } else if (sender.selectedRow == 1) {
         [self.shortGameButton setEnabled:YES];
         [self.playerCName setEnabled:YES];
         [self.playerDName setEnabled:NO];
+        [self.SoundSelect3 setEnabled:YES];
+        [self.soundSelect4 setEnabled:NO];
     } else {
         [self.shortGameButton setEnabled:YES];
         [self.playerCName setEnabled:NO];
         [self.playerDName setEnabled:NO];
+        [self.SoundSelect3 setEnabled:NO];
+        [self.soundSelect4 setEnabled:NO];
     }
 }
 
@@ -43,13 +82,19 @@ SarAppDelegate *myController;
         isShortGame = NO;
     }
     NSMutableArray *playerNames = [[NSMutableArray alloc] initWithCapacity:4];
+    NSMutableArray *sounds = [[NSMutableArray alloc] initWithCapacity:4];
     NSInteger i = 0;
     for (NSString* name in players) {
         if (i<numPlayers) [playerNames addObject:name];
         i++;
     }
+    for (NSInteger i=0; i<numPlayers; i++) {
+        NSPopUpButton *pop = self.soundSelectors[i];
+        NSInteger index = [pop indexOfSelectedItem];
+        [sounds addObject:self.systemSounds[index]];
+    }
     NSLog(@"Players: %@\nShort game:%d", playerNames, isShortGame);
-    [myController setPlayers:playerNames AndGameMode:isShortGame];
+    [myController setPlayers:playerNames AndGameMode:isShortGame AndSounds:sounds];
 }
 
 - (IBAction)loadGame:(NSButton *)sender {
@@ -72,6 +117,12 @@ SarAppDelegate *myController;
 //        }
         [myController loadSavedGameWithFile:[files lastObject]];
     }
+}
+
+- (IBAction)playSound:(NSPopUpButton *)sender {
+    NSInteger index = [sender indexOfSelectedItem];
+    NSString *sound = self.systemSounds[index];
+    [[NSSound soundNamed:sound] play];
 }
 
 @end

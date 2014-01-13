@@ -11,7 +11,7 @@
 
 @implementation Player
 
-- (id) initWithName:(NSString *)aName AndMoney:(int)money AndBank:(Shareholder*)aBank {
+- (id) initWithName:(NSString *)aName AndMoney:(int)money AndBank:(Shareholder*)aBank AndSound:(NSString *)sound {
     self = [super initWithName:aName];
     if (self) {
         self.money = money;
@@ -21,6 +21,7 @@
         self.maritimeCompany = [@[m1, m2] mutableCopy];
         self.soldCompanies = [[NSMutableArray alloc] initWithCapacity:8];
         self.bank = aBank;
+        self.sound = sound;
     }
     return self;
 }
@@ -39,6 +40,7 @@
     [aCoder encodeObject:self.maritimeCompany forKey:@"Player MaritimeCompany"];
     [aCoder encodeObject:self.soldCompanies forKey:@"Player SoldCompanies"];
     [aCoder encodeObject:self.bank forKey:@"Player Bank"];
+    [aCoder encodeObject:self.sound forKey:@"Player Sound"];
     [super encodeWithCoder:aCoder];
 }
 
@@ -48,6 +50,7 @@
         self.maritimeCompany = [aDecoder decodeObjectForKey:@"Player MaritimeCompany"];
         self.soldCompanies   = [aDecoder decodeObjectForKey:@"Player SoldCompanies"];
         self.bank            = [aDecoder decodeObjectForKey:@"Player Bank"];
+        self.sound           = [aDecoder decodeObjectForKey:@"Player Sound"];
     }
     return self;
 }

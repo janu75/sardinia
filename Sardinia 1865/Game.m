@@ -12,7 +12,7 @@
 
 @implementation Game
 
-- (id) initWithPlayers:(NSArray *)playerNames AndShortMode:(BOOL)isShort {
+- (id) initWithPlayers:(NSArray *)playerNames AndShortMode:(BOOL)isShort AndSounds:(NSArray *)sounds {
     self = [super init];
     if (self) {
         self.settings = [[GameSettings alloc] init];
@@ -46,8 +46,9 @@
         NSMutableString *dirName = [NSMutableString stringWithString:@"Save Games/"];
 //        [dirName appendString:@"/"];
         [dirName appendString:dateString];
+        NSInteger index = 0;
         for (NSString* name in playerNames) {
-            [players addObject:[[Player alloc] initWithName:name AndMoney:playerMoney AndBank:self.bank]];
+            [players addObject:[[Player alloc] initWithName:name AndMoney:playerMoney AndBank:self.bank AndSound:sounds[index++]]];
             self.bank.money -= playerMoney;
             [dirName appendString:[NSString stringWithFormat:@"-%@", name]];
         }
@@ -255,8 +256,20 @@
         msg = [self dragonTurn];
     }
     [self saveGame];
-    NSSound *sound = 
+    [self PlaySound];
     return msg;
+}
+
+- (void) PlaySound {
+    if ([self.round isEqualToString:@"Stock Round"]) {
+        [[NSSound soundNamed:[self.currentPlayer sound]] play];
+    } else if ([self.round isEqualToString:@"Operating Round"]) {
+        Company *comp = [self.companyTurnOrder firstObject];
+        Player *president = (Player*) comp.president;
+        [[NSSound soundNamed:president.sound] play];
+    } else {
+        [[NSSound soundNamed:@"Purr"] play];
+    }
 }
 
 - (NSUInteger) dragonValue:(Company*)aComp {

@@ -10,12 +10,12 @@
         <customObject id="-3" userLabel="Application"/>
         <window title="1865 Game Setup" allowsToolTipsWhenApplicationIsInactive="NO" autorecalculatesKeyViewLoop="NO" oneShot="NO" wantsToBeColor="NO" animationBehavior="none" id="1">
             <windowStyleMask key="styleMask" titled="YES" closable="YES"/>
-            <rect key="contentRect" x="1066" y="711" width="480" height="211"/>
-            <rect key="screenRect" x="0.0" y="0.0" width="2560" height="1440"/>
+            <rect key="contentRect" x="1066" y="711" width="607" height="211"/>
+            <rect key="screenRect" x="0.0" y="0.0" width="1920" height="1178"/>
             <value key="minSize" type="size" width="480" height="211"/>
             <value key="maxSize" type="size" width="480" height="211"/>
             <view key="contentView" id="2">
-                <rect key="frame" x="0.0" y="0.0" width="480" height="211"/>
+                <rect key="frame" x="0.0" y="0.0" width="607" height="211"/>
                 <autoresizingMask key="autoresizingMask"/>
                 <subviews>
                     <matrix verticalHuggingPriority="750" fixedFrame="YES" allowsEmptySelection="NO" autorecalculatesCellSize="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SVb-Nh-Xs9">
@@ -129,7 +129,7 @@
                         </buttonCell>
                     </button>
                     <button verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="8g8-8Z-pFB">
-                        <rect key="frame" x="355" y="13" width="111" height="32"/>
+                        <rect key="frame" x="482" y="13" width="111" height="32"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
                         <buttonCell key="cell" type="push" title="Load Game" bezelStyle="rounded" alignment="center" borderStyle="border" imageScaling="proportionallyDown" inset="2" id="fSf-O9-780">
                             <behavior key="behavior" pushIn="YES" lightByBackground="YES" lightByGray="YES"/>
@@ -150,17 +150,93 @@
                             <action selector="doneButtonPressed:" target="Cun-n6-7lb" id="Vxx-Xf-CfX"/>
                         </connections>
                     </button>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oe0-tk-NeW">
+                        <rect key="frame" x="466" y="167" width="124" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="LvF-xO-4M8" id="Ksp-5m-6MQ">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="UGo-z1-0cF">
+                                <items>
+                                    <menuItem title="Item 1" state="on" id="LvF-xO-4M8"/>
+                                    <menuItem title="Item 2" id="aUh-Kn-z2T"/>
+                                    <menuItem title="Item 3" id="XWH-HP-zEh"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="playSound:" target="Cun-n6-7lb" id="fUk-ea-5Xt"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3fV-Zx-Kpg">
+                        <rect key="frame" x="466" y="132" width="124" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="MKL-EE-PRs" id="Plc-YT-yeM">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="U1e-mf-U65">
+                                <items>
+                                    <menuItem title="Item 1" state="on" id="MKL-EE-PRs"/>
+                                    <menuItem title="Item 2" id="xc6-r9-a7R"/>
+                                    <menuItem title="Item 3" id="zms-qu-2Qh"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="playSound:" target="Cun-n6-7lb" id="GK9-gg-51Z"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MeK-pr-8eQ">
+                        <rect key="frame" x="466" y="100" width="124" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="JL2-Ze-jom" id="KtZ-f5-qKo">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="Roc-DM-0jB">
+                                <items>
+                                    <menuItem title="Item 1" state="on" id="JL2-Ze-jom"/>
+                                    <menuItem title="Item 2" id="Q9Z-re-Get"/>
+                                    <menuItem title="Item 3" id="PqR-Sc-SJ7"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="playSound:" target="Cun-n6-7lb" id="5Ag-JP-Jfi"/>
+                        </connections>
+                    </popUpButton>
+                    <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DRr-3N-1nA">
+                        <rect key="frame" x="466" y="66" width="124" height="26"/>
+                        <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
+                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="PaH-V9-fA5" id="Eze-rB-m1z">
+                            <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
+                            <font key="font" metaFont="menu"/>
+                            <menu key="menu" title="OtherViews" id="y1g-xZ-2wW">
+                                <items>
+                                    <menuItem title="Item 1" state="on" id="PaH-V9-fA5"/>
+                                    <menuItem title="Item 2" id="fHw-IT-GAB"/>
+                                    <menuItem title="Item 3" id="zAH-Ru-q40"/>
+                                </items>
+                            </menu>
+                        </popUpButtonCell>
+                        <connections>
+                            <action selector="playSound:" target="Cun-n6-7lb" id="meG-Aa-2GE"/>
+                        </connections>
+                    </popUpButton>
                 </subviews>
             </view>
         </window>
         <customObject id="Cun-n6-7lb" customClass="GameSetupWindowController">
             <connections>
+                <outlet property="SoundSelect3" destination="MeK-pr-8eQ" id="BP3-AV-hOR"/>
                 <outlet property="numPlayers" destination="SVb-Nh-Xs9" id="vq5-gh-ipS"/>
                 <outlet property="playerAName" destination="HTS-zg-5DQ" id="NWu-K6-TIK"/>
                 <outlet property="playerBName" destination="dqJ-gH-mDA" id="2mI-wB-dku"/>
                 <outlet property="playerCName" destination="tck-2D-xsH" id="Fmf-zE-cxM"/>
                 <outlet property="playerDName" destination="rC5-4O-ORa" id="UMd-ft-tlM"/>
                 <outlet property="shortGameButton" destination="d7v-UD-bbj" id="SDR-dv-YiO"/>
+                <outlet property="soundSelect1" destination="Oe0-tk-NeW" id="IoH-rC-bu6"/>
+                <outlet property="soundSelect2" destination="3fV-Zx-Kpg" id="gr4-5C-h3K"/>
+                <outlet property="soundSelect4" destination="DRr-3N-1nA" id="wQp-nH-0XV"/>
                 <outlet property="window" destination="1" id="LZL-Tj-xls"/>
             </connections>
         </customObject>

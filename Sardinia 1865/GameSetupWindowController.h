@@ -19,7 +19,15 @@
 @property (weak) IBOutlet NSTextField *playerDName;
 @property (weak) IBOutlet NSButton *shortGameButton;
 
-- (void) useSettings:(id)mainController;
+@property (weak) IBOutlet NSPopUpButton *soundSelect1;
+@property (weak) IBOutlet NSPopUpButton *soundSelect2;
+@property (weak) IBOutlet NSPopUpButton *SoundSelect3;
+@property (weak) IBOutlet NSPopUpButton *soundSelect4;
 
+- (void) useSettings:(id)mainController;
+- (void) loadSounds;
+
+@property (strong) NSArray *systemSounds;
+@property (strong) NSArray *soundSelectors;
 
 @end

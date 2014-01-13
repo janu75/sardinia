@@ -105,7 +105,7 @@
 @property (strong) NSDictionary *overviewTableData;
 @property (strong) NSArray *playerNames;
 @property BOOL isShortGame;
-- (void) setPlayers:(NSArray*)players AndGameMode:(BOOL)isShort;
+- (void) setPlayers:(NSArray*)players AndGameMode:(BOOL)isShort AndSounds:(NSArray*)sounds;
 
 @property (weak) IBOutlet CompanyStatusTableController *companyTable;
 @property (weak) IBOutlet PlayerRankingController *playerRanking;

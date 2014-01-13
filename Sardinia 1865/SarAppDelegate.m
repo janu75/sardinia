@@ -23,6 +23,7 @@ GameSetupWindowController *setupWindow;
 //    [setupWindow.window setLevel:NSFloatingWindowLevel];
     [setupWindow useSettings:self];
     [setupWindow.window makeKeyAndOrderFront:setupWindow];
+    [setupWindow loadSounds];
     [self printLog:@"Settings window opened"];
     
 }
@@ -404,13 +405,13 @@ GameSetupWindowController *setupWindow;
     }
 }
 
-- (void) setPlayers:(NSArray *)players AndGameMode:(BOOL)isShort {
+- (void) setPlayers:(NSArray *)players AndGameMode:(BOOL)isShort AndSounds:(NSArray *)sounds {
     self.playerNames = players;
     self.isShortGame = isShort;
     [setupWindow close];
     setupWindow = nil;
 //    NSLog(@"Got Players %@", self.playerNames);
-    self.game = [[Game alloc] initWithPlayers:players AndShortMode:isShort];
+    self.game = [[Game alloc] initWithPlayers:players AndShortMode:isShort AndSounds:sounds];
     [self.companyTable loadNewGame:self.game];
     [self.playerRanking loadNewGame:self.game];
     [self setupPlayerOverviewLabels];
