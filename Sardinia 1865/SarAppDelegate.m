@@ -154,7 +154,7 @@ GameSetupWindowController *setupWindow;
     for (NSButton *button in self.dragonBuyButton) {
         Company *comp = self.game.companies[i];
         [button setTitle:[self formatStockPriceForDragon:comp]];
-        NSLog(@"Dragon price for %@ is %@", comp.shortName, [self formatStockPriceForDragon:comp]);
+//        NSLog(@"Dragon price for %@ is %@", comp.shortName, [self formatStockPriceForDragon:comp]);
         [button setEnabled:[self.game player:aPlayer CanBuyFromDragon:i++]];
     }
     i=0;
@@ -409,7 +409,7 @@ GameSetupWindowController *setupWindow;
     self.isShortGame = isShort;
     [setupWindow close];
     setupWindow = nil;
-    NSLog(@"Got Players %@", self.playerNames);
+//    NSLog(@"Got Players %@", self.playerNames);
     self.game = [[Game alloc] initWithPlayers:players AndShortMode:isShort];
     [self.companyTable loadNewGame:self.game];
     [self.playerRanking loadNewGame:self.game];
@@ -758,7 +758,7 @@ GameSetupWindowController *setupWindow;
 
 - (CGFloat) tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
     if (self.tableFont) {
-        NSLog(@"Setting row height to %.1f", [self.tableFont pointSize]+8);
+//        NSLog(@"Setting row height to %.1f", [self.tableFont pointSize]+8);
         return [self.tableFont pointSize] + 8;
     }
     return [NSFont systemFontSize] + 8;

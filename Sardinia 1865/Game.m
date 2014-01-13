@@ -56,7 +56,7 @@
         }
         NSFileManager *fm = [NSFileManager defaultManager];
         NSError *error;
-        NSLog(@"Attempting to create %@", dirName);
+//        NSLog(@"Attempting to create %@", dirName);
         [fm createDirectoryAtPath:dirName withIntermediateDirectories:YES attributes:nil error:&error];
         if (error) {
             NSLog(@"Creating directory failed: %@", error.localizedDescription);
@@ -255,6 +255,7 @@
         msg = [self dragonTurn];
     }
     [self saveGame];
+    NSSound *sound = 
     return msg;
 }
 

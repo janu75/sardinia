@@ -45,36 +45,36 @@
 @property (weak) IBOutlet NSButton *buttonIPO1;
 @property (weak) IBOutlet NSButton *buttonIPO2;
 @property (weak) IBOutlet NSButton *buttonIPO3;
-@property (weak) IBOutlet NSButton *buttonIPO6;
-@property (weak) IBOutlet NSButton *buttonIPO5;
 @property (weak) IBOutlet NSButton *buttonIPO4;
+@property (weak) IBOutlet NSButton *buttonIPO5;
+@property (weak) IBOutlet NSButton *buttonIPO6;
 @property (weak) IBOutlet NSButton *buttonIPO7;
 @property (weak) IBOutlet NSButton *buttonIPO8;
 
 @property (weak) IBOutlet NSButton *buttonBank1;
 @property (weak) IBOutlet NSButton *buttonBank2;
 @property (weak) IBOutlet NSButton *buttonBank3;
-@property (weak) IBOutlet NSButton *buttonBank6;
-@property (weak) IBOutlet NSButton *buttonBank5;
 @property (weak) IBOutlet NSButton *buttonBank4;
+@property (weak) IBOutlet NSButton *buttonBank5;
+@property (weak) IBOutlet NSButton *buttonBank6;
 @property (weak) IBOutlet NSButton *buttonBank7;
 @property (weak) IBOutlet NSButton *buttonBank8;
 
 @property (weak) IBOutlet NSButton *buttonSell1;
 @property (weak) IBOutlet NSButton *buttonSell2;
 @property (weak) IBOutlet NSButton *buttonSell3;
-@property (weak) IBOutlet NSButton *buttonSell6;
-@property (weak) IBOutlet NSButton *buttonSell5;
 @property (weak) IBOutlet NSButton *buttonSell4;
+@property (weak) IBOutlet NSButton *buttonSell5;
+@property (weak) IBOutlet NSButton *buttonSell6;
 @property (weak) IBOutlet NSButton *buttonSell7;
 @property (weak) IBOutlet NSButton *buttonSell8;
 
 @property (weak) IBOutlet NSButton *buttonDragon1;
 @property (weak) IBOutlet NSButton *buttonDragon2;
 @property (weak) IBOutlet NSButton *buttonDragon3;
-@property (weak) IBOutlet NSButton *buttonDragon6;
-@property (weak) IBOutlet NSButton *buttonDragon5;
 @property (weak) IBOutlet NSButton *buttonDragon4;
+@property (weak) IBOutlet NSButton *buttonDragon5;
+@property (weak) IBOutlet NSButton *buttonDragon6;
 @property (weak) IBOutlet NSButton *buttonDragon7;
 @property (weak) IBOutlet NSButton *buttonDragon8;
 
