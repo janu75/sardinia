@@ -1872,7 +1872,7 @@
                                                                             </tableCellView>
                                                                         </prototypeCellViews>
                                                                     </tableColumn>
-                                                                    <tableColumn identifier="Loans" width="133" minWidth="10" maxWidth="3.4028234663852886e+38" id="I9o-IX-YaG">
+                                                                    <tableColumn identifier="Loans" width="133.5" minWidth="10" maxWidth="3.4028234663852886e+38" id="I9o-IX-YaG">
                                                                         <tableHeaderCell key="headerCell" lineBreakMode="truncatingTail" borderStyle="border" alignment="left" title="Loans">
                                                                             <font key="font" metaFont="system"/>
                                                                             <color key="textColor" name="headerTextColor" catalog="System" colorSpace="catalog"/>
@@ -1886,11 +1886,11 @@
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView id="mVN-MC-u0f">
-                                                                                <rect key="frame" x="624.5" y="1" width="133" height="17"/>
+                                                                                <rect key="frame" x="624.5" y="1" width="133.5" height="17"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="stK-NM-3cJ">
-                                                                                        <rect key="frame" x="0.0" y="-23" width="133" height="40"/>
+                                                                                        <rect key="frame" x="0.0" y="-23" width="133.5" height="40"/>
                                                                                         <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
                                                                                         <textFieldCell key="cell" lineBreakMode="truncatingTail" sendsActionOnEndEditing="YES" title="Table View Cell" id="Zwx-zc-kFf">
                                                                                             <font key="font" metaFont="system" size="30"/>
@@ -1919,7 +1919,7 @@
                                                                         <tableColumnResizingMask key="resizingMask" resizeWithTable="YES" userResizable="YES"/>
                                                                         <prototypeCellViews>
                                                                             <tableCellView id="3az-PF-GJL">
-                                                                                <rect key="frame" x="760.5" y="1" width="211" height="32"/>
+                                                                                <rect key="frame" x="761" y="1" width="211" height="32"/>
                                                                                 <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                                                                                 <subviews>
                                                                                     <textField verticalHuggingPriority="750" horizontalCompressionResistancePriority="250" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="iQL-s1-YG2">

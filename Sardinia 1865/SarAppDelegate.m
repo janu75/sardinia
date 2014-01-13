@@ -416,6 +416,7 @@ GameSetupWindowController *setupWindow;
     [self.playerRanking loadNewGame:self.game];
     [self setupPlayerOverviewLabels];
     [self setupStockMarketButtons];
+    [self printLog:[NSString stringWithFormat:@"Saving games to %@", self.game.dirName]];
     [self printLog:@"Game started"];
     [self refreshView];
 }

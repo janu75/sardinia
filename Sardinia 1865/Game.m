@@ -43,7 +43,8 @@
         NSString *dateString = [dateFormatter stringFromDate:date];
 //        NSURL *myUrl = [NSURL URLWithString:@"Save Games"];
 //        NSBundle *appBundle = [NSBundle mainBundle];
-        NSMutableString *dirName = [NSMutableString stringWithString:@"Save Games/"];
+        NSString *path = [NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSAllDomainsMask, YES) firstObject];
+        NSMutableString *dirName = [NSMutableString stringWithFormat:@"%@/1865-Sardinia/", path];
 //        [dirName appendString:@"/"];
         [dirName appendString:dateString];
         NSInteger index = 0;

@@ -24,7 +24,7 @@ Game *game;
 {
     [super setUp];
     // Put setup code here. This method is called before the invocation of each test method in the class.
-    game = [[Game alloc] initWithPlayers:@[@"Piet", @"Hein", @"Günther", @"Paul"] AndShortMode:NO];
+    game = [[Game alloc] initWithPlayers:@[@"Piet", @"Hein", @"Günther", @"Paul"] AndShortMode:NO AndSounds:@[@"Basso", @"Basso", @"Basso", @"Basso"]];
 }
 
 - (void)tearDown
@@ -45,7 +45,7 @@ Game *game;
 }
 
 - (void) testInit {
-    Game *gameA = [[Game alloc] initWithPlayers:@[@"PlayerA", @"PlayerB"] AndShortMode:YES];
+    Game *gameA = [[Game alloc] initWithPlayers:@[@"PlayerA", @"PlayerB"] AndShortMode:YES AndSounds:@[@"Basso", @"Basso", @"Basso", @"Basso"]];
     
     XCTAssertEqual([gameA.companies count],  (NSUInteger)6, @"Init test");
     for (Company *comp in gameA.companies) {
@@ -80,7 +80,7 @@ Game *game;
     }
     XCTAssertEqual([self sumUpAllMoney:gameA], 6000, @"Check that money always is constant");
 
-    gameA = [[Game alloc] initWithPlayers:@[@"PlayerA", @"PlayerB", @"PlayerC"] AndShortMode:NO];
+    gameA = [[Game alloc] initWithPlayers:@[@"PlayerA", @"PlayerB", @"PlayerC"] AndShortMode:NO AndSounds:@[@"Basso", @"Basso", @"Basso", @"Basso"]];
     
     XCTAssertEqual([gameA.companies count],  (NSUInteger)8, @"Init test");
     XCTAssertEqual([gameA.player count],     (NSUInteger)3, @"Init test");
@@ -111,7 +111,7 @@ Game *game;
     }
     XCTAssertEqual([self sumUpAllMoney:gameA], 8000, @"Check that money always is constant");
 
-    gameA = [[Game alloc] initWithPlayers:@[@"PlayerA", @"PlayerB", @"PlayerC", @"PlayerD"] AndShortMode:NO];
+    gameA = [[Game alloc] initWithPlayers:@[@"PlayerA", @"PlayerB", @"PlayerC", @"PlayerD"] AndShortMode:NO AndSounds:@[@"Basso", @"Basso", @"Basso", @"Basso"]];
     
     XCTAssertEqual([gameA.companies count],  (NSUInteger)8, @"Init test");
     XCTAssertEqual([gameA.player count],     (NSUInteger)4, @"Init test");

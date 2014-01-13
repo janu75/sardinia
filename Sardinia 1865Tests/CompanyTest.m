@@ -391,7 +391,7 @@ Company *compC;
     XCTAssertEqual(compC.stockPrice, 120, @"operate trains test");
 
     Bank *bank = [[Bank alloc] initWithMoney:8000];
-    Player *aPlayer = [[Player alloc] initWithName:@"Paul" AndMoney:0 AndBank:bank];
+    Player *aPlayer = [[Player alloc] initWithName:@"Paul" AndMoney:0 AndBank:bank AndSound:@"Basso"];
     int moneyPlayer = 0;
     
     [compA sellCertificate:compA.certificates[0] To:aPlayer];  moneyA += 2*80;  moneyPlayer -= 2*80;
@@ -579,10 +579,10 @@ Company *compC;
 
 - (void) testUpdatePresident {
     Bank *bank = [[Bank alloc] initWithMoney:8000];
-    Player *playerA = [[Player alloc] initWithName:@"Peter" AndMoney:300 AndBank:bank];
-    Player *playerB = [[Player alloc] initWithName:@"Paul" AndMoney:300 AndBank:bank];
-    Player *playerC = [[Player alloc] initWithName:@"Günther" AndMoney:300 AndBank:bank];
-    Player *playerD = [[Player alloc] initWithName:@"Rudi" AndMoney:300 AndBank:bank];
+    Player *playerA = [[Player alloc] initWithName:@"Peter" AndMoney:300 AndBank:bank AndSound:@"Basso"];
+    Player *playerB = [[Player alloc] initWithName:@"Paul" AndMoney:300 AndBank:bank AndSound:@"Basso"];
+    Player *playerC = [[Player alloc] initWithName:@"Günther" AndMoney:300 AndBank:bank AndSound:@"Basso"];
+    Player *playerD = [[Player alloc] initWithName:@"Rudi" AndMoney:300 AndBank:bank AndSound:@"Basso"];
     
     XCTAssertNil(compA.president, @"update president test");
     XCTAssertNil(compB.president, @"update president test");
@@ -692,7 +692,7 @@ Company *compC;
     compA.money = 1000;
     Train *trainA = [[Train alloc] initWithTech:2 AndDiscount:NO];
     Train *trainB = [[Train alloc] initWithTech:2 AndDiscount:NO];
-    Player *playerA = [[Player alloc] initWithName:@"Paul" AndMoney:330 AndBank:bank];
+    Player *playerA = [[Player alloc] initWithName:@"Paul" AndMoney:330 AndBank:bank AndSound:@"Basso"];
     int moneyA = compA.money;
     [compA setInitialStockPrice:100];
     [compA sellCertificate:compA.certificates[0] To:playerA];   moneyA += 2*100;
