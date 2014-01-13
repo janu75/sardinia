@@ -37,6 +37,7 @@
     if (rowData && [rowData count] > row) {
         NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
         cellView.textField.stringValue = rowData[row];
+        if (self.tableFont) [cellView.textField setFont:self.tableFont];
         return cellView;
     } else {
         NSTextField *cellView = [[NSTextField alloc] initWithFrame:tableView.frame];
@@ -139,6 +140,23 @@
 - (void) loadNewGame:(Game *)aGame {
     self.game = aGame;
     [self updateTableData];
+}
+
+- (void) updateFont:(NSFont*)newFont {
+    CGFloat size = [newFont pointSize] + 2;
+    
+    [self.statusTable setFont:newFont];
+    [self.statusTable setRowHeight:size + 8];
+    for (NSTableColumn* col in [self.statusTable tableColumns]) {
+        if (col) {
+            [[col headerCell] setFont:newFont];
+        }
+    }
+    NSRect bounds = [[self.statusTable headerView] bounds];
+    bounds.size.height = size + 8;
+    [[self.statusTable headerView] setBounds:bounds];
+    
+    self.tableFont = newFont;
 }
 
 @end

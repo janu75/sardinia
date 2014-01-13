@@ -156,6 +156,8 @@
 @property (strong) NSString* absorbee;
 @property (strong) NSString* absorber;
 
+@property (strong) NSFont* tableFont;
+
 - (void) loadSavedGameWithFile:(NSString*)file;
 
 @end

@@ -14,11 +14,14 @@
 @property (strong) Game* game;
 @property (strong) NSDictionary *overviewTableData;
 @property (weak) IBOutlet NSTableView *statusTable;
+@property (strong) NSFont* tableFont;
 
 - (id) initWithGame:(Game*)aGame;
 
 - (void) updateTableData;
 
 - (void) loadNewGame:(Game*)aGame;
+
+- (void) updateFont:(NSFont*)newFont;
 
 @end

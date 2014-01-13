@@ -17,6 +17,7 @@ GameSetupWindowController *setupWindow;
 - (void)applicationDidFinishLaunching:(NSNotification *)aNotification
 {
     // Insert code here to initialize your application
+    self.tableFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
     setupWindow = [[GameSetupWindowController alloc] initWithWindowNibName:@"GameSetupWindow"];
     [setupWindow showWindow:self];
 //    [setupWindow.window setLevel:NSFloatingWindowLevel];
@@ -174,7 +175,7 @@ GameSetupWindowController *setupWindow;
         if (comp.isMajor) {
             [field setStringValue:@"Major"];
         } else {
-            [field setStringValue:@"Minor"];
+            [field setStringValue:@""];
         }
     }
     i=0;
@@ -473,12 +474,49 @@ GameSetupWindowController *setupWindow;
     
     if (rowData && [rowData count] > row) {
         NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
+        [cellView.textField setFont:self.tableFont];
         cellView.textField.stringValue = rowData[row];
+//        [cellView.textField setNeedsDisplay:YES];
+//
+//        NSRect bounds = [cellView.textField bounds];
+//        NSLog(@"Bounds for %@: (%.1f, %.1f) with %.1f x %.1f", rowData[row], bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+//        NSRect rect = [cellView.textField frame];
+////        NSLog(@"Frame for %@: (%.1f, %.1f) with %.1f x %.1f", rowData[row], rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+//        rect.origin.y = 1;
+//        rect.size.height = [self.tableFont pointSize] + 6;
+////        [tableView setRowHeight:[self.tableFont pointSize] + 8];
+////        [[cellView.textField cell] setFrame:rect];
+//
+//        NSRect frame = rect;
+//        frame.origin.y = [self.tableFont pointSize] + 6;
+//        frame.size.height = [self.tableFont pointSize] + 6;
+//        NSRect newBounds = rect;
+//        newBounds.origin.y = 0;
+//        newBounds.size.height = [self.tableFont pointSize] + 6;
+//        [cellView.textField setFrame:frame];
+//        [cellView.textField setBounds:newBounds];
+
+        //        [cellView.textField setNeedsDisplay:YES];
+//        [cellView setFrame:rect];
+
+//        [cellView setBounds:rect];
+
+        //        [cellView setNeedsDisplay:YES];
+//        NSLog(@"Rect for %@: (%.1f, %.1f) with %.1f x %.1f", rowData[row], rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+//        NSLog(@"Tableview rowheight: %.1f", [tableView rowHeight]);
+
+        //        NSCell *cell = [cellView.textField cell];
+//        NSSize rect = [cell cellSize];
+//        NSRect oldRect = [cellView bounds];
+//        oldRect.size.height = rect.height;
+//        [cellView setBounds:oldRect];
+//        [tableView setRowHeight:rect.height];
+//        [tableColumn setWidth:rect.width];
         return cellView;
     } else {
-        NSTextField *cellView = [[NSTextField alloc] initWithFrame:tableView.frame];
-        cellView.stringValue = [NSString stringWithFormat:@"??%@-%ld??", identifier, (long)row];
-        return cellView;
+//        NSTextField *cellView = [[NSTextField alloc] initWithFrame:tableView.frame];
+//        cellView.stringValue = [NSString stringWithFormat:@"??%@-%ld??", identifier, (long)row];
+//        return cellView;
 //        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
     }
     return nil;
@@ -717,5 +755,50 @@ GameSetupWindowController *setupWindow;
     }
     [self.or_textfieldTrainCost setStringValue:[NSString stringWithFormat:@"%d", cost]];
 }
+
+- (CGFloat) tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {
+    if (self.tableFont) {
+        NSLog(@"Setting row height to %.1f", [self.tableFont pointSize]+8);
+        return [self.tableFont pointSize] + 8;
+    }
+    return [NSFont systemFontSize] + 8;
+}
+
+- (void) updateFont:(NSFont*)newFont {
+    CGFloat size = [newFont pointSize];
+    [self.textLog setFont:newFont];
+    
+    [self.companyTableView setFont:newFont];
+    [self.companyTableView setRowHeight:size + 8];
+    for (NSTableColumn* col in [self.companyTableView tableColumns]) {
+        if (col) {
+//            NSLog(@"col ; %@", col);
+            [[col headerCell] setFont:newFont];
+        }
+    }
+    NSRect bounds = [[self.companyTableView headerView] bounds];
+    bounds.size.height = size + 8;
+    [[self.companyTableView headerView] setBounds:bounds];
+    [[self.companyTableView headerView] setNeedsDisplay:YES];
+    
+    self.tableFont = newFont;
+    [self.companyTable updateFont:newFont];
+    [self refreshView];
+}
+
+- (IBAction)menuBiggerFont:(NSMenuItem *)sender {
+    NSFont *font = [self.textLog font];
+    CGFloat size = [font pointSize] + 2;
+    NSFont *newFont = [NSFont systemFontOfSize:size];
+    [self updateFont:newFont];
+ }
+
+- (IBAction)menuSmallerFont:(NSMenuItem *)sender {
+    NSFont *font = [self.textLog font];
+    CGFloat size = [font pointSize] - 2;
+    NSFont *newFont = [NSFont systemFontOfSize:size];
+    [self updateFont:newFont];
+}
+
 
 @end
