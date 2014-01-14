@@ -31,7 +31,7 @@
 @property int traffic;
 @property int trainCapacity;
 @property int stockPrice;
-@property int money;
+//@property int money;
 @property int lastIncome;
 @property (strong) NSNumber *dragonRow;
 @property (strong) Shareholder* bank;
@@ -102,5 +102,9 @@
 - (int) getShareMarketPrice;
 
 - (BOOL) canConvertToMajor;
+
+- (BOOL) shareholderHasNoShares:(Shareholder*)aShareholder;
+
+- (int) potentialIncome;
 
 @end

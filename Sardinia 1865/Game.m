@@ -231,17 +231,15 @@
                     if ([aComp canConvertToMajor]) {
                         conversionPossible = YES;
                     }
+                    if (comp.isFloating) {
+                        [comp updateDragonRowInPhase:self.settings.phase];
+                    }
                 }
                 if (self.settings.phase > 2 || conversionPossible) {
                     self.round = @"Bureaucracy";
                 } else {
                     self.round = @"Stock Round";
                     self.passCount = 0;
-                    for (Company *comp in self.companies) {
-                        if (comp.isFloating) {
-                            [comp updateDragonRowInPhase:self.settings.phase];
-                        }
-                    }
                     msg = [self dragonTurn];
                 }
             }
@@ -249,11 +247,6 @@
     } else if ([self.round isEqualToString:@"Bureaucracy"]) {
         self.round = @"Stock Round";
         self.passCount = 0;
-        for (Company *comp in self.companies) {
-            if (comp.isFloating) {
-                [comp updateDragonRowInPhase:self.settings.phase];
-            }
-        }
         msg = [self dragonTurn];
     }
     [self saveGame];
@@ -492,24 +485,24 @@
     for (Train* train in trainList) {
         if (train.owner == nil) {
             if (train.cost <= aComp.money) {
-                NSString *key = [NSString stringWithFormat:@"%02d: New Train: Capacity %d for L.%d", i, train.capacity, train.cost];
+                NSString *key = [NSString stringWithFormat:@"%02d: New Train %d: Capacity %d for L.%d", i, train.techLevel, train.capacity, train.cost];
                 [dict setObject:train forKey:key];
             } else if (presidentMayPay) {
-                NSString *key = [NSString stringWithFormat:@"%02d: New Train: Capacity %d for L.%d + %d (%@)", i, train.capacity, aComp.money, train.cost-aComp.money, president.name];
+                NSString *key = [NSString stringWithFormat:@"%02d: New Train %d: Capacity %d for L.%d + %d (%@)", i, train.techLevel, train.capacity, aComp.money, train.cost-aComp.money, president.name];
                 [dict setObject:train forKey:key];
             }
         } else if (train.owner == self.bank) {
             if (train.cost <= aComp.money) {
-                NSString *key = [NSString stringWithFormat:@"%02d: Bank: Capacity %d for L.%d", i, train.capacity, train.cost];
+                NSString *key = [NSString stringWithFormat:@"%02d: Bank %d: Capacity %d for L.%d", i, train.techLevel, train.capacity, train.cost];
                 [dict setObject:train forKey:key];
-            } else {
-                NSString *key = [NSString stringWithFormat:@"%02d: Bank: Capacity %d for L.%d + %d (%@)", i, train.capacity, train.cost, train.cost-aComp.money, president.name];
+            } else if (presidentMayPay) {
+                NSString *key = [NSString stringWithFormat:@"%02d: Bank %d: Capacity %d for L.%d + %d (%@)", i, train.techLevel, train.capacity, train.cost, train.cost-aComp.money, president.name];
                 [dict setObject:train forKey:key];
             }
         } else {
             if (aComp.money > 0) {
                 Company* comp = (Company*) train.owner;
-                NSString *key = [NSString stringWithFormat:@"%02d: %@: Capacity %d for L.1 - %d", i, comp.shortName, train.capacity, aComp.money];
+                NSString *key = [NSString stringWithFormat:@"%02d: %@ %d: Capacity %d for L.1 - %d", i, comp.shortName, train.techLevel, train.capacity, aComp.money];
                 [dict setObject:train forKey:key];
             }
         }
@@ -587,7 +580,7 @@
     MaritimeCompany* mc = [president.maritimeCompany firstObject];
     [president.maritimeCompany removeObject:mc];
     [aComp.maritimeCompanies addObject:mc];
-    aComp.traffic += 8;
+    aComp.trainCapacity += 8;
     return [NSString stringWithFormat:@"%@ hands over maritime company to %@", president.name, aComp.shortName];
 }
 
@@ -620,6 +613,14 @@
         if ([train.rustsAt intValue] == self.settings.phase) {
             [self.bank.trains removeObject:train];
             [msg appendString:[NSString stringWithFormat:@"Scrapped train with capacity %d from bank", train.capacity]];
+        }
+    }
+    if (self.settings.phase > 4) {
+        for (Player *player in self.player) {
+            if ([player.maritimeCompany count]) {
+                [player.maritimeCompany removeAllObjects];
+                [msg appendString:[NSString stringWithFormat:@"Player %@ closed all maritime companies", player.name]];
+            }
         }
     }
     return msg;
@@ -857,6 +858,9 @@
     comp.trainCapacity += target.trainCapacity;
     comp.money         += target.money;
     comp.numLoans      += target.numLoans;
+    for (Train *train in target.trains) {
+        train.owner = comp;
+    }
     [comp.trains addObjectsFromArray:target.trains];
     msg = [NSString stringWithFormat:@"%@%@", [self checkTrainLimits], msg];
     [comp.maritimeCompanies addObjectsFromArray:target.maritimeCompanies];

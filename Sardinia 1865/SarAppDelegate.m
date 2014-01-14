@@ -149,25 +149,28 @@ GameSetupWindowController *setupWindow;
     for (NSButton *button in self.ipoBuyButton) {
         Company *comp = self.game.companies[i];
         [button setTitle:[self formatStockPrice:comp]];
+        [button setTransparent:[comp shareholderHasNoShares:comp]];
         [button setEnabled:[self.game player:aPlayer CanBuyFromIpo:i++]];
     }
     i=0;
     for (NSButton *button in self.dragonBuyButton) {
         Company *comp = self.game.companies[i];
         [button setTitle:[self formatStockPriceForDragon:comp]];
-//        NSLog(@"Dragon price for %@ is %@", comp.shortName, [self formatStockPriceForDragon:comp]);
+        [button setTransparent:[comp shareholderHasNoShares:self.game.dragon]];
         [button setEnabled:[self.game player:aPlayer CanBuyFromDragon:i++]];
     }
     i=0;
     for (NSButton *button in self.bankBuyButton) {
         Company *comp = self.game.companies[i];
         [button setTitle:[self formatStockPrice:comp]];
+        [button setTransparent:[comp shareholderHasNoShares:self.game.bank]];
         [button setEnabled:[self.game player:aPlayer CanBuyFromBank:i++]];
     }
     i=0;
     for (NSButton *button in self.sellButton) {
         Company *comp = self.game.companies[i];
         [button setTitle:[self formatStockPrice:comp]];
+        [button setTransparent:[comp shareholderHasNoShares:aPlayer]];
         [button setEnabled:[self.game player:aPlayer CanSell:i++]];
     }
     i=0;
@@ -261,7 +264,7 @@ GameSetupWindowController *setupWindow;
             [self.or_buttonAddTraffic setEnabled:NO];
         } else {
             [self.or_buttonOperateTrains setEnabled:YES];
-            self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d",MIN(comp.traffic, comp.trainCapacity)*10];
+            self.or_textfieldOperateText.stringValue = [NSString stringWithFormat:@"for L.%d", [comp potentialIncome]];
             [self.or_buttonAddTraffic setEnabled:YES];
         }
         if ([self.game companyCanBuyTrain:comp]) {
@@ -386,24 +389,24 @@ GameSetupWindowController *setupWindow;
     [self refreshView];
 }
 
-- (void) testButtons {
-    int i=0;
-    for (NSButton *button in self.ipoBuyButton) {
-        [button setTitle:[NSString stringWithFormat:@"IPO %d", i++]];
-    }
-    i=0;
-    for (NSButton *button in self.bankBuyButton) {
-        [button setTitle:[NSString stringWithFormat:@"Bank %d", i++]];
-    }
-    i=0;
-    for (NSButton *button in self.dragonBuyButton) {
-        [button setTitle:[NSString stringWithFormat:@"Dra %d", i++]];
-    }
-    i=0;
-    for (NSButton *button in self.sellButton) {
-        [button setTitle:[NSString stringWithFormat:@"Sell %d", i++]];
-    }
-}
+//- (void) testButtons {
+//    int i=0;
+//    for (NSButton *button in self.ipoBuyButton) {
+//        [button setTitle:[NSString stringWithFormat:@"IPO %d", i++]];
+//    }
+//    i=0;
+//    for (NSButton *button in self.bankBuyButton) {
+//        [button setTitle:[NSString stringWithFormat:@"Bank %d", i++]];
+//    }
+//    i=0;
+//    for (NSButton *button in self.dragonBuyButton) {
+//        [button setTitle:[NSString stringWithFormat:@"Dra %d", i++]];
+//    }
+//    i=0;
+//    for (NSButton *button in self.sellButton) {
+//        [button setTitle:[NSString stringWithFormat:@"Sell %d", i++]];
+//    }
+//}
 
 - (void) setPlayers:(NSArray *)players AndGameMode:(BOOL)isShort AndSounds:(NSArray *)sounds {
     self.playerNames = players;
@@ -727,6 +730,9 @@ GameSetupWindowController *setupWindow;
     int bonus = 50 * self.or_textfieldAbsorbCities.intValue;
     comp.money += bonus;
     self.game.bank.money -= bonus;
+    if (comp.builtStations < comp.numStationMarkers) {
+        comp.canBuildStation = YES;
+    }
     [self printLog:[NSString stringWithFormat:@"%@ successfully absorbed %@", self.absorber, self.absorbee]];
     [self refreshView];
 }

@@ -357,18 +357,21 @@ Game *game;
     XCTAssertEqual([comp.maritimeCompanies count], (NSUInteger) 0, @"handover maritime Comp test");
     XCTAssertEqual([player.maritimeCompany count], (NSUInteger) 2, @"handover maritime Comp test");
     XCTAssertEqual(comp.traffic, 0, @"handover maritime Comp test");
+    XCTAssertEqual(comp.trainCapacity, 0, @"handover maritime Comp test");
 
     [game presidentHandsOverMaritimeCompanyTo:comp];
 
     XCTAssertEqual([comp.maritimeCompanies count], (NSUInteger) 1, @"handover maritime Comp test");
     XCTAssertEqual([player.maritimeCompany count], (NSUInteger) 1, @"handover maritime Comp test");
-    XCTAssertEqual(comp.traffic, 8, @"handover maritime Comp test");
+    XCTAssertEqual(comp.traffic, 0, @"handover maritime Comp test");
+    XCTAssertEqual(comp.trainCapacity, 8, @"handover maritime Comp test");
     
     [game companyConnectsToMaritimeCompany:comp];
 
     XCTAssertEqual([comp.maritimeCompanies count], (NSUInteger) 0, @"handover maritime Comp test");
     XCTAssertEqual([player.maritimeCompany count], (NSUInteger) 1, @"handover maritime Comp test");
-    XCTAssertEqual(comp.traffic, 10, @"handover maritime Comp test");
+    XCTAssertEqual(comp.traffic, 2, @"handover maritime Comp test");
+    XCTAssertEqual(comp.trainCapacity, 8, @"handover maritime Comp test");
 }
 
 - (void) testSellTrain {
@@ -1112,17 +1115,44 @@ Game *game;
         XCTAssertEqual(comp.money, ccomp.money, @"check saving");
         XCTAssertEqual([comp.certificates count], [ccomp.certificates count], @"check saving");
         XCTAssertEqual([comp.trains count], [ccomp.trains count], @"check saving");
-        XCTAssertEqual(comp.stockPrice, ccomp.stockPrice, @"check saving");
-        XCTAssertEqual(comp.trainCapacity, ccomp.trainCapacity, @"check saving");
+
+        XCTAssertEqual(comp.isOperating, ccomp.isOperating, @"check saving");
+        XCTAssertEqual(comp.isFloating, ccomp.isFloating, @"check saving");
+        XCTAssertEqual(comp.isMajor, ccomp.isMajor, @"check saving");
+        XCTAssertEqual(comp.didOperateThisTurn, ccomp.didOperateThisTurn, @"check saving");
+        XCTAssertEqual(comp.canLay2ndTrack, ccomp.canLay2ndTrack, @"check saving");
+        XCTAssertEqual(comp.canBuildStation, ccomp.canBuildStation, @"check saving");
+        XCTAssertEqual(comp.boughtBrandNewTrain, ccomp.boughtBrandNewTrain, @"check saving");
+        XCTAssertEqual(comp.paidDividend, ccomp.paidDividend, @"check saving");
+        XCTAssertEqual(comp.presidentSoldShares, ccomp.presidentSoldShares, @"check saving");
+        XCTAssertEqual(comp.numStationMarkers, ccomp.numStationMarkers, @"check saving");
+        XCTAssertEqual(comp.builtStations, ccomp.builtStations, @"check saving");
+
         XCTAssertEqual(comp.traffic, ccomp.traffic, @"check saving");
-        NSLog(@"%@:\n", comp.shortName);
-        for (Certificate *cert in comp.certificates) {
-            NSLog(@" Type: %@ - %d%% => %@ (%@)\n", cert.type, cert.share, cert.owner.name, cert.owner);
+        XCTAssertEqual(comp.trainCapacity, ccomp.trainCapacity, @"check saving");
+        XCTAssertEqual(comp.stockPrice, ccomp.stockPrice, @"check saving");
+        XCTAssertEqual(comp.lastIncome, ccomp.lastIncome, @"check saving");
+        
+        XCTAssertEqualObjects(comp.dragonRow, ccomp.dragonRow, @"check saving");
+        XCTAssertEqualObjects(comp.shortName, ccomp.shortName, @"check saving");
+        XCTAssertEqualObjects(comp.president.name, ccomp.president.name, @"check saving");
+        for (NSInteger i=0; i<[comp.trains count]; i++) {
+            Train *train  = comp.trains[i];
+            Train *ctrain = ccomp.trains[i];
+            XCTAssertEqual(train.cost, ctrain.cost, @"check saving");
+            XCTAssertEqual(train.capacity, ctrain.capacity, @"check saving");
+            XCTAssertEqual(train.techLevel, ctrain.techLevel, @"check saving");
+            XCTAssertEqualObjects(train.rustsAt, ctrain.rustsAt, @"check saving");
+            XCTAssertEqualObjects(train.owner, ctrain.owner, @"check saving");
         }
-        NSLog(@"%@:\n", ccomp.shortName);
-        for (Certificate *cert in ccomp.certificates) {
-            NSLog(@" Type: %@ - %d%% => %@ (%@)\n", cert.type, cert.share, cert.owner.name, cert.owner);
+        for (NSInteger i=0; i<[comp.maritimeCompanies count]; i++) {
+            MaritimeCompany *mc = comp.maritimeCompanies[i];
+            MaritimeCompany *cmc = ccomp.maritimeCompanies[i];
+            XCTAssertEqual(mc.isPrivate, cmc.isPrivate, @"check saving");
+            XCTAssertEqual(mc.isConnected, cmc.isConnected, @"check saving");
+            XCTAssertEqual(mc.identifier, cmc.identifier, @"check saving");
         }
+        
         XCTAssertNotNil(comp.bank, @"check saving");
         XCTAssertNotNil(ccomp.bank, @"check saving");
     }
@@ -1267,6 +1297,7 @@ Game *game;
     
     for (Company* comp in [game.companyTurnOrder copy]) {
         NSUInteger i = [game.companies indexOfObject:comp];
+        [comp trafficUpgrade:3];
         [comp cleanFlagsForOperatingRound];
         [game presidentHandsOverMaritimeCompanyTo:comp];
         [comp operateTrainsAndPayDividend:NO];
@@ -1293,6 +1324,8 @@ Game *game;
     XCTAssertEqualObjects([game companyCanAbsorb:comp[6]], nil, @"can absorb test");
     XCTAssertEqualObjects([game companyCanAbsorb:comp[7]], nil, @"can absorb test");
     XCTAssertEqual(comp[0].money, cMoney[0], @"can absorb test");
+    XCTAssertEqual(comp[0].trainCapacity, 16, @"can absorb test");
+    XCTAssertEqual(comp[0].traffic, 3, @"can absorb test");
     XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
     for (int i=0; i<6; i++) {
@@ -1379,6 +1412,17 @@ Game *game;
     XCTAssertEqual(comp[4].numLoans, 0, @"can absorb test");
     XCTAssertEqual([comp[4] getShareByOwner:comp[4]], 40, @"can absorb test");
     XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
+    for (Company *aComp in game.companies) {
+        int cap = 0;
+        for (Train *train in aComp.trains) {
+            cap += train.capacity;
+            XCTAssertEqual(train.owner, aComp, @"absorb test");
+        }
+        for (MaritimeCompany *mc in aComp.maritimeCompanies) {
+            cap += 8;
+        }
+        XCTAssertEqual(aComp.trainCapacity, cap, @"can absorb test");
+    }
     
     comp[4].money += 150;    cMoney[4] += 150;      game.bank.money -= 150;
     trainKeys = [game getTrainTextForCompany:comp[4]];
@@ -1446,6 +1490,12 @@ Game *game;
         int cap = 0;
         for (Train *train in aComp.trains) {
             cap += train.capacity;
+            Company *otherComp = (Company*) train.owner;
+            NSLog(@"%@ vs %@", aComp.shortName, otherComp.shortName);
+            XCTAssertEqual(train.owner, aComp, @"absorb test %@ - %d", aComp.shortName, train.techLevel);
+        }
+        for (MaritimeCompany *mc in aComp.maritimeCompanies) {
+            cap += 8;
         }
         XCTAssertEqual(aComp.trainCapacity, cap, @"can absorb test");
     }
@@ -1457,6 +1507,79 @@ Game *game;
     for (int i=0; i<8; i++) {
         XCTAssertEqual(comp[i], game.companies[i], @"%d", i);
     }
+}
+
+- (void) testMaritimeCompanies {
+    Player *player[4];
+    Company *company[8];
+    for (NSInteger i=0; i<[game.player count]; i++) {
+        player[i] = game.player[i];
+    }
+    for (NSInteger i=0; i<[game.companies count]; i++) {
+        company[i] = game.companies[i];
+    }
+    
+    XCTAssertEqual(game.settings.phase, 2, @"mc test");
+    for (NSInteger i=0; i<[game.player count]; i++) {
+        XCTAssertEqual([player[i].maritimeCompany count], (NSUInteger) 2, @"mc test");
+    }
+    
+    [game.settings enterNewPhase:3];
+    [game checkTrainLimits];
+    
+    XCTAssertEqual(game.settings.phase, 3, @"mc test");
+    for (NSInteger i=0; i<[game.player count]; i++) {
+        XCTAssertEqual([player[i].maritimeCompany count], (NSUInteger) 2, @"mc test");
+    }
+
+    [game.settings enterNewPhase:4];
+    [game checkTrainLimits];
+    
+    XCTAssertEqual(game.settings.phase, 4, @"mc test");
+    for (NSInteger i=0; i<[game.player count]; i++) {
+        XCTAssertEqual([player[i].maritimeCompany count], (NSUInteger) 2, @"mc test");
+    }
+
+    [game.settings enterNewPhase:5];
+    [game checkTrainLimits];
+    
+    XCTAssertEqual(game.settings.phase, 5, @"mc test");
+    for (NSInteger i=0; i<[game.player count]; i++) {
+        XCTAssertEqual([player[i].maritimeCompany count], (NSUInteger) 0, @"mc test");
+    }
+}
+
+- (void) testMaritimeCompanies2 {
+    Player *player[4];
+    Company *company[8];
+    for (NSInteger i=0; i<[game.player count]; i++) {
+        player[i] = game.player[i];
+    }
+    for (NSInteger i=0; i<[game.companies count]; i++) {
+        company[i] = game.companies[i];
+    }
+    
+    XCTAssertEqual(game.settings.phase, 2, @"mc test");
+    for (NSInteger i=0; i<[game.player count]; i++) {
+        XCTAssertEqual([player[i].maritimeCompany count], (NSUInteger) 2, @"mc test");
+    }
+    
+    for (NSInteger i=0; i<4; i++) {
+        [game player:player[i] BuysIpoShare:company[i] AtPrice:60];
+        [game player:player[i] BuysIpoShare:company[i] AtPrice:60];
+        [company[i] updatePresident];
+        [game presidentHandsOverMaritimeCompanyTo:company[i]];
+        [company[i] trafficUpgrade:5];
+    }
+    
+    XCTAssertEqual(game.settings.phase, 2, @"mc test");
+    for (NSInteger i=0; i<[game.player count]; i++) {
+        XCTAssertEqual([player[i].maritimeCompany count], (NSUInteger) 1, @"mc test");
+        XCTAssertEqual([company[i].maritimeCompanies count], (NSUInteger) 1, @"mc test");
+        XCTAssertEqual(company[i].traffic, 5, @"mc test");
+        XCTAssertEqual(company[i].trainCapacity, 8, @"mc test");
+    }
+    
 }
 
 @end

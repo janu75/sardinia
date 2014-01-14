@@ -122,6 +122,9 @@
 
 - (void) operateTrainsAndPayDividend:(BOOL)payout {
     int income = MIN(self.traffic, self.trainCapacity) * 10;
+    if ([self.trains count] == 0) {
+        income = 0;
+    }
     self.lastIncome = income;
     if (income > 0) {
         if (payout) {
@@ -324,7 +327,7 @@
     [aCoder encodeObject:[NSNumber numberWithInt:self.trainCapacity] forKey:@"Company TrainCapacity"];
     [aCoder encodeObject:[NSNumber numberWithInt:self.stockPrice] forKey:@"Company StockPrice"];
     [aCoder encodeObject:[NSNumber numberWithInt:self.money] forKey:@"Company Money"];
-    [aCoder encodeObject:[NSNumber numberWithInt:self.lastIncome] forKey:@"Company lastIncome"];
+    [aCoder encodeObject:[NSNumber numberWithInt:self.lastIncome] forKey:@"Company LastIncome"];
     [aCoder encodeObject:self.dragonRow forKey:@"Company DragonRow"];
     [aCoder encodeObject:self.shortName forKey:@"Company ShortName"];
     [aCoder encodeObject:self.trains forKey:@"Company Trains"];
@@ -407,6 +410,20 @@
         return YES;
     }
     return NO;
+}
+
+- (BOOL) shareholderHasNoShares:(Shareholder *)aShareholder {
+    if ([self getShareByOwner:aShareholder] > 0) {
+        return NO;
+    }
+    return YES;
+}
+
+- (int) potentialIncome {
+    if ([self.trains count] == 0) {
+        return 0;
+    }
+    return MIN(self.trainCapacity, self.traffic) * 10;
 }
 
 @end

@@ -8,6 +8,7 @@ Checked:
 - List train limit in GUI
 - Add player certificate limit to table
 - Test for dragon certificate limit. I don't think this is implemented
+- Verfügbare Shares, die zu teuer sind ausgrauen, nicht verfügbare Shares unsichtbar machen
 
 
 Need check:
@@ -15,7 +16,25 @@ Need check:
 - Add icon
 - Sort companies according to ranking of stock price on upper table, according to this turns turn order on lower turn
 - Implement absorbtion effects (amount of station tokens, money from shared stations)
-
-Open:
 - Fix size of fonts
 - Need to check absorbtion better. Currently, company can take unlimited amount of loans
+
+Open:
+- Marker für Startspieler in Operating round (priority order)
+- Anzeige der neuen Züge + Bankzüge
+- Wahl, welche Züge verschrottet werden sollen? Zumindest sicherstellen, daß die kleinsten genommen werden.
+- Farbe der Phase anzeigen
+- Dragon Chart eventuell buggy? (SFSS stand meines Erachtens bei weiß schon auf Sell)
+- Dragon Chart in einem Extra-Tab anzeigen
+- Tabellen editierbar machen, um Issues zu fixen, bzw. Traffic updates einzupflegen
+
+Bugs:
+- Station Marker haben nicht gepaßt. numStationMarkers sah gut aus, aber builtStations schien zu niedrig zu sein
+
+Fixed Bugs:
+- Income 0 after loading game / undo
+- Private Maritime Companies sind in Phase 5 nicht kaputt gegangen
+- Maritime Companies geben einer Company 8 capacity, nicht 8 traffic. (Bei Anschluß dann Phase traffic)
+- Erst Dragon Chart updaten, dann die Conversion anzeigen
+- Trains tauchen nicht alle im Popup auf (2 gleiche von FMS wurden nur einmal gezeigt). Bug oder Feature? Bug!
+- Place station nach Absorption war in der UI disabled, hätte mit den neuen Token aber klappen müssen

@@ -648,6 +648,7 @@ Company *compC;
     Train *train = [[Train alloc] initWithTech:2 AndDiscount:NO];
     [compA cleanFlagsForOperatingRound];
     [compA buyTrain:train];
+    [compA.trains addObject:train];
     XCTAssertFalse(compA.didOperateThisTurn, @"Clean flags test");
     XCTAssertTrue(compA.canLay2ndTrack, @"Clean flags test");
     XCTAssertTrue(compA.canBuildStation, @"Clean flags test");
@@ -824,6 +825,7 @@ Company *compC;
     XCTAssertEqual(compA.lastIncome, 0, @"company action tests");
     
     [compA buyTrain:trainB];            // moneyA -= 100;
+    [compA.trains addObject:trainB];
 
     // Buying a train does not block earlier actions, 'Operate trains' does, which is required to enable the buy trains button
     XCTAssertEqual(compA.isOperating, YES, @"company action tests");
