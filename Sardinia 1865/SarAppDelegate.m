@@ -389,25 +389,6 @@ GameSetupWindowController *setupWindow;
     [self refreshView];
 }
 
-//- (void) testButtons {
-//    int i=0;
-//    for (NSButton *button in self.ipoBuyButton) {
-//        [button setTitle:[NSString stringWithFormat:@"IPO %d", i++]];
-//    }
-//    i=0;
-//    for (NSButton *button in self.bankBuyButton) {
-//        [button setTitle:[NSString stringWithFormat:@"Bank %d", i++]];
-//    }
-//    i=0;
-//    for (NSButton *button in self.dragonBuyButton) {
-//        [button setTitle:[NSString stringWithFormat:@"Dra %d", i++]];
-//    }
-//    i=0;
-//    for (NSButton *button in self.sellButton) {
-//        [button setTitle:[NSString stringWithFormat:@"Sell %d", i++]];
-//    }
-//}
-
 - (void) setPlayers:(NSArray *)players AndGameMode:(BOOL)isShort AndSounds:(NSArray *)sounds {
     self.playerNames = players;
     self.isShortGame = isShort;
@@ -552,7 +533,11 @@ GameSetupWindowController *setupWindow;
     NSMutableArray *cert = [@[[NSNumber numberWithInt:self.game.bank.numCertificates], [NSString stringWithFormat:@"%d/%d", self.game.dragon.numCertificates, [self.game.settings certificateLimit:@"Dragon"]]] mutableCopy];
     NSMutableArray *loans = [@[[NSNumber numberWithInt:0], [NSNumber numberWithInt:0]] mutableCopy];
     for (Player *guy in self.game.player) {
-        [player addObject:guy.name];
+        if (guy == self.game.startPlayer) {
+            [player addObject:[NSString stringWithFormat:@"> %@", guy.name]];
+        } else {
+            [player addObject:guy.name];
+        }
         [money addObject:[NSNumber numberWithInt:guy.money]];
         int limit = [self.game.settings certificateLimit:guy.name];
         [cert addObject:[NSString stringWithFormat:@"%luM + %d/%d", (unsigned long)[guy.maritimeCompany count], guy.numCertificates, limit]];
