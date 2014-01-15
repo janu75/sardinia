@@ -9,18 +9,18 @@ Checked:
 - Add player certificate limit to table
 - Test for dragon certificate limit. I don't think this is implemented
 - Verfügbare Shares, die zu teuer sind ausgrauen, nicht verfügbare Shares unsichtbar machen
+- Marker für Startspieler in Operating round (priority order)
+- Load a game from start window
+- Sort companies according to ranking of stock price on upper table, according to this turns turn order on lower turn
+- Need to check absorbtion better. Currently, company can take unlimited amount of loans
 
 
 Need check:
-- Load a game from start window
 - Add icon
-- Sort companies according to ranking of stock price on upper table, according to this turns turn order on lower turn
 - Implement absorbtion effects (amount of station tokens, money from shared stations)
 - Fix size of fonts
-- Need to check absorbtion better. Currently, company can take unlimited amount of loans
 
 Open:
-- Marker für Startspieler in Operating round (priority order)
 - Anzeige der neuen Züge + Bankzüge
 - Wahl, welche Züge verschrottet werden sollen? Zumindest sicherstellen, daß die kleinsten genommen werden.
 - Farbe der Phase anzeigen
