@@ -19,10 +19,11 @@ Need check:
 - Add icon
 - Implement absorbtion effects (amount of station tokens, money from shared stations)
 - Fix size of fonts
+- Anzeige der neuen Züge + Bankzüge
 
 Open:
-- Anzeige der neuen Züge + Bankzüge
 - Wahl, welche Züge verschrottet werden sollen? Zumindest sicherstellen, daß die kleinsten genommen werden.
+- Wahl, welche Züge beim Mergen übernommen werden. Zumindest die kleinsten
 - Farbe der Phase anzeigen
 - Dragon Chart eventuell buggy? (SFSS stand meines Erachtens bei weiß schon auf Sell)
 - Dragon Chart in einem Extra-Tab anzeigen
@@ -30,6 +31,7 @@ Open:
 
 Bugs:
 - Station Marker haben nicht gepaßt. numStationMarkers sah gut aus, aber builtStations schien zu niedrig zu sein
+- Dragon Row scheint richtig gespeichert zu werden (Test), aber nach dem Laden eines Spiels sind alle Companies auf Row 1...
 
 Fixed Bugs:
 - Income 0 after loading game / undo

@@ -325,6 +325,7 @@ GameSetupWindowController *setupWindow;
     }
     Train *nextTrain = [self.game.trains firstObject];
     self.or_labelNewTrainInfo.stringValue = [NSString stringWithFormat:@"New train: Phase %d, Capacity %d, cost L.%d", nextTrain.techLevel, nextTrain.capacity, nextTrain.cost];
+    self.or_labelTrainStack.stringValue = [self.game trainStackText];
 }
 
 - (void) updateButtonsForBureaucracy {
@@ -407,7 +408,8 @@ GameSetupWindowController *setupWindow;
 
 - (void) refreshView {
     [self updateTableData];
-    // Initial call, clean up tab view
+    [self.tileView setColorByPhase:self.game.settings.phase];
+    // Initial call, clean up tab view  
     if ([self.actionTabView numberOfTabViewItems] > 3) {
         self.tabViewItemStockRound     = [self.actionTabView tabViewItemAtIndex:0];
         self.tabViewItemOperatingRound = [self.actionTabView tabViewItemAtIndex:1];

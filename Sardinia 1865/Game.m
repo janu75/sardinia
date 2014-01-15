@@ -231,8 +231,8 @@
                     if ([aComp canConvertToMajor]) {
                         conversionPossible = YES;
                     }
-                    if (comp.isFloating) {
-                        [comp updateDragonRowInPhase:self.settings.phase];
+                    if (aComp.isFloating) {
+                        [aComp updateDragonRowInPhase:self.settings.phase];
                     }
                 }
                 if (self.settings.phase > 2 || conversionPossible) {
@@ -298,7 +298,7 @@
             Certificate *cert = [comp certificateFromOwner:self.dragon];
             [comp sellCertificate:cert To:self.bank];
             comp.presidentSoldShares++;
-            log = [NSString stringWithFormat:@"%@Dragon sells %@ (%@)\n", log, comp.name, comp.shortName];
+            log = [NSString stringWithFormat:@"%@Dragon sells %@ (%@)", log, comp.name, comp.shortName];
         }
     }
     // Buy one company. First sort by preference, then try to buy one
@@ -321,13 +321,13 @@
         if ([self player:self.dragon CanBuyFromIpo:compNum]) {
             Certificate *cert = [comp certificateFromOwner:comp];
             [comp sellCertificate:cert To:self.dragon];
-            log = [NSString stringWithFormat:@"%@Dragon buys %@ (%@) from initial Offer\n", log, comp.name, comp.shortName];
+            log = [NSString stringWithFormat:@"%@Dragon buys %@ (%@) from initial Offer", log, comp.name, comp.shortName];
             return log;
         }
         if ([self player:self.dragon CanBuyFromBank:compNum]) {
             Certificate *cert = [comp certificateFromOwner:self.bank];
             [comp sellCertificate:cert To:self.dragon];
-            log = [NSString stringWithFormat:@"%@Dragon buys %@ (%@) from bank\n", log, comp.name, comp.shortName];
+            log = [NSString stringWithFormat:@"%@Dragon buys %@ (%@) from bank", log, comp.name, comp.shortName];
             return log;
         }
     }
@@ -339,20 +339,22 @@
     return NO;
 }
 
-- (void) sellTrain:(Train *)aTrain To:(id)newOwner {
+- (NSString*) sellTrain:(Train *)aTrain To:(id)newOwner {
     id oldOwner = aTrain.owner;
-    [self sellTrain:aTrain To:newOwner AtCost:aTrain.cost];
+    NSString *msg = [self sellTrain:aTrain To:newOwner AtCost:aTrain.cost];
     if (oldOwner == nil) {
         Company *comp = newOwner;
         comp.boughtBrandNewTrain = YES;
     }
     if (aTrain.techLevel > self.settings.phase) {
-        [self.settings enterNewPhase:aTrain.techLevel];
-        [self checkTrainLimits];
+        msg = [NSString stringWithFormat:@"%@%@", msg, [self.settings enterNewPhase:aTrain.techLevel]];
+        msg = [NSString stringWithFormat:@"%@%@", msg, [self checkTrainLimits]];
     }
+    return msg;
 }
 
-- (void) sellTrain:(Train *)aTrain To:(id)newOwner AtCost:(int)price {
+- (NSString*) sellTrain:(Train *)aTrain To:(id)newOwner AtCost:(int)price {
+//    NSString *msg;
     id oldOwner = aTrain.owner;
     Shareholder *newGuy = newOwner;
     [newGuy.trains addObject:aTrain];
@@ -360,12 +362,16 @@
     if (oldOwner == nil) {
         [self.trains removeObject:aTrain];
         self.bank.money += price;
+//        msg = [NSString stringWithFormat:@"%@ bought new level %d train", newGuy.name, aTrain.techLevel];
     } else {
         Shareholder *oldGuy = oldOwner;
         [oldGuy.trains removeObject:aTrain];
         oldGuy.money += price;
+//        msg = [NSString stringWithFormat:@"%@ bought level %d train from %@", newGuy.name, aTrain.techLevel, oldGuy.name];
     }
     aTrain.owner = newOwner;
+//    return msg;
+    return @"";
 }
 
 - (int) getMaxInitialStockPrice {
@@ -562,7 +568,7 @@
             } else {
                 transaction = [NSString stringWithFormat:@"%@ buys a Train with capacity %d for %d from the bank", aCompany.shortName, train.capacity, train.cost];
             }
-            [self sellTrain:train To:aCompany];
+            transaction = [NSString stringWithFormat:@"%@%@", transaction, [self sellTrain:train To:aCompany]];
             [aCompany buyTrain:train];
         }
     } else {
@@ -593,18 +599,19 @@
 - (NSString*) checkTrainLimits {
     NSMutableString *msg = [[NSMutableString alloc] init];
     for (Company* comp in self.companies) {
+        [comp sortTrains];  // Make sure that the old trains are the first ones in the list
         for (Train* train in [comp.trains copy]) {
             if ([train.rustsAt intValue] == self.settings.phase) {
                 [comp.trains removeObject:train];
                 comp.trainCapacity -= train.capacity;
-                [msg appendString:[NSString stringWithFormat:@"Scrapped train with capacity %d from %@", train.capacity, comp.shortName]];
+                [msg appendString:[NSString stringWithFormat:@"Scrapped train with capacity %d from %@\n", train.capacity, comp.shortName]];
             }
         }
         while ([comp.trains count]> self.settings.trainLimit) {
             Train *train = [comp.trains firstObject];
             comp.trainCapacity -= train.capacity;
             [comp.trains removeObject:train];
-            [msg appendString:[NSString stringWithFormat:@"%@ has more trains than limit of %d! Train with capacity %d goes to bank", comp.shortName, self.settings.trainLimit, train.capacity]];
+            [msg appendString:[NSString stringWithFormat:@"%@ has more trains than limit of %d! Train with capacity %d goes to bank\n", comp.shortName, self.settings.trainLimit, train.capacity]];
             [self.bank.trains addObject:train];
             train.owner = self.bank;
         }
@@ -612,14 +619,14 @@
     for (Train* train in [self.bank.trains copy]) {
         if ([train.rustsAt intValue] == self.settings.phase) {
             [self.bank.trains removeObject:train];
-            [msg appendString:[NSString stringWithFormat:@"Scrapped train with capacity %d from bank", train.capacity]];
+            [msg appendString:[NSString stringWithFormat:@"Scrapped train with capacity %d from bank\n", train.capacity]];
         }
     }
     if (self.settings.phase > 4) {
         for (Player *player in self.player) {
             if ([player.maritimeCompany count]) {
                 [player.maritimeCompany removeAllObjects];
-                [msg appendString:[NSString stringWithFormat:@"Player %@ closed all maritime companies", player.name]];
+                [msg appendString:[NSString stringWithFormat:@"Player %@ closed all maritime companies\n", player.name]];
             }
         }
     }
@@ -897,6 +904,20 @@
         return @"Downgrade yellow tokened mines to green!";
     }
     return @"Downgrade tokened mines: yellow => green, green => brown";
+}
+
+- (NSString*) trainStackText {
+    NSString *out = @"New trains: ";
+    for (Train *train in self.trains) {
+        out = [NSString stringWithFormat:@"%@%d", out, train.techLevel];
+    }
+    if ([self.bank.trains count] > 0) {
+        out = [NSString stringWithFormat:@"%@ Bank: ", out];
+        for (Train *train in self.bank.trains) {
+            out = [NSString stringWithFormat:@"%@%d", out, train.techLevel];
+        }
+    }
+    return out;
 }
 
 @end

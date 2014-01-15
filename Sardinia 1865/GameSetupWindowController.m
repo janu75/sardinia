@@ -74,6 +74,7 @@ SarAppDelegate *myController;
 }
 
 - (IBAction)doneButtonPressed:(NSButton *)sender {
+    [self loadSounds];
     NSArray *players = @[self.playerAName.stringValue, self.playerBName.stringValue,
                          self.playerCName.stringValue, self.playerDName.stringValue];
     NSInteger numPlayers = self.numPlayers.selectedRow + 2;

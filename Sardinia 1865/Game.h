@@ -107,4 +107,6 @@
 
 - (NSString*) downgradeMinesSentence;
 
+- (NSString*) trainStackText;
+
 @end

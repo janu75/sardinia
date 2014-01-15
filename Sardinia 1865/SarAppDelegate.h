@@ -10,6 +10,7 @@
 #import "Game.h"
 #import "CompanyStatusTableController.h"
 #import "PlayerRankingController.h"
+#import "Sar_TileView.h"
 
 @interface SarAppDelegate : NSObject <NSApplicationDelegate,NSTableViewDataSource,NSTableViewDelegate>
 
@@ -139,6 +140,7 @@
 @property (weak) IBOutlet NSTextField *or_textfieldAbsorbTokens;
 @property (weak) IBOutlet NSTextField *or_labelNewTrainInfo;
 @property (weak) IBOutlet NSButton *or_buttonAbsorbDone;
+@property (weak) IBOutlet NSTextFieldCell *or_labelTrainStack;
 
 // Bureaucracy
 @property (weak) IBOutlet NSButton *bu_buttonConvertSFS;
@@ -157,6 +159,7 @@
 @property (strong) NSString* absorber;
 
 @property (strong) NSFont* tableFont;
+@property (weak) IBOutlet Sar_TileView *tileView;
 
 - (void) loadSavedGameWithFile:(NSString*)file;
 

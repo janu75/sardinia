@@ -426,4 +426,18 @@
     return MIN(self.trainCapacity, self.traffic) * 10;
 }
 
+- (void) sortTrains {
+    self.trains = [[self.trains sortedArrayUsingComparator:^(id obj1, id obj2) {
+        Train *train1 = obj1;
+        Train *train2 = obj2;
+        if (train1.techLevel < train2.techLevel) {
+            return NSOrderedAscending;
+        } else if (train1.techLevel > train2.techLevel) {
+            return NSOrderedDescending;
+        } else {
+            return NSOrderedSame;
+        }
+    }] mutableCopy];
+}
+
 @end

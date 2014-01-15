@@ -107,4 +107,6 @@
 
 - (int) potentialIncome;
 
+- (void) sortTrains;
+
 @end

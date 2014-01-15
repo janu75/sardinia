@@ -1086,6 +1086,7 @@ Game *game;
     XCTAssertEqual([compB.trains count], (NSUInteger) 3, @"stock price test");
     XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");
     
+    compA.dragonRow = @6;
     XCTAssertEqual([self checkSaving], 0, @"check saving game");
 }
 

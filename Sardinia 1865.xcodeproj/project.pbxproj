@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3DC3BC4518867B2700CF4346 /* Sar_TileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC3BC4418867B2700CF4346 /* Sar_TileView.m */; };
 		3DE32ED7187048770022D3C6 /* PlayerRankingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE32ED6187048770022D3C6 /* PlayerRankingController.m */; };
 		6320878118578C11007A1704 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320878018578C11007A1704 /* Cocoa.framework */; };
 		6320878B18578C11007A1704 /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = 6320878918578C11007A1704 /* InfoPlist.strings */; };
@@ -67,6 +68,8 @@
 
 /* Begin PBXFileReference section */
 		3D05B92B187AA27F0002E588 /* Todo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = Todo.txt; path = "Sardinia 1865/Todo.txt"; sourceTree = "<group>"; };
+		3DC3BC4318867B2700CF4346 /* Sar_TileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sar_TileView.h; sourceTree = "<group>"; };
+		3DC3BC4418867B2700CF4346 /* Sar_TileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sar_TileView.m; sourceTree = "<group>"; };
 		3DE32ED5187048770022D3C6 /* PlayerRankingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerRankingController.h; path = ../PlayerRankingController.h; sourceTree = "<group>"; };
 		3DE32ED6187048770022D3C6 /* PlayerRankingController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = PlayerRankingController.m; path = ../PlayerRankingController.m; sourceTree = "<group>"; };
 		6320877D18578C11007A1704 /* Sardinia 1865.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Sardinia 1865.app"; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +193,8 @@
 		6320878618578C11007A1704 /* Sardinia 1865 */ = {
 			isa = PBXGroup;
 			children = (
+				3DC3BC4318867B2700CF4346 /* Sar_TileView.h */,
+				3DC3BC4418867B2700CF4346 /* Sar_TileView.m */,
 				3DE32ED5187048770022D3C6 /* PlayerRankingController.h */,
 				3DE32ED6187048770022D3C6 /* PlayerRankingController.m */,
 				6320879218578C11007A1704 /* SarAppDelegate.h */,
@@ -388,6 +393,7 @@
 				6320878D18578C11007A1704 /* main.m in Sources */,
 				6320879418578C11007A1704 /* SarAppDelegate.m in Sources */,
 				632087E11857BC25007A1704 /* GameSettings.m in Sources */,
+				3DC3BC4518867B2700CF4346 /* Sar_TileView.m in Sources */,
 				638FD29D185B0AD400DA445A /* Shareholder.m in Sources */,
 				632087D218578CC4007A1704 /* MaritimeCompany.m in Sources */,
 				3DE32ED7187048770022D3C6 /* PlayerRankingController.m in Sources */,
