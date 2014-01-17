@@ -19,7 +19,9 @@ GameSetupWindowController *setupWindow;
     // Insert code here to initialize your application
     self.tableFont = [NSFont systemFontOfSize:[NSFont systemFontSize]];
     setupWindow = [[GameSetupWindowController alloc] initWithWindowNibName:@"GameSetupWindow"];
+
     [setupWindow showWindow:self];
+    
 //    [setupWindow.window setLevel:NSFloatingWindowLevel];
     [setupWindow useSettings:self];
     [setupWindow.window makeKeyAndOrderFront:setupWindow];
@@ -456,59 +458,65 @@ GameSetupWindowController *setupWindow;
     return (NSInteger) [self.game.player count] + 2;
 }
 
-- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+- (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     NSString *identifier = [tableColumn identifier];
     NSArray *rowData = self.overviewTableData[identifier];
-    
-    if (rowData && [rowData count] > row) {
-        NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
-        [cellView.textField setFont:self.tableFont];
-        cellView.textField.stringValue = rowData[row];
-//        [cellView.textField setNeedsDisplay:YES];
-//
-//        NSRect bounds = [cellView.textField bounds];
-//        NSLog(@"Bounds for %@: (%.1f, %.1f) with %.1f x %.1f", rowData[row], bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
-//        NSRect rect = [cellView.textField frame];
-////        NSLog(@"Frame for %@: (%.1f, %.1f) with %.1f x %.1f", rowData[row], rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
-//        rect.origin.y = 1;
-//        rect.size.height = [self.tableFont pointSize] + 6;
-////        [tableView setRowHeight:[self.tableFont pointSize] + 8];
-////        [[cellView.textField cell] setFrame:rect];
-//
-//        NSRect frame = rect;
-//        frame.origin.y = [self.tableFont pointSize] + 6;
-//        frame.size.height = [self.tableFont pointSize] + 6;
-//        NSRect newBounds = rect;
-//        newBounds.origin.y = 0;
-//        newBounds.size.height = [self.tableFont pointSize] + 6;
-//        [cellView.textField setFrame:frame];
-//        [cellView.textField setBounds:newBounds];
-
-        //        [cellView.textField setNeedsDisplay:YES];
-//        [cellView setFrame:rect];
-
-//        [cellView setBounds:rect];
-
-        //        [cellView setNeedsDisplay:YES];
-//        NSLog(@"Rect for %@: (%.1f, %.1f) with %.1f x %.1f", rowData[row], rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
-//        NSLog(@"Tableview rowheight: %.1f", [tableView rowHeight]);
-
-        //        NSCell *cell = [cellView.textField cell];
-//        NSSize rect = [cell cellSize];
-//        NSRect oldRect = [cellView bounds];
-//        oldRect.size.height = rect.height;
-//        [cellView setBounds:oldRect];
-//        [tableView setRowHeight:rect.height];
-//        [tableColumn setWidth:rect.width];
-        return cellView;
-    } else {
-//        NSTextField *cellView = [[NSTextField alloc] initWithFrame:tableView.frame];
-//        cellView.stringValue = [NSString stringWithFormat:@"??%@-%ld??", identifier, (long)row];
-//        return cellView;
-//        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
-    }
-    return nil;
+    return rowData[row];
 }
+
+//- (NSView *)tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+//    NSString *identifier = [tableColumn identifier];
+//    NSArray *rowData = self.overviewTableData[identifier];
+//    
+//    if (rowData && [rowData count] > row) {
+//        NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
+//        [cellView.textField setFont:self.tableFont];
+//        cellView.textField.stringValue = rowData[row];
+////        [cellView.textField setNeedsDisplay:YES];
+////
+////        NSRect bounds = [cellView.textField bounds];
+////        NSLog(@"Bounds for %@: (%.1f, %.1f) with %.1f x %.1f", rowData[row], bounds.origin.x, bounds.origin.y, bounds.size.width, bounds.size.height);
+////        NSRect rect = [cellView.textField frame];
+//////        NSLog(@"Frame for %@: (%.1f, %.1f) with %.1f x %.1f", rowData[row], rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+////        rect.origin.y = 1;
+////        rect.size.height = [self.tableFont pointSize] + 6;
+//////        [tableView setRowHeight:[self.tableFont pointSize] + 8];
+//////        [[cellView.textField cell] setFrame:rect];
+////
+////        NSRect frame = rect;
+////        frame.origin.y = [self.tableFont pointSize] + 6;
+////        frame.size.height = [self.tableFont pointSize] + 6;
+////        NSRect newBounds = rect;
+////        newBounds.origin.y = 0;
+////        newBounds.size.height = [self.tableFont pointSize] + 6;
+////        [cellView.textField setFrame:frame];
+////        [cellView.textField setBounds:newBounds];
+//
+//        //        [cellView.textField setNeedsDisplay:YES];
+////        [cellView setFrame:rect];
+//
+////        [cellView setBounds:rect];
+//
+//        //        [cellView setNeedsDisplay:YES];
+////        NSLog(@"Rect for %@: (%.1f, %.1f) with %.1f x %.1f", rowData[row], rect.origin.x, rect.origin.y, rect.size.width, rect.size.height);
+////        NSLog(@"Tableview rowheight: %.1f", [tableView rowHeight]);
+//
+//        //        NSCell *cell = [cellView.textField cell];
+////        NSSize rect = [cell cellSize];
+////        NSRect oldRect = [cellView bounds];
+////        oldRect.size.height = rect.height;
+////        [cellView setBounds:oldRect];
+////        [tableView setRowHeight:rect.height];
+////        [tableColumn setWidth:rect.width];
+//        return cellView;
+//    } else {
+////        NSTextField *cellView = [[NSTextField alloc] initWithFrame:tableView.frame];
+////        cellView.stringValue = [NSString stringWithFormat:@"??%@-%ld??", identifier, (long)row];
+////        return cellView;
+////        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
+//    }
+//    return nil;
+//}
 
 - (void) reorderTableRows {
     NSArray *cols = [self.companyTableView tableColumns];
@@ -769,6 +777,7 @@ GameSetupWindowController *setupWindow;
         if (col) {
 //            NSLog(@"col ; %@", col);
             [[col headerCell] setFont:newFont];
+            [[col dataCell] setFont:newFont];
         }
     }
     NSRect bounds = [[self.companyTableView headerView] bounds];

@@ -21,6 +21,10 @@ SarAppDelegate *myController;
 
 }
 
+- (NSString*) windowTitleForDocumentDisplayName:(NSString *)displayName {
+    return [super windowTitleForDocumentDisplayName:displayName];
+}
+
 - (void) loadSounds {
     if (!self.soundSelect4) return;
     self.soundSelectors = @[self.soundSelect1,

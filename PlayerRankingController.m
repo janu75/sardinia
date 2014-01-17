@@ -22,21 +22,27 @@
     return [self.game.player count] + 1;
 }
 
-- (NSView*) tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+- (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     NSString *identifier = [tableColumn identifier];
     NSArray *rowData = self.tableData[identifier];
-
-    if (rowData && [rowData count] > row) {
-        NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
-        cellView.textField.stringValue = rowData[row];
-        return cellView;
-    } else {
-        NSTextField *cellView = [[NSTextField alloc] initWithFrame:tableView.frame];
-        cellView.stringValue = [NSString stringWithFormat:@"??%@-%ld??", identifier, (long) row];
-        return cellView;
-    }
-    return nil;
+    return rowData[row];
 }
+
+//- (NSView*) tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+//    NSString *identifier = [tableColumn identifier];
+//    NSArray *rowData = self.tableData[identifier];
+//
+//    if (rowData && [rowData count] > row) {
+//        NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
+//        cellView.textField.stringValue = rowData[row];
+//        return cellView;
+//    } else {
+//        NSTextField *cellView = [[NSTextField alloc] initWithFrame:tableView.frame];
+//        cellView.stringValue = [NSString stringWithFormat:@"??%@-%ld??", identifier, (long) row];
+//        return cellView;
+//    }
+//    return nil;
+//}
 
 - (void) updateTableData {
     NSMutableArray *name         = [[NSMutableArray alloc] initWithCapacity:5];

@@ -21,32 +21,32 @@
 }
 
 - (NSInteger) numberOfRowsInTableView:(NSTableView *)tableView {
-    NSInteger n = 0;
-    for (Company* comp in self.game.companies) {
-        if (comp.isFloating) {
-            n++;
-        }
-    }
-    return n;
+    return [self.game.frozenTurnOrder count];
 }
 
-- (NSView *) tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+- (id) tableView:(NSTableView *)tableView objectValueForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
     NSString *identifier = [tableColumn identifier];
-    NSArray *rowData = self.overviewTableData[identifier];
-    
-    if (rowData && [rowData count] > row) {
-        NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
-        cellView.textField.stringValue = rowData[row];
-        if (self.tableFont) [cellView.textField setFont:self.tableFont];
-        return cellView;
-    } else {
-        NSTextField *cellView = [[NSTextField alloc] initWithFrame:tableView.frame];
-        cellView.stringValue = [NSString stringWithFormat:@"??%@-%ld??", identifier, (long)row];
-        return cellView;
-        //        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
-    }
-    return nil;
+    NSArray *colData = self.overviewTableData[identifier];
+    return colData[row];
 }
+
+//- (NSView *) tableView:(NSTableView *)tableView viewForTableColumn:(NSTableColumn *)tableColumn row:(NSInteger)row {
+//    NSString *identifier = [tableColumn identifier];
+//    NSArray *rowData = self.overviewTableData[identifier];
+//    
+//    if (rowData && [rowData count] > row) {
+//        NSTableCellView *cellView = [tableView makeViewWithIdentifier:identifier owner:self];
+//        cellView.textField.stringValue = rowData[row];
+//        if (self.tableFont) [cellView.textField setFont:self.tableFont];
+//        return cellView;
+//    } else {
+//        NSTextField *cellView = [[NSTextField alloc] initWithFrame:tableView.frame];
+//        cellView.stringValue = [NSString stringWithFormat:@"??%@-%ld??", identifier, (long)row];
+//        return cellView;
+//        //        NSAssert1(NO, @"Unhandled table column identifier %@", identifier);
+//    }
+//    return nil;
+//}
 
 - (void) updateTableData {
     NSMutableArray *compName = [[NSMutableArray alloc] initWithCapacity:8];
@@ -150,6 +150,7 @@
     for (NSTableColumn* col in [self.statusTable tableColumns]) {
         if (col) {
             [[col headerCell] setFont:newFont];
+            [[col dataCell] setFont:newFont];
         }
     }
     NSRect bounds = [[self.statusTable headerView] bounds];

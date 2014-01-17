@@ -151,12 +151,12 @@
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="Oe0-tk-NeW">
                         <rect key="frame" x="466" y="167" width="124" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="LvF-xO-4M8" id="Ksp-5m-6MQ">
+                        <popUpButtonCell key="cell" type="push" title="Basso" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="LvF-xO-4M8" id="Ksp-5m-6MQ">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="UGo-z1-0cF">
                                 <items>
-                                    <menuItem title="Item 1" state="on" id="LvF-xO-4M8"/>
+                                    <menuItem title="Basso" state="on" id="LvF-xO-4M8"/>
                                     <menuItem title="Item 2" id="aUh-Kn-z2T"/>
                                     <menuItem title="Item 3" id="XWH-HP-zEh"/>
                                 </items>
@@ -169,12 +169,12 @@
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="3fV-Zx-Kpg">
                         <rect key="frame" x="466" y="132" width="124" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="MKL-EE-PRs" id="Plc-YT-yeM">
+                        <popUpButtonCell key="cell" type="push" title="Blow" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="MKL-EE-PRs" id="Plc-YT-yeM">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="U1e-mf-U65">
                                 <items>
-                                    <menuItem title="Item 1" state="on" id="MKL-EE-PRs"/>
+                                    <menuItem title="Blow" state="on" id="MKL-EE-PRs"/>
                                     <menuItem title="Item 2" id="xc6-r9-a7R"/>
                                     <menuItem title="Item 3" id="zms-qu-2Qh"/>
                                 </items>
@@ -187,12 +187,12 @@
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="MeK-pr-8eQ">
                         <rect key="frame" x="466" y="100" width="124" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="JL2-Ze-jom" id="KtZ-f5-qKo">
+                        <popUpButtonCell key="cell" type="push" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" id="KtZ-f5-qKo">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="Roc-DM-0jB">
                                 <items>
-                                    <menuItem title="Item 1" state="on" id="JL2-Ze-jom"/>
+                                    <menuItem title="Bottle" id="JL2-Ze-jom"/>
                                     <menuItem title="Item 2" id="Q9Z-re-Get"/>
                                     <menuItem title="Item 3" id="PqR-Sc-SJ7"/>
                                 </items>
@@ -205,12 +205,12 @@
                     <popUpButton verticalHuggingPriority="750" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="DRr-3N-1nA">
                         <rect key="frame" x="466" y="66" width="124" height="26"/>
                         <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMinY="YES"/>
-                        <popUpButtonCell key="cell" type="push" title="Item 1" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="PaH-V9-fA5" id="Eze-rB-m1z">
+                        <popUpButtonCell key="cell" type="push" title="Frog" bezelStyle="rounded" alignment="left" lineBreakMode="truncatingTail" state="on" borderStyle="borderAndBezel" imageScaling="proportionallyDown" inset="2" selectedItem="PaH-V9-fA5" id="Eze-rB-m1z">
                             <behavior key="behavior" lightByBackground="YES" lightByGray="YES"/>
                             <font key="font" metaFont="menu"/>
                             <menu key="menu" title="OtherViews" id="y1g-xZ-2wW">
                                 <items>
-                                    <menuItem title="Item 1" state="on" id="PaH-V9-fA5"/>
+                                    <menuItem title="Frog" state="on" id="PaH-V9-fA5"/>
                                     <menuItem title="Item 2" id="fHw-IT-GAB"/>
                                     <menuItem title="Item 3" id="zAH-Ru-q40"/>
                                 </items>
