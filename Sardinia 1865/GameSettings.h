@@ -12,7 +12,7 @@
 
 @property (strong) NSDictionary *pref;
 
-@property int numPlayers;
+@property NSUInteger numPlayers;
 @property int phase;
 @property int trainLimit;
 @property BOOL isShortGame;
@@ -40,7 +40,7 @@
 
 - (NSString*) enterNewPhase:(int)aPhase;
 
-- (NSArray*) getInitialValuesForMoney:(int)money;
+- (NSArray*) getInitialValuesForMoney:(NSInteger)money;
 
 - (int) maxInitialStockValue;
 

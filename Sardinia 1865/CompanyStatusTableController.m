@@ -69,7 +69,7 @@
         [compName addObject:comp.name];
         [shortName addObject:comp.shortName];
         [president addObject:comp.president.name];
-        [money addObject:[NSNumber numberWithInt:comp.money]];
+        [money addObject:[NSNumber numberWithInteger:comp.money]];
         NSMutableString *train = [[NSMutableString alloc] init];
         for (Train* t in comp.trains) {
             [train appendFormat:@"%d-", [t techLevel]];

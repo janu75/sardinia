@@ -56,7 +56,7 @@
     [shareholders addObjectsFromArray:self.game.player];
     NSMutableDictionary *wealthByShareholder = [[NSMutableDictionary alloc] initWithCapacity:5];
     for (Shareholder *guy in shareholders) {
-        int wealth = guy.money - guy.numLoans*500;
+        NSInteger wealth = guy.money - guy.numLoans*500;
         for (Company *comp in self.game.companies) {
             if (comp.isMajor) {
                 wealth += [comp getShareByOwner:guy] * (comp.stockPrice - comp.numLoans*50) / 10;
@@ -64,7 +64,7 @@
                 wealth += [comp getShareByOwner:guy] * (comp.stockPrice - comp.numLoans*50) / 20;
             }
         }
-        wealthByShareholder[guy.name] = [NSNumber numberWithInt:wealth];
+        wealthByShareholder[guy.name] = [NSNumber numberWithInteger:wealth];
     }
     NSArray *order = [shareholders sortedArrayUsingComparator:^(id obj1, id obj2) {
         Shareholder *sh1 = (Shareholder*) obj1;
@@ -79,7 +79,7 @@
     }];
     for (Shareholder *guy in order) {
         [name addObject:guy.name];
-        [cash addObject:[NSNumber numberWithInt:guy.money]];
+        [cash addObject:[NSNumber numberWithInteger:guy.money]];
         [loans addObject:[NSNumber numberWithInt:guy.numLoans]];
         [wealth addObject:wealthByShareholder[guy.name]];
         int certs = 0;

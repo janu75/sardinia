@@ -10,7 +10,7 @@
 
 @interface Shareholder : NSObject<NSCoding>
 
-@property int money;
+@property NSInteger money;   // money is not unsigned (bank can have negative money)
 @property BOOL isPlayer;
 @property (strong) NSMutableArray *trains;       // of Train
 @property (strong) NSString* name;

@@ -326,7 +326,7 @@
     [aCoder encodeObject:[NSNumber numberWithInt:self.traffic] forKey:@"Company Traffic"];
     [aCoder encodeObject:[NSNumber numberWithInt:self.trainCapacity] forKey:@"Company TrainCapacity"];
     [aCoder encodeObject:[NSNumber numberWithInt:self.stockPrice] forKey:@"Company StockPrice"];
-    [aCoder encodeObject:[NSNumber numberWithInt:self.money] forKey:@"Company Money"];
+    [aCoder encodeObject:[NSNumber numberWithUnsignedInteger:self.money] forKey:@"Company Money"];
     [aCoder encodeObject:[NSNumber numberWithInt:self.lastIncome] forKey:@"Company LastIncome"];
     [aCoder encodeObject:self.dragonRow forKey:@"Company DragonRow"];
     [aCoder encodeObject:self.shortName forKey:@"Company ShortName"];

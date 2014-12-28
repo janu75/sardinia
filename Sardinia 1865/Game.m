@@ -431,7 +431,7 @@
         if (comp != aComp && comp.isOperating && aComp.president == comp.president && !comp.didOperateThisTurn) {
             int cost = [comp getCompanyCost];
 //            int ipoMoney = [aComp getShareByOwner:aComp] * aComp.stockPrice;
-            int totalMoney = aComp.money + comp.money + ipoMoney - 500*(aComp.numLoans + comp.numLoans);
+            NSInteger totalMoney = aComp.money + comp.money + ipoMoney - 500*(aComp.numLoans + comp.numLoans);
             // Absorbing company may hold max of three loans after merger
             if (totalMoney - cost >= -1500) {
                 [list addObject:comp];
@@ -494,7 +494,7 @@
                 NSString *key = [NSString stringWithFormat:@"%02d: New Train %d: Capacity %d for L.%d", i, train.techLevel, train.capacity, train.cost];
                 [dict setObject:train forKey:key];
             } else if (presidentMayPay) {
-                NSString *key = [NSString stringWithFormat:@"%02d: New Train %d: Capacity %d for L.%d + %d (%@)", i, train.techLevel, train.capacity, aComp.money, train.cost-aComp.money, president.name];
+                NSString *key = [NSString stringWithFormat:@"%02d: New Train %d: Capacity %d for L.%ld + %ld (%@)", i, train.techLevel, train.capacity, (long)aComp.money, train.cost-aComp.money, president.name];
                 [dict setObject:train forKey:key];
             }
         } else if (train.owner == self.bank) {
@@ -502,13 +502,13 @@
                 NSString *key = [NSString stringWithFormat:@"%02d: Bank %d: Capacity %d for L.%d", i, train.techLevel, train.capacity, train.cost];
                 [dict setObject:train forKey:key];
             } else if (presidentMayPay) {
-                NSString *key = [NSString stringWithFormat:@"%02d: Bank %d: Capacity %d for L.%d + %d (%@)", i, train.techLevel, train.capacity, train.cost, train.cost-aComp.money, president.name];
+                NSString *key = [NSString stringWithFormat:@"%02d: Bank %d: Capacity %d for L.%d + %ld (%@)", i, train.techLevel, train.capacity, train.cost, train.cost-aComp.money, president.name];
                 [dict setObject:train forKey:key];
             }
         } else {
             if (aComp.money > 0) {
                 Company* comp = (Company*) train.owner;
-                NSString *key = [NSString stringWithFormat:@"%02d: %@ %d: Capacity %d for L.1 - %d", i, comp.shortName, train.techLevel, train.capacity, aComp.money];
+                NSString *key = [NSString stringWithFormat:@"%02d: %@ %d: Capacity %d for L.1 - %ld", i, comp.shortName, train.techLevel, train.capacity, (long)aComp.money];
                 [dict setObject:train forKey:key];
             }
         }
@@ -552,11 +552,11 @@
     if (train.owner==nil || train.owner==self.bank) {
         if (aCompany.money < train.cost) {
             Player *president = (Player*) aCompany.president;
-            int diff = train.cost - aCompany.money;
+            NSInteger diff = train.cost - aCompany.money;
             if (train.owner==nil) {
-                transaction = [NSString stringWithFormat:@"%@ buys a new Train with capacity %d for %d. %@ adds %d.", aCompany.shortName, train.capacity, aPrice, president.name, diff];
+                transaction = [NSString stringWithFormat:@"%@ buys a new Train with capacity %d for %d. %@ adds %ld.", aCompany.shortName, train.capacity, aPrice, president.name, (long)diff];
             } else {
-                transaction = [NSString stringWithFormat:@"%@ buys a Train with capacity %d for %d from the bank. %@ adds %d.", aCompany.shortName, train.capacity, aPrice, president.name, diff];
+                transaction = [NSString stringWithFormat:@"%@ buys a Train with capacity %d for %d from the bank. %@ adds %ld.", aCompany.shortName, train.capacity, aPrice, president.name, (long)diff];
             }
             [self sellTrain:train To:aCompany];
             [aCompany buyTrain:train];

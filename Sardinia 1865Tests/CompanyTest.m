@@ -694,7 +694,7 @@ Company *compC;
     Train *trainA = [[Train alloc] initWithTech:2 AndDiscount:NO];
     Train *trainB = [[Train alloc] initWithTech:2 AndDiscount:NO];
     Player *playerA = [[Player alloc] initWithName:@"Paul" AndMoney:330 AndBank:bank AndSound:@"Basso"];
-    int moneyA = compA.money;
+    NSInteger moneyA = compA.money;
     [compA setInitialStockPrice:100];
     [compA sellCertificate:compA.certificates[0] To:playerA];   moneyA += 2*100;
     [compA sellCertificate:compA.certificates[1] To:playerA];   moneyA += 100;

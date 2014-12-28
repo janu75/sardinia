@@ -72,10 +72,10 @@
     }
     if (self.isShortGame) {
         NSDictionary *dict = [self.pref objectForKey:@"Player Certificate Limit Short Game"];
-        return [[dict objectForKey:[NSString stringWithFormat:@"%d", self.numPlayers]] intValue];
+        return [[dict objectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)self.numPlayers]] intValue];
     }
     NSDictionary *dict = [self.pref objectForKey:@"Player Certificate Limit"];
-    return [[dict objectForKey:[NSString stringWithFormat:@"%d", self.numPlayers]] intValue];
+    return [[dict objectForKey:[NSString stringWithFormat:@"%lu", (unsigned long)self.numPlayers]] intValue];
 }
 
 - (int) certificateLimit:(NSString *)playerName {
@@ -140,7 +140,7 @@
     return [self adjustTrainLimit];
 }
 
-- (NSArray*) getInitialValuesForMoney:(int)money {
+- (NSArray*) getInitialValuesForMoney:(NSInteger)money {
     NSMutableArray *list = [[NSMutableArray alloc] initWithCapacity:10];
     for (int i=60; i<=[self maxInitialStockValue]; i+=10) {
         if (money >= 2*i) [list addObject:[NSString stringWithFormat:@"%d", i]];
@@ -155,7 +155,7 @@
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
     [aCoder encodeObject:self.pref forKey:@"GameSettings Pref"];
-    [aCoder encodeInt:self.numPlayers forKey:@"GameSettings NumPlayers"];
+    [aCoder encodeInteger:self.numPlayers forKey:@"GameSettings NumPlayers"];
     [aCoder encodeInt:self.phase forKey:@"GameSettings Phase"];
     [aCoder encodeInt:self.trainLimit forKey:@"GameSettings TrainLimit"];
     [aCoder encodeBool:self.isShortGame forKey:@"GameSettings IsShortGame"];

@@ -33,8 +33,8 @@ Game *game;
     [super tearDown];
 }
 
-- (int) sumUpAllMoney:(Game *)aGame {
-    int money = aGame.bank.money + aGame.dragon.money;
+- (NSInteger) sumUpAllMoney:(Game *)aGame {
+    NSInteger money = aGame.bank.money + aGame.dragon.money;
     for (Player *player in aGame.player) {
         money += player.money;
     }
@@ -379,8 +379,8 @@ Game *game;
     Company *compB = game.companies[1];
     compA.money = 500;      game.bank.money -= 500;
     compB.money = 500;      game.bank.money -= 500;
-    int moneyCompA = compA.money;
-    int moneyCompB = compB.money;
+    NSInteger moneyCompA = compA.money;
+    NSInteger moneyCompB = compB.money;
     int capA = 0;
     int capB = 0;
     
@@ -498,7 +498,7 @@ Game *game;
 - (void) testPlayerCanBuy {
     Company *compA = [game.companies firstObject];
     Player *playerA = game.player[0];
-    int moneyA = playerA.money;
+    NSInteger moneyA = playerA.money;
     
     XCTAssertEqual([game player:playerA CanBuyFromIpo:0], YES, @"play can buy/sell test");
     XCTAssertEqual([game player:playerA CanBuyFromBank:0], NO, @"play can buy/sell test");
@@ -564,8 +564,8 @@ Game *game;
 - (void) testStockRound {
     Player *player[4];
     Company *comp[8];
-    int pMoney[4];
-    int cMoney[8];
+    NSInteger pMoney[4];
+    NSInteger cMoney[8];
     for (int i=0; i<4; i++) {
         player[i] = game.player[i];
         pMoney[i] = player[i].money;
@@ -1223,8 +1223,8 @@ Game *game;
 - (void) testCanAbsorb {
     Player *player[4];
     Company *comp[8];
-    int pMoney[4];
-    int cMoney[8];
+    NSInteger pMoney[4];
+    NSInteger cMoney[8];
     for (int i=0; i<4; i++) {
         player[i] = game.player[i];
         pMoney[i] = player[i].money;
@@ -1419,9 +1419,7 @@ Game *game;
             cap += train.capacity;
             XCTAssertEqual(train.owner, aComp, @"absorb test");
         }
-        for (MaritimeCompany *mc in aComp.maritimeCompanies) {
-            cap += 8;
-        }
+        cap += [aComp.maritimeCompanies count] * 8;
         XCTAssertEqual(aComp.trainCapacity, cap, @"can absorb test");
     }
     
@@ -1495,9 +1493,7 @@ Game *game;
             NSLog(@"%@ vs %@", aComp.shortName, otherComp.shortName);
             XCTAssertEqual(train.owner, aComp, @"absorb test %@ - %d", aComp.shortName, train.techLevel);
         }
-        for (MaritimeCompany *mc in aComp.maritimeCompanies) {
-            cap += 8;
-        }
+        cap += [aComp.maritimeCompanies count] * 8;
         XCTAssertEqual(aComp.trainCapacity, cap, @"can absorb test");
     }
     XCTAssertEqual([self sumUpAllMoney:game], 8000, @"Check that money always is constant");

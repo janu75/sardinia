@@ -142,7 +142,7 @@ GameSetupWindowController *setupWindow;
 }
 
 - (void) updateButtonsForPlayer:(Player*)aPlayer {
-    [self.stockRoundMoneyLabel setStringValue:[NSString stringWithFormat:@"L. %d", aPlayer.money]];
+    [self.stockRoundMoneyLabel setStringValue:[NSString stringWithFormat:@"L. %ld", (long)aPlayer.money]];
     [self.stockRoundPlayerLabel setStringValue:[NSString stringWithFormat:@"Player %@", aPlayer.name]];
     [self.stockStartingPriceLabel setStringValue:[NSString stringWithFormat:@"Initial Price (60-%d):", [self.game getMaxInitialStockPrice]]];
     [self.stockStartingPrice removeAllItems];
@@ -539,7 +539,7 @@ GameSetupWindowController *setupWindow;
 
 - (void) updateTableData {
     NSMutableArray *player = [@[@"Bank", @"Dragon"] mutableCopy];
-    NSMutableArray *money = [@[[NSNumber numberWithInt:self.game.bank.money], [NSNumber numberWithInt:self.game.dragon.money]] mutableCopy];
+    NSMutableArray *money = [@[[NSNumber numberWithInteger:self.game.bank.money], [NSNumber numberWithInteger:self.game.dragon.money]] mutableCopy];
     NSMutableArray *cert = [@[[NSNumber numberWithInt:self.game.bank.numCertificates], [NSString stringWithFormat:@"%d/%d", self.game.dragon.numCertificates, [self.game.settings certificateLimit:@"Dragon"]]] mutableCopy];
     NSMutableArray *loans = [@[[NSNumber numberWithInt:0], [NSNumber numberWithInt:0]] mutableCopy];
     for (Player *guy in self.game.player) {
@@ -548,7 +548,7 @@ GameSetupWindowController *setupWindow;
         } else {
             [player addObject:guy.name];
         }
-        [money addObject:[NSNumber numberWithInt:guy.money]];
+        [money addObject:[NSNumber numberWithInteger:guy.money]];
         int limit = [self.game.settings certificateLimit:guy.name];
         [cert addObject:[NSString stringWithFormat:@"%luM + %d/%d", (unsigned long)[guy.maritimeCompany count], guy.numCertificates, limit]];
         [loans addObject:[NSNumber numberWithInt:guy.numLoans]];
@@ -752,11 +752,11 @@ GameSetupWindowController *setupWindow;
     Company *comp = [self.game.companyTurnOrder firstObject];
     NSString *key = [[self.or_popupTrain selectedItem] title];
     Train *train = [self.game getTrainForPurchaseForCompany:comp WithText:key];
-    int cost = comp.money;
+    NSInteger cost = comp.money;
     if (train.owner == nil || train.owner==self.game.bank) {
         cost = train.cost;
     }
-    [self.or_textfieldTrainCost setStringValue:[NSString stringWithFormat:@"%d", cost]];
+    [self.or_textfieldTrainCost setStringValue:[NSString stringWithFormat:@"%ld", (long)cost]];
 }
 
 - (CGFloat) tableView:(NSTableView *)tableView heightOfRow:(NSInteger)row {

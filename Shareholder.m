@@ -24,7 +24,7 @@
 }
 
 - (void) encodeWithCoder:(NSCoder *)aCoder {
-    [aCoder encodeInt:self.money forKey:@"Shareholder Money"];
+    [aCoder encodeInteger:self.money forKey:@"Shareholder Money"];
     [aCoder encodeBool:self.isPlayer forKey:@"Shareholder IsPlayer"];
     [aCoder encodeObject:self.trains forKey:@"Shareholder Trains"];
     [aCoder encodeObject:self.name forKey:@"Shareholder Name"];
@@ -36,7 +36,7 @@
 - (id) initWithCoder:(NSCoder *)aDecoder {
     self = [super init];
     if (self) {
-        self.money =           [aDecoder decodeIntForKey:@"Shareholder Money"];
+        self.money =           [aDecoder decodeIntegerForKey:@"Shareholder Money"];
         self.isPlayer =        [aDecoder decodeBoolForKey:@"Shareholder IsPlayer"];
         self.trains =          [aDecoder decodeObjectForKey:@"Shareholder Trains"];
         self.name =            [aDecoder decodeObjectForKey:@"Shareholder Name"];
