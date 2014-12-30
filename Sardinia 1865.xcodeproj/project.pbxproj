@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3D52C1981A52BF7A00791F65 /* LICENSE in Resources */ = {isa = PBXBuildFile; fileRef = 3D52C1971A52BF7A00791F65 /* LICENSE */; };
 		3DC3BC4518867B2700CF4346 /* Sar_TileView.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DC3BC4418867B2700CF4346 /* Sar_TileView.m */; };
 		3DE32ED7187048770022D3C6 /* PlayerRankingController.m in Sources */ = {isa = PBXBuildFile; fileRef = 3DE32ED6187048770022D3C6 /* PlayerRankingController.m */; };
 		6320878118578C11007A1704 /* Cocoa.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6320878018578C11007A1704 /* Cocoa.framework */; };
@@ -68,6 +69,7 @@
 
 /* Begin PBXFileReference section */
 		3D05B92B187AA27F0002E588 /* Todo.txt */ = {isa = PBXFileReference; lastKnownFileType = text; name = Todo.txt; path = "Sardinia 1865/Todo.txt"; sourceTree = "<group>"; };
+		3D52C1971A52BF7A00791F65 /* LICENSE */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text; path = LICENSE; sourceTree = "<group>"; };
 		3DC3BC4318867B2700CF4346 /* Sar_TileView.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = Sar_TileView.h; sourceTree = "<group>"; };
 		3DC3BC4418867B2700CF4346 /* Sar_TileView.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = Sar_TileView.m; sourceTree = "<group>"; };
 		3DE32ED5187048770022D3C6 /* PlayerRankingController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = PlayerRankingController.h; path = ../PlayerRankingController.h; sourceTree = "<group>"; };
@@ -241,6 +243,7 @@
 				6320878C18578C11007A1704 /* main.m */,
 				6320878E18578C11007A1704 /* Sardinia 1865-Prefix.pch */,
 				6320878F18578C11007A1704 /* Credits.rtf */,
+				3D52C1971A52BF7A00791F65 /* LICENSE */,
 			);
 			name = "Supporting Files";
 			sourceTree = "<group>";
@@ -358,6 +361,7 @@
 				6320878B18578C11007A1704 /* InfoPlist.strings in Resources */,
 				6320879918578C11007A1704 /* Images.xcassets in Resources */,
 				6320879118578C11007A1704 /* Credits.rtf in Resources */,
+				3D52C1981A52BF7A00791F65 /* LICENSE in Resources */,
 				632087FF185B8617007A1704 /* GameSetupWindow.xib in Resources */,
 				638FD299185A00A800DA445A /* 1865-settings.plist in Resources */,
 				6320879718578C11007A1704 /* MainMenu.xib in Resources */,
